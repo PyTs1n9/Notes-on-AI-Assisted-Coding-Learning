@@ -58,6 +58,8 @@ plt.title('davies_bouldin_score - K')
 plt.savefig('../figures/davies_bouldin_score.png', dpi=150)
 plt.close()
 
+km = KMeans(n_clusters=4, random_state=42, n_init=10)
+km.fit(X_scaled)
 labels = km.labels_
 plt.scatter(df['temp'], df['cnt'], c=labels, cmap="tab20", alpha=0.5)
 plt.xlabel('temp')
@@ -66,5 +68,13 @@ plt.title('temp - cnt')
 plt.savefig('../figures/kmeans_scatter.png', dpi=150)
 plt.close()
 
-print('轮廓系数最大峰值对应K为4，DBI最小谷值对应K为4，肘部法则肉眼看图K为3或4，结合轮廓系数和DBI确定最终K=4')
+# print('轮廓系数最大峰值对应K为4，DBI最小谷值对应K为4，肘部法则肉眼看图K为3或4，结合轮廓系数和DBI确定最终K=4')
 
+df['cluster'] = km.labels_
+daily_clusters = df[['dteday', 'cluster']]
+daily_clusters.to_csv('../data_outputs/daily_clusters.csv', index=False, encoding='utf-8-sig')
+
+cluster_summary = df.groupby('cluster')[['temp', 'hum', 'windspeed', 'cnt']].mean().round(6)
+cluster_summary['count'] = df.groupby('cluster').size()
+cluster_summary = cluster_summary.reset_index()
+cluster_summary.to_csv('../data_outputs/cluster_summary.csv', index=False, encoding='utf-8-sig')
