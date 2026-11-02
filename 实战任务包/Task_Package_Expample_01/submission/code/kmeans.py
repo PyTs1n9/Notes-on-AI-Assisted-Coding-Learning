@@ -61,10 +61,12 @@ plt.close()
 km = KMeans(n_clusters=4, random_state=42, n_init=10)
 km.fit(X_scaled)
 labels = km.labels_
+# 二维投影说明：本图只是把 4 维特征(temp/hum/windspeed/cnt)压到 temp×cnt 两维画出来，
+# 未投影的维度会掩盖簇的真实边界，不能当作完整分群证据
 plt.scatter(df['temp'], df['cnt'], c=labels, cmap="tab20", alpha=0.5)
 plt.xlabel('temp')
 plt.ylabel('cnt')
-plt.title('temp - cnt')
+plt.title('K=4 clusters: temp vs cnt (2D projection only)')   # 标题写明是二维投影（英文避免中文字体豆腐块）
 plt.savefig('../figures/cluster_scatter.png', dpi=150)
 plt.close()
 
