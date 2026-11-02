@@ -65,10 +65,16 @@ plt.scatter(df['temp'], df['cnt'], c=labels, cmap="tab20", alpha=0.5)
 plt.xlabel('temp')
 plt.ylabel('cnt')
 plt.title('temp - cnt')
-plt.savefig('../figures/kmeans_scatter.png', dpi=150)
+plt.savefig('../figures/cluster_scatter.png', dpi=150)
 plt.close()
 
-# print('轮廓系数最大峰值对应K为4，DBI最小谷值对应K为4，肘部法则肉眼看图K为3或4，结合轮廓系数和DBI确定最终K=4')
+print(
+	'肘部法则：inertia 逐 K 降幅 = [396.3, 202.2, 175.6, 116.7, 101.4, 70.2]（依次对应 K=3…8），降幅到 K=4 还有 202.2，**K=5 起跌破 200 并一路收窄**（175.6→116.7→101.4→70.2）→ 拐点落在 K=4；')
+print(
+	'轮廓系数：全局最大在 K=2（0.301661），之后一路走低到 K=6（0.225555），K=7、K=8 只微升到 0.229 上下；**K=4（0.264953）高于 K=5~8 的全部取值**（0.237236／0.225555／0.229247／0.229450），也就是 K 再往上分，簇只会更碎；')
+print(
+	'DBI：最小在 K=8（1.172940）；**K=4（1.254871）优于紧邻的 K=3（1.297733）与 K=5（1.289737）**，在七档里排第 4（中上游），不在差区；')
+print('三指标不一致时的通行做法：先用肘部定档（K=4 拐点），再用轮廓系数与 DBI 检验该档不在差区 → 取 **K=4**。')
 
 daily_clusters = pd.DataFrame({'dteday': df['dteday'], 'cluster': labels})
 daily_clusters.to_csv('../data_outputs/daily_clusters.csv', index=False, encoding='utf-8-sig')
@@ -82,14 +88,14 @@ wind_list = []
 cnt_list = []
 count_list = []
 
-for c in range(4):                                    # c = 0,1,2,3 逐个簇算
-	mask = (labels == c)                              # 731 个 True/False，标出哪些天属于簇 c
+for c in range(4):  # c = 0,1,2,3 逐个簇算
+	mask = (labels == c)  # 731 个 True/False，标出哪些天属于簇 c
 	cluster_list.append(c)
-	temp_list.append(round(df.loc[mask, 'temp'].mean(), 6))          # 该簇 temp 均值
-	hum_list.append(round(df.loc[mask, 'hum'].mean(), 6))            # 该簇 hum 均值
-	wind_list.append(round(df.loc[mask, 'windspeed'].mean(), 6))     # 该簇 windspeed 均值
-	cnt_list.append(round(df.loc[mask, 'cnt'].mean(), 6))            # 该簇 cnt 均值
-	count_list.append(int(mask.sum()))                # True 当 1 加起来 = 该簇天数
+	temp_list.append(round(df.loc[mask, 'temp'].mean(), 6))  # 该簇 temp 均值
+	hum_list.append(round(df.loc[mask, 'hum'].mean(), 6))  # 该簇 hum 均值
+	wind_list.append(round(df.loc[mask, 'windspeed'].mean(), 6))  # 该簇 windspeed 均值
+	cnt_list.append(round(df.loc[mask, 'cnt'].mean(), 6))  # 该簇 cnt 均值
+	count_list.append(int(mask.sum()))  # True 当 1 加起来 = 该簇天数
 
 cluster_summary = pd.DataFrame({
 	'cluster': cluster_list,
@@ -104,7 +110,7 @@ print('--- cluster_summary.csv ---')
 print(cluster_summary.to_string(index=False))
 
 # ---------- 六、A3-5 命名依据：先算基线，再逐簇对比 ----------
-base_temp = df['temp'].mean()                         # 基线 = 全表均值（“平均水平”长什么样）
+base_temp = df['temp'].mean()  # 基线 = 全表均值（“平均水平”长什么样）
 base_hum = df['hum'].mean()
 base_wind = df['windspeed'].mean()
 base_cnt = df['cnt'].mean()
@@ -117,9 +123,13 @@ for c in range(4):
 	n = int(mask.sum())
 	print('--- 簇', c, '：共', n, '天，占', round(100 * n / len(df), 1), '% ---')
 	for f in ['temp', 'hum', 'windspeed', 'cnt']:
-		value = df.loc[mask, f].mean()                # 这个簇该特征的均值
-		base = df[f].mean()                           # 全表该特征的均值
-		pct = (value / base - 1) * 100                # 比基线高 / 低多少 %
+		value = df.loc[mask, f].mean()  # 这个簇该特征的均值
+		base = df[f].mean()  # 全表该特征的均值
+		pct = (value / base - 1) * 100  # 比基线高 / 低多少 %
 		print('   ', f, '均值 =', round(value, 4), ' 比全表', round(pct, 1), '%')
 
 # 名字写进报告：先有数字，后有名字，顺序不能反（格式：簇X + 最突出的特征 + 需求档位）
+print('簇0 hum最低 windspeed最高 cnt中上 干爽大风中需求日')
+print('簇1 temp最低 cnt次低 寒冷低需求日')
+print('簇2 temp最高 cnt最高 高需求温暖日')
+print('簇3 hum最高 cnt最低 闷湿低需求日')
