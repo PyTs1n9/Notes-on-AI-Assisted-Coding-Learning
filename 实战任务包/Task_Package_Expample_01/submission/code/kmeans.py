@@ -78,3 +78,4 @@ cluster_summary = df.groupby('cluster')[['temp', 'hum', 'windspeed', 'cnt']].mea
 cluster_summary['count'] = df.groupby('cluster').size()
 cluster_summary = cluster_summary.reset_index()
 cluster_summary.to_csv('../data_outputs/cluster_summary.csv', index=False, encoding='utf-8-sig')
+
