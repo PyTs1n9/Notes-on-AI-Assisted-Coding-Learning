@@ -10,7 +10,7 @@ print(df['dteday'].dtype)
 df['year'] = df['dteday'].dt.year
 df['month'] = df['dteday'].dt.month
 df['weekdays'] = df['dteday'].dt.weekday
-print(df['weekday'].head(3))
+print(df['weekdays'].head(3))
 
 df['season'] = df['season'].astype('str')
 print(df['season'].dtype)
