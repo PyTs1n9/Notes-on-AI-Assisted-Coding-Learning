@@ -4,6 +4,7 @@ from sklearn.preprocessing import StandardScaler  # 标准化
 from sklearn.cluster import KMeans  # KMeans
 
 plt.rcParams['font.sans-serif'] = ['SimHei']
+plt.rcParams['axes.unicode_minus'] = False
 
 # ---------- 1. 老流程：读数据 → 标准化 → KMeans(K=3) ----------
 df = pd.read_csv('customers.csv', encoding='utf-8-sig')
@@ -14,6 +15,7 @@ km = KMeans(n_clusters=3, random_state=42, n_init=10)
 km.fit(X_scaled)
 
 df['簇标签'] = km.labels_
+print(df.head())
 
 # ---------- 2. 二维散点图：每个点按簇着色 ----------
 plt.figure(figsize=(7, 5))  # 新建画布（宽 7 高 5 英寸）
@@ -37,7 +39,10 @@ plt.close()
 
 # ---------- 4. 统计不同簇的平均特征（原始尺度，最好读） ----------
 means = df.groupby('簇标签').mean().round(2)
+sizes = df['簇标签'].value_counts()
+print(sizes)
 sizes = df['簇标签'].value_counts().sort_index()
+print(sizes)
 print(means)
 
 # ---------- 5. 读结果：数字用 f-string 从表里拼，不手写 ----------
