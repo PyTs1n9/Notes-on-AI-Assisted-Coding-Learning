@@ -22,22 +22,24 @@ plt.rcParams["axes.unicode_minus"] = False
 
 # 数据（3 行 = 3 门课，4 列 = 4 个学期）
 data = [
-    [78, 82, 85, 88],    # 数学
-    [75, 77, 80, 83],    # 英语
-    [70, 74, 81, 86],    # 编程
+	[78, 82, 85, 88],  # 数学
+	[75, 77, 80, 83],  # 英语
+	[70, 74, 81, 86],  # 编程
 ]
 
 # TODO 1：画热力图
+plt.imshow(data)
 
 # TODO 2：加颜色条
+plt.colorbar()
 
 # TODO 3：设置横轴、纵轴刻度名字
-
+plt.xticks(range(4), ['学期1', '学期2', '学期3', '学期4'])
+plt.yticks(range(3), ['数学', '英语', '编程'])
 # TODO 4：加标题
 
 plt.savefig("热力图练习.png")
 plt.show()
-
 
 # ==================== 参考答案 ====================
 # plt.imshow(data)

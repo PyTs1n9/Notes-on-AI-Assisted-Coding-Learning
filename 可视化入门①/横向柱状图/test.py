@@ -22,12 +22,15 @@ people = [42, 18, 9, 7, 25]
 
 # TODO 1：画横向柱状图
 # 写法参考：plt.barh(departments, people)
+plt.barh(departments, people)
 
 # TODO 2：加标题和坐标轴
+plt.title('各部门员工人数')
+plt.xlabel('部门')
+plt.ylabel('人数')
 
 plt.savefig("横向柱状图练习.png")
 plt.show()
-
 
 # ==================== 参考答案 ====================
 # plt.barh(departments, people)

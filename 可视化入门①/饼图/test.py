@@ -22,8 +22,10 @@ ways = ["地铁", "公交", "骑车", "步行"]
 counts = [9, 5, 4, 2]
 
 # TODO 1：画饼图（记得显示标签和百分比）
+plt.pie(counts,labels=ways,autopct='%1.1f%%')
 
 # TODO 2：加标题
+plt.title('出行方式占比')
 
 plt.savefig("饼图练习.png")
 plt.show()

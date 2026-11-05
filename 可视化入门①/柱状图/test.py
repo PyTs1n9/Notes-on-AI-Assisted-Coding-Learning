@@ -22,8 +22,12 @@ amount = [35, 20, 28, 12]
 
 # TODO 1：画柱状图
 # 写法参考：plt.bar(fruits, amount)
+plt.bar(fruits, amount)
 
 # TODO 2：加标题和坐标轴
+plt.title("水果销量")
+plt.xlabel("水果")
+plt.ylabel("销量（斤）")
 
 plt.savefig("柱状图练习.png")
 plt.show()

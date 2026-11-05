@@ -22,12 +22,14 @@ revenue = [12, 15, 14, 19, 22, 21, 26, 28]
 
 # TODO 1：画散点图
 # 写法参考：plt.scatter(ad, revenue)
+plt.scatter(ad, revenue, alpha=0.5)
 
 # TODO 2：加标题和坐标轴
-
+plt.title('广告投入与营业额')
+plt.xlabel('广告投入')
+plt.ylabel('营业额')
 plt.savefig("散点图练习.png")
 plt.show()
-
 
 # ==================== 参考答案 ====================
 # plt.scatter(ad, revenue)

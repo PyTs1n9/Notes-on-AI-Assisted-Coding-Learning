@@ -18,16 +18,19 @@ plt.rcParams["font.sans-serif"] = ["Microsoft YaHei"]
 plt.rcParams["axes.unicode_minus"] = False
 
 # 数据（已给出，不用改）
-heights = np.random.normal(170, 8, 60)   # 平均 170cm，共 60 人
+heights = np.random.normal(170, 8, 60)  # 平均 170cm，共 60 人
 
 # TODO 1：画直方图
 # 写法参考：plt.hist(heights, bins=8)
+plt.hist(heights, bins=20)
 
 # TODO 2：加标题和坐标轴
+plt.title('身高分布')
+plt.xlabel('身高（cm）')
+plt.ylabel('人数')
 
 plt.savefig("直方图练习.png")
 plt.show()
-
 
 # ==================== 参考答案 ====================
 # plt.hist(heights, bins=8)
