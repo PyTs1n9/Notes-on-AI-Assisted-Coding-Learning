@@ -33,6 +33,7 @@ axes[1].set_title('mean radius vs mean texture')
 axes[1].set_xlabel('mean radius')
 axes[1].set_ylabel('mean texture')
 plt.tight_layout()
+plt.savefig('2-6 img.png', dpi=150)
 
 # 诊断重复、非法值、缺失值和异常值
 print('重复值：', df.duplicated().sum())
