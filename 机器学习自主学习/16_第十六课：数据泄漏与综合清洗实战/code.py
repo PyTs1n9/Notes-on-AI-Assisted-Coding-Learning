@@ -14,4 +14,4 @@ print(corr.sort_values(ascending=False).head(5))
 
 # ---------- 第 3 步：把"答案的成分"从特征里删掉 ----------
 X = df.drop(columns=['cnt', 'casual', 'registered', 'instant', 'dteday'])
-print(X.shape)
+print(X.shape) 

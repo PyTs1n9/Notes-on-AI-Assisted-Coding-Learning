@@ -20,8 +20,7 @@ df = pd.concat([df, df.sample(15, random_state=0)], ignore_index=True)  # 15 条
 
 # Step 2 EDA 与诊断
 print(df.describe().T.round(3))
-print(df['target'].value_counts().sort_index())  # 0: 212, 1: 357
-print(df.groupby('target')[['mean radius', 'mean texture', 'mean perimeter']].agg(['mean', 'std']).round(2))
+
 import matplotlib.pyplot as plt
 
 fig, axes = plt.subplots(1, 2, figsize=(11, 4))
