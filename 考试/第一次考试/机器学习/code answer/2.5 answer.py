@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-from IPython.core.pylabtools import figsize
 from sklearn.datasets import load_diabetes
 
 data = load_diabetes(as_frame=True)

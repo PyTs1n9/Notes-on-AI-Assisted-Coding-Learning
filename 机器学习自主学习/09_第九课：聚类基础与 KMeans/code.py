@@ -12,6 +12,7 @@ print(df.dtypes)
 
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(df)
+print(X_scaled)
 print(np.round(X_scaled, 2))
 print('各列均值:', X_scaled.mean(axis=0).round(4))
 print('各列标准差:', X_scaled.std(axis=0).round(4))
