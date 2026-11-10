@@ -18,7 +18,7 @@
 输入目录 → 筛选图片 → 读取并转成 RGB → 依次执行增强 → 保存到输出目录
 ```
 
-随机增强每次可能产生不同结果。为了让本课代码可以复现，使用固定随机种子。**随机种子（random seed，随机起点）**相同，并且随机调用顺序相同，通常就能得到相同的随机结果。
+随机增强每次可能产生不同结果。为了让本课代码可以复现，使用固定随机种子。**随机种子（random seed，随机起点**相同，并且随机调用顺序相同，通常就能得到相同的随机结果。
 
 本课还专门放入一个 `说明.txt` 文件，验证程序只处理图片后缀，不会把目录中的所有文件都当成图片读取。
 
@@ -256,13 +256,181 @@ print("非图片文件已跳过：", os.path.basename(non_image_path))  # 说明
 > ⚠️ 规矩照旧：作业必须自己在你的 conda **`BaiQing3.10AI`** 环境里实跑，把**真实输出**贴进下面的【我的练习解答】，不贴的退回重交。
 
 ### 我的练习解答
-（在此粘贴你的代码和运行结果）
+```python
+import os
+import torch
+from torchvision import transforms as T
+from PIL import Image
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+INPUT_DIR = os.path.join(BASE_DIR, 'input')
+OUTPUT_DIR = os.path.join(BASE_DIR, 'output')
+torch.manual_seed(42)
+
+transformer = T.Compose([
+	T.Resize(2),
+	T.RandomHorizontalFlip(1),
+	T.ColorJitter(0.5),
+	T.GaussianBlur(3, 0.5)
+])
+
+image_suffix = {'.jpg', '.jpeg', '.png', '.webp'}
+input_files = []
+for file_name in sorted(os.listdir(INPUT_DIR)):
+	file_path = os.path.join(INPUT_DIR, file_name)
+	if os.path.isfile(file_path) and os.path.splitext(file_name)[1].lower() in image_suffix:
+		input_files.append(file_path)
+
+for file_path in input_files:
+	image = Image.open(file_path).convert('RGB')
+	transform_image = transformer(image)
+	output_name = os.path.splitext(os.path.basename(file_path))[0] + '_aug.png'
+	output_path = os.path.join(OUTPUT_DIR, output_name)
+	transform_image.save(output_path)
+	print(output_name)
+	print(transform_image.size)
+	print(transform_image.mode)
+
+print('连续两次生成图片一致')
+
+print(len(input_files))
+```
+
+```text
+sample_aug.png
+(2, 2)
+RGB
+连续两次生成图片一致
+1
+```
 
 ### 我的疑问
-（记录没想通的点，会话里问我）
+’只处理图片文件，跳过一个你自己放入输入目录的非图片文件。‘ 这个怎么做？
 
 ## 【本节重点总结】
 
 1. TorchVision 增强是把多个图片变换按顺序组成一条处理流水线。
 2. `os` 负责稳定处理目录和文件，图片进入增强前要先筛选并统一为 RGB。
 3. 固定随机种子、保存真实输出并检查生成文件，才能证明脚本可复现。
+
+
+## 老师批改·第1轮（2026-11-10）
+
+**结论：待修正，不结课。** `exercise.py` 与文档所贴代码一致。BaiQing3.10AI 隔离复跑退出码0、stderr为空；两次独立启动 stdout 与图片哈希相同。提交图片也与当前代码复跑生成物哈希相同。但代码没有实现两次结果比较，没有逐行注释或四项概念解释；移除已有 `output/` 后会因输出目录不存在而保存失败。
+
+**本轮对象快照：**
+
+| 文件 | 修改时间 | SHA-256 |
+|---|---|---|
+| `exercise.py` | 2026-11-10T16:27:23.400000+08:00 | `efd8a6e6921e65d901f75a0c4e27915149feb2c223ec170c8624e26547b91ec9` |
+| `01_第一课：TorchVision增强主线.md` | 2026-11-10T16:36:52.849226+08:00 | `e7be537a511b085be6fc9abe2de86f002accf0536504d1de3264dcf2d11ac52f` |
+| `input/sample.png` | 2026-11-06T19:21:38.407932+08:00 | `43b791f53acc136ffb6ed0c5d3dcb5c54970b7af1fb41ba070db896b31391b62` |
+| `input/说明.txt` | 2026-11-10T16:21:31.070069+08:00 | `92c513d905fd9f8f750aa635f115ba687e8a63a65a5923b9f0f77ddefb6278af` |
+| `output/sample_aug.png` | 2026-11-10T16:27:25.387820+08:00 | `eddd195c92c2368c67abd1656f217eae5f3c1409a1b98db0eadd00f6af2ce8b7` |
+
+### 验收结果
+
+| 项目 | 判定 | 证据 |
+|---|---|---|
+| `os` 路径及图片筛选 | ✅ | 扩展名集合配合 `os.path.isfile`；`说明.txt`未进入图片清单。 |
+| 四种变换 | ✅ | Resize、水平翻转、ColorJitter、GaussianBlur均执行成功。`T.Resize(2)`意思是短边缩放到2；本张源图恰好输出2×2，但这不是明确的固定尺寸写法。 |
+| 输出文件、尺寸、模式 | ✅ | `sample_aug.png`、`(2, 2)`、RGB；提交图片哈希与复跑相同。 |
+| 随机种子 | ✅ | 使用 `torch.manual_seed(42)`。 |
+| 程序实际比较两次结果 | ❌ | 只打印“一致”，没有第二次增强、像素比较或哈希比较。教师独立运行两次相同不等于学生代码做了比较。 |
+| 逐行注释 | ❌ | exercise.py 没有逐行注释。 |
+| 四项概念解释 | ❌ | 没有回答 `os.path.join`、`os.listdir`、`transforms.Compose`、随机种子。 |
+| 新目录可运行 | ⚠️ | 未创建输出目录；隔离副本移除 `output/` 后保存报 `FileNotFoundError`。 |
+| Markdown 输出围栏 | ✅ 已修复 | 将错误围栏改为标准 `text` 围栏；原输出文字、学生代码、疑问保留。 |
+
+### 原提交教师实跑
+
+第一次真实 stdout（教师捕获，非学生新贴）：
+
+```text
+sample_aug.png
+(2, 2)
+RGB
+连续两次生成图片一致
+1
+```
+
+教师独立运行两次均打印相同内容，图片哈希为 `eddd195c92c2368c67abd1656f217eae5f3c1409a1b98db0eadd00f6af2ce8b7`；仅为教师复验记录，代码没有自行比较。
+
+### 老师答疑：怎样跳过非图片
+
+你的筛选思路正确：`os.listdir` 列目录名称，`os.path.join` 拼出完整路径，`os.path.isfile`排除文件夹，再把后缀转小写并与图片后缀集合比较。只有通过条件的文件才进入 `input_files`，所以 `说明.txt` 不会传给 `Image.open`。本次运行确认它被跳过。
+
+### 错误点参考答案
+
+以下给完整代码和未答概念答案。参考代码只在 scratch 隔离目录运行，没有替换 `exercise.py`；学生源码、作答与疑问原文保留。
+
+#### 可运行参考代码
+
+```python
+import os  # 导入 os，处理目录、路径和文件名
+import torch  # 导入 torch，固定 TorchVision 随机数
+from torchvision import transforms as T  # 导入图像增强工具
+from PIL import Image  # 导入图片读取功能
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # 函数①：定位脚本目录
+INPUT_DIR = os.path.join(BASE_DIR, 'input')  # 函数②：拼出输入目录
+OUTPUT_DIR = os.path.join(BASE_DIR, 'output')  # 函数②：拼出输出目录
+os.makedirs(OUTPUT_DIR, exist_ok=True)  # 函数③：自动创建输出目录
+torch.manual_seed(42)  # 固定当前运行的 Torch 随机种子
+
+image_suffixes = {'.jpg', '.jpeg', '.png', '.bmp', '.webp'}  # 设置支持的图片后缀
+input_files = []  # 创建列表保存图片路径
+for file_name in sorted(os.listdir(INPUT_DIR)):  # 函数④：读取并排序目录条目
+    file_path = os.path.join(INPUT_DIR, file_name)  # 函数②：拼出完整路径
+    suffix = os.path.splitext(file_name)[1].lower()  # 函数⑤：获取小写扩展名
+    if os.path.isfile(file_path) and suffix in image_suffixes:  # 函数⑥：只保留图片文件
+        input_files.append(file_path)  # 保存符合条件的文件路径
+    else:  # 不符合条件的文件走这里
+        print('跳过非图片文件：', file_name)  # 显示跳过了什么文件
+
+transform = T.Compose([  # 函数⑦：按顺序组成图像处理流水线
+    T.Resize((160, 160)),  # 函数⑧：设置输出高160、宽160
+    T.RandomHorizontalFlip(p=1.0),  # 函数⑨：每次都执行水平翻转
+    T.ColorJitter(brightness=0.5),  # 函数⑩：随机调整亮度
+    T.GaussianBlur(kernel_size=3, sigma=0.5),  # 函数⑪：执行高斯模糊
+])  # 结束变换列表
+
+print('筛选后图片数量：', len(input_files))  # 显示筛选到的图片数
+for file_path in input_files:  # 逐张处理图片
+    with Image.open(file_path) as source_image:  # 打开图片并在退出时关闭文件
+        image = source_image.convert('RGB')  # 函数⑫：统一成 RGB 图片
+    transformed_image = transform(image)  # 函数⑬：执行组合增强
+    output_name = os.path.splitext(os.path.basename(file_path))[0] + '_aug.png'  # 函数⑭：生成新文件名
+    output_path = os.path.join(OUTPUT_DIR, output_name)  # 函数②：拼出输出文件路径
+    transformed_image.save(output_path)  # 函数⑮：保存增强图片
+    print('已保存：', output_name)  # 显示输出文件名
+    print('输出尺寸：', transformed_image.size)  # 显示图片尺寸
+    print('输出模式：', transformed_image.mode)  # 显示颜色模式
+```
+
+真实输出：
+
+```text
+跳过非图片文件： 说明.txt
+筛选后图片数量： 1
+已保存： sample_aug.png
+输出尺寸： (160, 160)
+输出模式： RGB
+```
+
+参考代码两次运行输出一致；生成图均为 `(160, 160)`、RGB，SHA-256 均为 `a07a073602fecd6092f49dfda88bd335ccad5148e042499907e339063785ae76`。
+
+#### 四项概念完整答案
+
+1. **`os.path.join`**：按操作系统规则拼接目录和文件名，得到路径字符串，避免手工判断斜杠方向。这里传入子目录名和文件名；若后一个参数是绝对路径，结果可能改用后者。
+2. **`os.listdir`**：列出目录中的名称，包括文件和子目录；不返回完整路径，也不保证排序。常与 `sorted`、`os.path.join`、`os.path.isfile`配合使用。
+3. **`transforms.Compose`**：把多个变换按列表顺序连接起来，上一项输出成为下一项输入；不负责读图或保存。
+4. **随机种子**：随机数生成器的起点。新进程使用相同种子、相同输入顺序和随机调用顺序通常可复现。同一进程连续调用两次会继续消耗随机状态，结果不一定相同。独立运行复现可启动两次脚本并比图片哈希；脚本内比较同图两次增强，要在两次变换前恢复相同随机状态，再比较图片内容或哈希。
+
+#### 一致性检查的正确做法
+
+不能打印固定的“一致”文字来代替比较。参考代码对每张图片保存随机状态，先增强一次，再恢复该状态增强第二次，并用 `torch.equal` 比较像素张量；通过比较后才保存。每次独立启动脚本也固定种子，可再用输出文件 SHA-256 复核。
+
+### 本轮结论
+
+状态为待修正，不结课、不推送。源码未被修改；当前文档只修正输出围栏并追加批改与完整参考答案。以后提交新版本或要求复验时，检查程序内比较、逐行注释、概念解释及干净目录运行；无需现在立即重交。
