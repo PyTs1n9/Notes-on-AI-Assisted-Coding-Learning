@@ -265,15 +265,10 @@ from PIL import Image
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 INPUT_DIR = os.path.join(BASE_DIR, 'input')
 OUTPUT_DIR = os.path.join(BASE_DIR, 'output')
+
+os.makedirs(OUTPUT_DIR, exist_ok=True)  # 函数③：自动创建输出目录
+
 torch.manual_seed(42)
-
-transformer = T.Compose([
-	T.Resize(2),
-	T.RandomHorizontalFlip(1),
-	T.ColorJitter(0.5),
-	T.GaussianBlur(3, 0.5)
-])
-
 image_suffix = {'.jpg', '.jpeg', '.png', '.webp'}
 input_files = []
 for file_name in sorted(os.listdir(INPUT_DIR)):
@@ -281,27 +276,32 @@ for file_name in sorted(os.listdir(INPUT_DIR)):
 	if os.path.isfile(file_path) and os.path.splitext(file_name)[1].lower() in image_suffix:
 		input_files.append(file_path)
 
-for file_path in input_files:
-	image = Image.open(file_path).convert('RGB')
-	transform_image = transformer(image)
-	output_name = os.path.splitext(os.path.basename(file_path))[0] + '_aug.png'
-	output_path = os.path.join(OUTPUT_DIR, output_name)
-	transform_image.save(output_path)
-	print(output_name)
-	print(transform_image.size)
-	print(transform_image.mode)
+transformer = T.Compose([
+	T.Resize((160, 160)),
+	T.RandomHorizontalFlip(p=1.0),
+	T.ColorJitter(brightness=0.5),
+	T.GaussianBlur(3, 0.5)
+])
 
-print('连续两次生成图片一致')
+print('筛选后图片数量：', len(input_files))  # 显示筛选到的图片数
+for file_path in input_files:  # 逐张处理图片
+	with Image.open(file_path) as source_image:  # 打开图片并在退出时关闭文件
+		image = source_image.convert('RGB')  # 函数⑫：统一成 RGB 图片
+	transformed_image = transformer(image)  # 函数⑬：执行组合增强
+	output_name = os.path.splitext(os.path.basename(file_path))[0] + '_aug.png'  # 函数⑭：生成新文件名
+	output_path = os.path.join(OUTPUT_DIR, output_name)  # 函数②：拼出输出文件路径
+	transformed_image.save(output_path)  # 函数⑮：保存增强图片
+	print('已保存：', output_name)  # 显示输出文件名
+	print('输出尺寸：', transformed_image.size)  # 显示图片尺寸
+	print('输出模式：', transformed_image.mode)  # 显示颜色模式
 
-print(len(input_files))
 ```
 
 ```text
-sample_aug.png
-(2, 2)
-RGB
-连续两次生成图片一致
-1
+筛选后图片数量： 1
+已保存： sample_aug.png
+输出尺寸： (160, 160)
+输出模式： RGB
 ```
 
 ### 我的疑问
@@ -434,3 +434,50 @@ for file_path in input_files:  # 逐张处理图片
 ### 本轮结论
 
 状态为待修正，不结课、不推送。源码未被修改；当前文档只修正输出围栏并追加批改与完整参考答案。以后提交新版本或要求复验时，检查程序内比较、逐行注释、概念解释及干净目录运行；无需现在立即重交。
+
+
+## 老师批改·第2轮（2026-11-10，批改对象：最新 exercise.py 与本轮文档作答）
+
+**结论：仍待修正，不推送，不开第二课。** 本轮按最新文件复验；输出目录创建、明确尺寸和部分注释已补上。剩余两项硬要求尚未完成：程序没有真正比较两次增强结果，且四项概念解释仍为空白。代码在BaiQing3.10AI隔离副本连续独立运行两次，退出码均0、stderr为空；stdout一致，保存图片哈希一致。此为教师运行证据。
+
+### 本轮文件快照
+
+| 文件 | 修改时间 | SHA-256 |
+|---|---|---|
+| `exercise.py` | 2026-11-10T19:24:53.712000+08:00 | `4d52d3f65debf348f6c8b327ef05158e3932a92d07e18480d6a867bb595bf406` |
+| `01_第一课：TorchVision增强主线.md` | 2026-11-10T19:25:31.484291+08:00 | `a3f5dd11bcb477c8609599fa77f18e02c18314299401cd84c924656893be9f70` |
+| `output/sample_aug.png` | 2026-11-10T19:24:58.461513+08:00 | `a07a073602fecd6092f49dfda88bd335ccad5148e042499907e339063785ae76` |
+
+### 上轮项目逐项复验
+
+| 上轮项目 | 本轮证据 | 结论 |
+|---|---|---|
+| 创建输出目录 | 当前源码已含 `os.makedirs(OUTPUT_DIR, exist_ok=True)`；隔离运行成功 | ✅ 已修复 |
+| 明确固定尺寸 | 当前源码使用 `T.Resize((160, 160))`；实际产物为160×160 | ✅ 已修复 |
+| 逐行注释 | 32行可执行代码中，仅12行有行尾注释；其余 import、变量定义、种子、筛选集合、循环及Compose条目等仍未逐行注释 | ❌ 未完成 |
+| 程序比较两次结果 | 源码仍无图像比较、哈希比较或断言；主流程仅执行一次增强后保存 | ❌ 未完成 |
+| 四项概念解释 | 当前文档没有 `os.path.join`、`os.listdir`、`transforms.Compose`、随机种子的练习文字答案 | ❌ 未完成 |
+| 两次独立运行可重复 | 两次 stdout 均为筛选1张、保存 `sample_aug.png`、尺寸`(160,160)`、RGB；SHA-256均为`a07a073602fecd6092f49dfda88bd335ccad5148e042499907e339063785ae76` | ✅ 教师复验通过；不能代替程序内部比较或学生概念回答 |
+
+### 本轮真实实跑输出
+
+以下为最新 `exercise.py` 第一次在隔离副本中的 conda `BaiQing3.10AI` stdout：
+
+```text
+筛选后图片数量： 1
+已保存： sample_aug.png
+输出尺寸： (160, 160)
+输出模式： RGB
+```
+
+第二次输出逐行相同；两次生成图均为160×160、RGB，哈希相同。提交目录现存 `output/sample_aug.png` 哈希也与本轮运行一致。
+
+### 验收判断
+
+- ✅ 输入图片成功筛选，输出文件真实生成，RGB与明确目标尺寸正确。
+- ✅ 输出目录在不存在时自动创建。
+- ❌ 一致性要求是程序要验证的行为，不能只靠教师将脚本运行两次后观察相同。当前源码没有实际比较两次结果。
+- ❌ 逐行注释不足；建议逐条可执行语句都补注释，尤其导入、路径、种子、扩展名筛选、Compose各项和输出保存。
+- ❌ 四项概念解释未作答。第二课开始前仍按原练习要求补齐。
+
+**因此本课仍未通过、未结课；这次源码改动属于向前修正，但不足以触发归档推送。** 原源码不覆盖。当前反馈与完整参考答案见第1轮批改及其后的「错误点参考答案」；本轮没有新增代码修正答案，因为当前版本仍是同一根因——没有真正实现比较。无需立刻重交。
