@@ -225,10 +225,150 @@ SHA-256： 516d24ffbf07f377a722a7ab434d9587480686eacbb63b518b8b669ad0786515
 > ⚠️ 在 conda `BaiQing3.10AI` 环境运行练习；把代码和真实输出放入本页【我的练习解答】。当前讲义演示会自动生成 `input/sample.png` 和 `input/说明.txt`，练习需在独立副本或新建输入文件上完成，勿覆盖课堂演示产物。
 
 ### 我的练习解答
-（在此粘贴你的代码和两次运行结果）
+```python
+import os
+import torch
+from torchvision import transforms as T
+from PIL import Image
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+INPUT_DIR = os.path.join(BASE_DIR, 'input')
+OUTPUT_DIR = os.path.join(BASE_DIR, 'output')
+
+os.makedirs(OUTPUT_DIR, exist_ok=True)  # 函数③：自动创建输出目录
+
+torch.manual_seed(42)
+image_suffix = {'.jpg', '.jpeg', '.png', '.webp'}
+input_files = []
+for file_name in sorted(os.listdir(INPUT_DIR)):
+	file_path = os.path.join(INPUT_DIR, file_name)
+	if os.path.isfile(file_path) and os.path.splitext(file_name)[1].lower() in image_suffix:
+		input_files.append(file_path)
+
+transformer = T.Compose([
+	T.Resize((160, 160)),
+	T.RandomHorizontalFlip(p=1.0),
+	T.ColorJitter(brightness=0.5),
+	T.GaussianBlur(3, 0.5)
+])
+
+print('筛选后图片数量：', len(input_files))  # 显示筛选到的图片数
+for file_path in input_files:  # 逐张处理图片
+	with Image.open(file_path) as source_image:  # 打开图片并在退出时关闭文件
+		image = source_image.convert('RGB')  # 函数⑫：统一成 RGB 图片
+	transformed_image = transformer(image)  # 函数⑬：执行组合增强
+	output_name = os.path.splitext(os.path.basename(file_path))[0] + '_aug.png'  # 函数⑭：生成新文件名
+	output_path = os.path.join(OUTPUT_DIR, output_name)  # 函数②：拼出输出文件路径
+	transformed_image.save(output_path)  # 函数⑮：保存增强图片
+	print('已保存：', output_name)  # 显示输出文件名
+	print('输出尺寸：', transformed_image.size)  # 显示图片尺寸
+	print('输出模式：', transformed_image.mode)  # 显示颜色模式
+
+
+skip 说明.txt
+筛选后图片数量： 1
+已保存： sample_aug.png
+输出尺寸： (160, 160)
+输出模式： RGB
+SHA-256： 516d24ffbf07f377a722a7ab434d9587480686eacbb63b518b8b669ad0786515
+
+以列表的形式获取当前文件夹下所有文件。
+判断这个文件是否是文件。
+分离主路径与扩展名。
+设置随机种子
+
+
+```
 
 ### 我的疑问
 （记录没想通的点，会话里问我）
+
+## 【老师批改】
+
+### 老师批改·第1轮（2026-11-11，批改对象：`test.py` 最新版）
+
+本轮以课程目录中最新的 `test.py` 为准；文档【我的练习解答】中的代码和输出仍是旧版，只作为历史提交保留，不冒充最新提交证据。
+
+#### 1. 功能与运行验收
+
+| 验收点 | 结论 | 证据 |
+|---|---|---|
+| 输入目录图片得到增强输出，非图片被跳过 | ✅ 通过 | `BaiQing3.10AI` 实跑输出 `skip 说明.txt`，筛选到 1 张图片并成功保存 |
+| 输出图为 RGB、尺寸符合目标 | ✅ 通过 | 实际读回 `sample_aug.png` 与 `sample_aug_1.png`，均为 `(160, 160)`、`RGB` |
+| 不覆盖已有输出 | ✅ 通过 | 不清空目录复跑生成 `sample_aug_1.png`，原 `sample_aug.png` 保留 |
+| 清洁目录两次运行可复现 | ✅ 通过 | 两次退出码均为 0；stdout 一致；两次 `sample_aug.png` 的 SHA-256 均为 `516d24ffbf07f377a722a7ab434d9587480686eacbb63b518b8b669ad0786515` |
+| 换工作目录启动仍可运行 | ✅ 通过 | 从脚本目录之外启动，退出码 0，仍正确读取 `input/` 并写入 `output/` |
+
+#### 2. 源码与文档一致性
+
+⚠️ 待修正：`test.py` 最新版已经加入 `os.makedirs(OUTPUT_DIR, exist_ok=True)`，但文档【我的练习解答】仍保留旧版代码，且文档中的输出没有同步最新提交。下一轮需要把最新代码和对应的完整真实输出重新贴入【我的练习解答】；教师实跑输出不替代学生自己的提交证据。
+
+#### 3. 概念解释验收
+
+⚠️ 待修正：四项解释目前只有作用，没有各自的一个常见坑。
+
+- `os.listdir`：已说明作用；缺少常见坑。
+- `os.path.isfile`：已说明作用；缺少常见坑。
+- `os.path.splitext`：已说明作用；缺少常见坑。
+- `torch.manual_seed`：已说明作用；缺少常见坑。
+
+### 老师实跑证据
+
+以下均使用 `D:\Conda_envs\envs\BaiQing3.10AI\python.exe`，在独立副本中执行最新 `test.py`，没有修改学生环境。
+
+```text
+RUN1_RC 0
+skip 说明.txt
+筛选后图片数量： 1
+已保存： sample_aug.png
+输出尺寸： (160, 160)
+输出模式： RGB
+SHA-256： 516d24ffbf07f377a722a7ab434d9587480686eacbb63b518b8b669ad0786515
+RUN2_RC 0
+skip 说明.txt
+筛选后图片数量： 1
+已保存： sample_aug.png
+输出尺寸： (160, 160)
+输出模式： RGB
+SHA-256： 516d24ffbf07f377a722a7ab434d9587480686eacbb63b518b8b669ad0786515
+RUN3_RC 0
+skip 说明.txt
+筛选后图片数量： 1
+已保存： sample_aug_1.png
+输出尺寸： (160, 160)
+输出模式： RGB
+SHA-256： 516d24ffbf07f377a722a7ab434d9587480686eacbb63b518b8b669ad0786515
+CLEAN_STDOUT_EQUAL True
+CLEAN_HASH_EQUAL True
+OTHER_CWD_RC 0 STDERR_EMPTY True
+```
+
+## 【错误点参考答案】
+
+### 错误点1：文档没有同步最新代码和输出
+
+**准确位置**：本文件【我的练习解答】第 228 行开始的代码块，以及代码块后面的真实输出；以课程目录中的最新 `test.py` 为准重新粘贴。
+
+**本次已验证的修正代码**：最新 `test.py` 第 13 行已经正确加入：
+
+```python
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+```
+
+这行应放在 `OUTPUT_DIR` 定义之后、开始保存图片之前。它解决的是清洁目录不存在时的 `FileNotFoundError`。本轮教师修正版在学生 conda 环境中实跑通过，但不计作学生独立完成；下一轮只需重新贴出你自己的最新代码和完整输出。
+
+### 错误点2：函数解释没有写常见坑
+
+**准确位置**：本文件【我的练习解答】中四行函数解释的位置。每个函数都要补“作用 + 一个常见坑”。可直接参考下面的完整文字：
+
+- `os.listdir` 的作用是列出目录中的名称。常见坑是它会把子目录也列出来，而且返回顺序不应直接当作稳定顺序使用，所以本题要先排序，并配合 `os.path.isfile` 检查。
+- `os.path.isfile` 的作用是判断路径是否是普通文件。常见坑是必须传入完整路径，不能只传文件名；只检查扩展名也不能排除同名目录。
+- `os.path.splitext` 的作用是把路径拆成主路径和扩展名。常见坑是扩展名可能是大写，所以比较前要使用 `.lower()`；它拆出的扩展名不包含文件名主体。
+- `torch.manual_seed` 的作用是设置 PyTorch 随机数生成器的种子，使相同随机调用过程可以复现。常见坑是只设置一次全局种子并不能保证不同文件顺序、不同随机调用次数下仍然逐张对应；本题按图片序号为每张图片设置稳定种子。
+
+## 【老师答疑】
+
+这次“没有创建 output 文件夹”的问题已经按最新提交重新验收，已销项。当前真正阻塞结课的是提交证据没有同步到文档，以及函数解释缺少常见坑；不要求给课后练习代码逐行添加注释。
 
 ## 【本节重点总结】
 
