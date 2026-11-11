@@ -225,60 +225,97 @@ SHA-256： 516d24ffbf07f377a722a7ab434d9587480686eacbb63b518b8b669ad0786515
 > ⚠️ 在 conda `BaiQing3.10AI` 环境运行练习；把代码和真实输出放入本页【我的练习解答】。当前讲义演示会自动生成 `input/sample.png` 和 `input/说明.txt`，练习需在独立副本或新建输入文件上完成，勿覆盖课堂演示产物。
 
 ### 我的练习解答
+
+> 教师协助归档版（2026-11-11）：以目录中已通过的 `test.py` 为准同步。原始代码、输出和作答完整保存在 [修正前原提交](teacher/第2轮修正前原提交.md)。以下输出为教师复跑证据，不冒充学生独立运行记录；本课按本人授权协助修正后结课。
+
 ```python
 import os
-import torch
+import hashlib
 from torchvision import transforms as T
+import torch
 from PIL import Image
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 INPUT_DIR = os.path.join(BASE_DIR, 'input')
 OUTPUT_DIR = os.path.join(BASE_DIR, 'output')
 
-os.makedirs(OUTPUT_DIR, exist_ok=True)  # 函数③：自动创建输出目录
-
-torch.manual_seed(42)
-image_suffix = {'.jpg', '.jpeg', '.png', '.webp'}
-input_files = []
-for file_name in sorted(os.listdir(INPUT_DIR)):
-	file_path = os.path.join(INPUT_DIR, file_name)
-	if os.path.isfile(file_path) and os.path.splitext(file_name)[1].lower() in image_suffix:
-		input_files.append(file_path)
-
-transformer = T.Compose([
+IMAGE_SUFFIXES = {'.jpg', '.jpeg', '.png', '.webp'}
+BASE_SEED = 73
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+transform = T.Compose([
 	T.Resize((160, 160)),
-	T.RandomHorizontalFlip(p=1.0),
-	T.ColorJitter(brightness=0.5),
-	T.GaussianBlur(3, 0.5)
+	T.RandomHorizontalFlip(p=0.5),
+	T.RandomRotation(degrees=20, fill=(0, 0, 0)),
+	T.ColorJitter(brightness=0.3),
+	T.GaussianBlur(kernel_size=3, sigma=0.5)
 ])
 
-print('筛选后图片数量：', len(input_files))  # 显示筛选到的图片数
-for file_path in input_files:  # 逐张处理图片
-	with Image.open(file_path) as source_image:  # 打开图片并在退出时关闭文件
-		image = source_image.convert('RGB')  # 函数⑫：统一成 RGB 图片
-	transformed_image = transformer(image)  # 函数⑬：执行组合增强
-	output_name = os.path.splitext(os.path.basename(file_path))[0] + '_aug.png'  # 函数⑭：生成新文件名
-	output_path = os.path.join(OUTPUT_DIR, output_name)  # 函数②：拼出输出文件路径
-	transformed_image.save(output_path)  # 函数⑮：保存增强图片
-	print('已保存：', output_name)  # 显示输出文件名
-	print('输出尺寸：', transformed_image.size)  # 显示图片尺寸
-	print('输出模式：', transformed_image.mode)  # 显示颜色模式
+
+def get_image_files(input_dir):
+	image_paths = []
+	for file_name in sorted(os.listdir(input_dir)):
+		file_path = os.path.join(input_dir, file_name)
+		suffix = os.path.splitext(file_name)[1].lower()
+		if os.path.isfile(file_path) and suffix in IMAGE_SUFFIXES:
+			image_paths.append(file_path)
+		else:
+			print('skip', file_name)
+	return image_paths
 
 
+def make_output_path(file_path, output_dir):  # 定义函数：创建不冲突的输出文件路径
+	base_name = os.path.splitext(os.path.basename(file_path))[0]  # 函数⑤：取输入图片的主文件名
+	output_name = base_name + '_aug.png'  # 给增强结果添加后缀
+	output_path = os.path.join(output_dir, output_name)  # 函数②：拼接输出路径
+	number = 1  # 设置冲突文件的起始编号
+	while os.path.exists(output_path):  # 函数⑨：检查目标文件是否已经存在
+		output_name = base_name + '_aug_' + str(number) + '.png'  # 生成带编号的新文件名
+		output_path = os.path.join(output_dir, output_name)  # 函数②：更新目标路径
+		number = number + 1  # 编号加一，继续检查下一个名称
+	return output_path  # 返回不会覆盖已有文件的路径
+
+
+def enhance_one_image(file_path, output_dir, image_index):
+	torch.manual_seed(BASE_SEED + image_index)
+	with Image.open(file_path) as source_image:
+		image = source_image.convert('RGB')
+	enhanced_image = transform(image)
+	output_path = make_output_path(file_path, output_dir)
+	enhanced_image.save(output_path)
+	return output_path, enhanced_image.size, enhanced_image.mode
+
+
+image_paths = get_image_files(INPUT_DIR)  # 收集输入目录中的图片
+print('筛选后图片数量：', len(image_paths))  # 输出筛选数量
+for image_index in range(len(image_paths)):
+	output_path, output_size, output_mode = enhance_one_image(
+		image_paths[image_index], OUTPUT_DIR, image_index
+	)
+	print('已保存：', os.path.basename(output_path))  # 输出保存后的文件名
+	print('输出尺寸：', output_size)  # 输出图像实际尺寸
+	print('输出模式：', output_mode)  # 输出图像颜色模式
+	with open(output_path, 'rb') as image_file:  # 以二进制只读方式打开生成图片
+		image_hash = hashlib.sha256(image_file.read()).hexdigest()  # 函数⑨：计算图片SHA-256
+	print('SHA-256：', image_hash)  # 输出图片的字节指纹
+```
+
+**教师真实复跑输出（两次清洁运行一致）**：
+
+```text
 skip 说明.txt
 筛选后图片数量： 1
 已保存： sample_aug.png
 输出尺寸： (160, 160)
 输出模式： RGB
 SHA-256： 516d24ffbf07f377a722a7ab434d9587480686eacbb63b518b8b669ad0786515
-
-以列表的形式获取当前文件夹下所有文件。
-判断这个文件是否是文件。
-分离主路径与扩展名。
-设置随机种子
-
-
 ```
+
+**概念解释（教师整理；原作答已留存）**：
+
+- `os.listdir` 列出指定目录中的名称；名称中可能有子目录，顺序也不保证稳定，因此要筛选并排序。
+- `os.path.isfile` 判断给定路径是否指向普通文件；相对路径按当前工作目录解释，可能检查错地方。本课拼接输入目录和文件名，得到稳定路径。并不是“只能传绝对路径”。
+- `os.path.splitext` 返回主路径和扩展名；扩展名带点，大小写不会自动统一，比较前需要统一大小写。
+- `torch.manual_seed` 设置 PyTorch 随机状态；固定种子还需要相同的输入顺序和随机调用顺序才能复现，不保证跨库版本逐字节一致。
 
 ### 我的疑问
 （记录没想通的点，会话里问我）
@@ -343,6 +380,12 @@ CLEAN_HASH_EQUAL True
 OTHER_CWD_RC 0 STDERR_EMPTY True
 ```
 
+### 老师批改·第2轮（2026-11-11，教师协助修正归档）
+
+前面旧文档的格式/同步问题由老师直接处理；当前 `test.py` 已通过清洁两次运行、不覆盖旧文件、160×160/RGB读回和其他工作目录启动。完整问题、修正说明、参考代码与真实输出见 [第2轮教师批改](teacher/第二课_教师批改_第2轮.md)。四项概念解释为对照参考完成，独立理解未另验。
+
+✅ 通过，本课作业关闭（教师协助修正归档）。
+
 ## 【错误点参考答案】
 
 ### 错误点1：文档没有同步最新代码和输出
@@ -368,7 +411,11 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 ## 【老师答疑】
 
-这次“没有创建 output 文件夹”的问题已经按最新提交重新验收，已销项。当前真正阻塞结课的是提交证据没有同步到文档，以及函数解释缺少常见坑；不要求给课后练习代码逐行添加注释。
+### 本轮问题、修正与结论
+
+按本人授权，本轮由老师同步已通过 `test.py`、整理代码/输出/解释分区、校正函数说明，并补全教师真实运行证据。原提交完整留存，不再要求逐项重贴。前面的围栏 SyntaxError 属于老师未分离输出的提取错误；已通过的源码不应被旧文档盖过。
+
+详见 [第二课教师批改·第2轮（全部问题与实跑输出）](teacher/第二课_教师批改_第2轮.md)。本轮教师协助修正后通过，可结课、推送并进入第三课；协助部分不登记为本人独立掌握。
 
 ## 【本节重点总结】
 
