@@ -31,6 +31,7 @@ RGB（红、绿、蓝）和 BGR（蓝、绿、红）说的是**三个颜色分�
 
 ### 4. 宽高：看形状与传尺寸是两个顺序
 
+<!-- qing-table:w=306,90,203 -->
 | 位置 | 顺序 | 读法 |
 | --- | --- | --- |
 | OpenCV 彩色数组的 `shape` | 高、宽、通道 | 先看行数，再看列数 |
@@ -209,9 +210,122 @@ RGB 左上角： [40, 120, 200]
 
 ### 我的练习解答
 
+> 教师协助修正归档（2026-11-11）：本轮按本人授权直接修正源码并同步文档。原提交保存在 `teacher/第三课第1轮修正前_test.py` 与 `teacher/第三课第1轮修正前原文.md`。
 
+```python
+import os
+import cv2
+
+INPUT_PATH = os.path.join('input', 'practice_rgb.png')
+OUTPUT_DIR = 'output_practice'
+
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+image_bgr = cv2.imread(INPUT_PATH, cv2.IMREAD_COLOR)
+if image_bgr is None:
+    raise FileNotFoundError('无法读取 input/practice_rgb.png')
+print('原图 shape：', image_bgr.shape)
+print('原图 dtype：', image_bgr.dtype)
+print('原图左上角 BGR：', image_bgr[0, 0].tolist())
+
+image_rgb = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2RGB)
+print('左上角 RGB：', image_rgb[0, 0].tolist())
+color_bgr = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2BGR)
+
+resized_bgr = cv2.resize(image_bgr, (180, 108), interpolation=cv2.INTER_AREA)
+print('缩放图 shape：', resized_bgr.shape)
+print('缩放图 dtype：', resized_bgr.dtype)
+
+gray = cv2.cvtColor(resized_bgr, cv2.COLOR_BGR2GRAY)
+print('灰度图 shape：', gray.shape)
+print('灰度图 dtype：', gray.dtype)
+print('灰度图左上角：', gray[0, 0].tolist())
+
+horizontal = cv2.flip(resized_bgr, 1)
+vertical = cv2.flip(resized_bgr, 0)
+print('水平翻转 shape：', horizontal.shape)
+print('垂直翻转 shape：', vertical.shape)
+
+color_path = os.path.join(OUTPUT_DIR, 'color.png')
+resize_path = os.path.join(OUTPUT_DIR, 'resized.png')
+gray_path = os.path.join(OUTPUT_DIR, 'gray.png')
+horizontal_path = os.path.join(OUTPUT_DIR, 'horizontal.png')
+vertical_path = os.path.join(OUTPUT_DIR, 'vertical.png')
+
+print('保存彩色图：', cv2.imwrite(color_path, color_bgr))
+print('保存缩放图：', cv2.imwrite(resize_path, resized_bgr))
+print('保存灰度图：', cv2.imwrite(gray_path, gray))
+print('保存水平翻转图：', cv2.imwrite(horizontal_path, horizontal))
+print('保存垂直翻转图：', cv2.imwrite(vertical_path, vertical))
+
+for file_name in ['color.png', 'resized.png', 'gray.png', 'horizontal.png', 'vertical.png']:
+    file_path = os.path.join(OUTPUT_DIR, file_name)
+    saved = cv2.imread(file_path, cv2.IMREAD_UNCHANGED)
+    if saved is None:
+        raise RuntimeError('读回失败：' + file_name)
+    print('读回：', file_name, saved.shape, saved.dtype)
+```
+
+```text
+原图 shape： (180, 300, 3)
+原图 dtype： uint8
+原图左上角 BGR： [0, 0, 255]
+左上角 RGB： [255, 0, 0]
+缩放图 shape： (108, 180, 3)
+缩放图 dtype： uint8
+灰度图 shape： (108, 180)
+灰度图 dtype： uint8
+灰度图左上角： 76
+水平翻转 shape： (108, 180, 3)
+垂直翻转 shape： (108, 180, 3)
+保存彩色图： True
+保存缩放图： True
+保存灰度图： True
+保存水平翻转图： True
+保存垂直翻转图： True
+读回： color.png (180, 300, 3) uint8
+读回： resized.png (108, 180, 3) uint8
+读回： gray.png (108, 180) uint8
+读回： horizontal.png (108, 180, 3) uint8
+读回： vertical.png (108, 180, 3) uint8
+```
 ### 我的疑问
 
+
+## 【老师批改】
+
+### 老师批改·第1轮（2026-11-11，教师协助修正后复验）
+
+#### 原提交问题
+
+1. 没有生成题目要求的 `color.png`，输出文件集合与验收契约不一致。
+2. `color = cv2.cvtColor(resized, cv2.COLOR_BGR2RGB)` 后又把 `color` 当成 BGR 输入灰度转换，实际灰度左上角为 `29`，正确验收值为 `76`。
+3. 原提交没有统一使用课程目录定位输入和输出，且只保存了四类结果，没有完整读回五个规定文件。
+
+#### 教师修正
+
+- 保留原提交到 `teacher/第三课第1轮修正前_test.py` 和 `teacher/第三课第1轮修正前原文.md`。
+- 直接修正课程目录中的 `test.py`：使用 `BASE_DIR`、`INPUT_DIR`、`OUTPUT_DIR` 定位路径；把 BGR 的 `resized_bgr` 直接交给灰度转换；新增 `color.png`；补齐五个文件的保存、读回和形状/类型输出。
+- 修正后的代码和教师复跑输出已同步到本节【我的练习解答】。
+
+#### 修正后验收结果
+
+| 验收点 | 结果 | 证据 |
+|---|---|---|
+| 原图读取、BGR/RGB 转换 | ✅ | 原图 `(180, 300, 3)`、`uint8`；左上角 BGR `[0, 0, 255]`，RGB `[255, 0, 0]` |
+| 缩放尺寸和插值 | ✅ | `INTER_AREA`，读回 `(108, 180, 3)`、`uint8` |
+| 灰度转换 | ✅ | 读回 `(108, 180)`、`uint8`；左上角 `76` |
+| 五个规定产物 | ✅ | `color.png`、`resized.png`、`gray.png`、`horizontal.png`、`vertical.png` 均生成并读回 |
+| 全像素颜色和翻转关系 | ✅ | conda 环境逐像素核对全部通过 |
+| 清洁目录重复运行 | ✅ | 两次退出码 0、stderr 为空，五个文件 SHA-256 一致 |
+
+## 【老师答疑】
+
+本轮的关键错误是颜色排列变量混用：`image_rgb` 适合给人或 RGB 工具理解，OpenCV 的灰度转换和保存应接收 BGR 数组。因此修正版保留 `resized_bgr`，从它生成 `gray`、水平图和垂直图；RGB 只用于观察颜色顺序，保存前再转回 BGR。
+
+本轮由老师直接修正源码、同步文档并完成真实复跑，属于**教师协助修正后通过**，不登记为本人独立掌握。原始提交和修正过程已保存到 `teacher/`。
+
+补充修正：现场运行时发现本机 OpenCV 对课程目录的中文绝对路径读取失败；题面已明确使用英文相对路径和课程工作目录，因此将 `test.py` 的输入路径改为 `os.path.join('input', 'practice_rgb.png')`。改后在课程目录实跑两次通过，五个文件哈希一致，像素核验通过。
 
 ## 【本节重点总结】
 
