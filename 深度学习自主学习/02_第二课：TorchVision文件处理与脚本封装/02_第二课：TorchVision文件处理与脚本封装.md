@@ -1,0 +1,237 @@
+# 第二课：TorchVision 文件处理与脚本封装
+
+## 【本节核心知识点】
+
+把第一课的单张图增强改造成可靠的批处理脚本：用 `os` 稳定定位并筛选图片，封装增强流程，避免输出重名覆盖，并用真实的两次运行与图片哈希比较验证随机增强可复现。
+
+## 【核心概念讲解】
+
+### 0. 前情提要
+
+第一课已经用 `transforms.Compose` 把 `Resize`、翻转、亮度变化和高斯模糊串成一条图像处理流程，并用 `PIL.Image` 读取图片、统一转成 RGB。
+
+本课不再新增一组增强效果，而是解决“把脚本交给别人或放到新目录时，是否仍能可靠运行”的问题。重点是输入管理、输出管理、重复文件名和两次运行是否真的产生相同结果。
+
+### 1. 文件处理分成三步
+
+1. **找文件**：从输入目录读取名称，拼出完整路径，过滤掉子目录和非图片文件。
+2. **处理文件**：把单张图像的增强步骤封装成函数，让批处理循环更清楚。
+3. **存文件**：检查目标文件名是否已存在；避免悄悄覆盖旧结果。完成后再读回文件，核对张数、尺寸、颜色模式和哈希。
+
+### 2. 为什么需要固定处理顺序
+
+目录清单本身不保证顺序。若文件顺序变化，随机增强消费随机数的顺序也会变化，最终图片可能不同。本课对文件名排序；并为每一张输入图从固定种子初始化一次随机状态，使某张图的结果不被前一张图的随机调用次数影响。
+
+**注意**：固定随机种子表示在相同代码、输入、随机调用顺序和兼容环境下可复现；它不保证不同 PyTorch、TorchVision 或不同硬件之间逐字节一致。
+
+### 3. 组合变换与函数封装的职责不同
+
+`transforms.Compose` 负责把多个**图像变换**依次连接；Python 自定义函数负责把“打开一张图、转 RGB、增强、保存和返回结果”这个**完整工作步骤**包装起来。两者可以搭配，不是互相替代。
+
+### 4. 随机增强概率和可复现
+
+- `RandomHorizontalFlip(p=0.5)`：每张图片有约一半概率水平翻转。
+- `RandomRotation(degrees=20)`：从允许角度范围内随机抽一个角度。
+- 每张输入图使用稳定的种子派生方式，可以让同图重跑得到同样增强，同时不同图片也使用不同随机流。
+- 验证可复现不能只打印“相同”。必须比较两次独立完整运行的标准输出，并比较输出图片 SHA-256。
+
+## 【核心内置函数拆解】
+
+### ① `os.path.abspath(path)` 与 `os.path.dirname(path)` —— 确定脚本目录
+
+- **作用**：得到当前脚本的绝对路径，再取出脚本所在目录，避免脚本从不同工作目录启动时找错文件。
+- **完整语法**：`os.path.abspath(path)`；`os.path.dirname(path)`。
+- **关键参数**：`path` 是路径字符串；`__file__` 是当前 Python 文件路径。
+- **返回值**：路径字符串。
+- **常见坑**：`os.getcwd()` 取的是启动程序时的工作目录，不一定是脚本所在目录。
+- **适用场景**：课程脚本要从自身旁边读取 `input/` 并写入 `output/`。
+
+### ② `os.path.join(path, *paths)` —— 拼接路径
+
+- **作用**：按操作系统规则组合目录名和文件名。
+- **完整语法**：`os.path.join(path, *paths)`。
+- **关键参数**：`path` 是起始目录；`*paths` 是后续子目录或文件名。
+- **返回值**：组合后的路径字符串。
+- **常见坑**：别手工拼接斜杠；若后续片段是绝对路径，会忽略之前片段。
+- **适用场景**：创建输入、输出、图片和临时文件路径。
+
+### ③ `os.makedirs(name, exist_ok=False)` —— 创建输出目录
+
+- **作用**：创建目录；也能创建不存在的上层目录。
+- **完整语法**：`os.makedirs(name, exist_ok=False)`。
+- **关键参数**：`name` 是目录路径；`exist_ok=True` 表示目录已经存在时不报错。
+- **返回值**：成功时返回 `None`。
+- **常见坑**：不设置 `exist_ok=True`，第二次运行可能因目录已存在而报错。
+- **适用场景**：保存图片前确保输出目录存在。
+
+### ④ `os.listdir(path)` 与 `os.path.isfile(path)` —— 列出并检查文件
+
+- **作用**：`os.listdir` 返回目录中的名称；`os.path.isfile` 检查完整路径是否为普通文件。
+- **完整语法**：`os.listdir(path)`；`os.path.isfile(path)`。
+- **关键参数**：两者都接收路径；`listdir` 接收目录，`isfile` 接收完整文件路径。
+- **返回值**：`listdir` 返回名称列表；`isfile` 返回 `True` 或 `False`。
+- **常见坑**：`listdir` 也会列出子目录；仅检查扩展名不足以确认普通文件，所以再检查 `isfile`。
+- **适用场景**：批量筛选输入目录中的图片文件。
+
+### ⑤ `os.path.splitext(path)` 与 `os.path.basename(path)` —— 处理扩展名和主文件名
+
+- **作用**：`splitext` 分离主路径与扩展名；`basename` 取路径最后的名称。
+- **完整语法**：`os.path.splitext(path)`；`os.path.basename(path)`。
+- **关键参数**：`path` 是文件名或完整路径。
+- **返回值**：`splitext` 返回二元组 `(主路径, 扩展名)`；`basename` 返回文件名。
+- **常见坑**：扩展名要先 `.lower()` 再比较，避免 `.PNG` 大写后缀漏掉；文件名冲突时不能直接覆盖旧文件。
+- **适用场景**：筛选图片、生成带增强后缀的新文件名。
+
+### ⑥ `transforms.Compose(transforms_list)` —— 串联图像变换
+
+- **作用**：依次运行列表中的变换，前一项的输出交给后一项。
+- **完整语法**：`transforms.Compose([变换1, 变换2, ...])`。
+- **关键参数**：列表中的变换必须按数据类型衔接；本课前几项处理 PIL 图片。
+- **返回值**：一个可调用的变换组合对象。
+- **常见坑**：执行顺序就是列表顺序；`Compose` 不负责打开文件、创建目录或保存结果。
+- **适用场景**：把缩放、翻转、亮度变化和模糊组合成一条流水线。
+
+### ⑦ `torch.manual_seed(seed)` —— 设置随机种子
+
+- **作用**：设置 PyTorch 随机数生成器状态，让相同随机调用过程可重复。
+- **完整语法**：`torch.manual_seed(seed)`。
+- **关键参数**：`seed` 是整数种子；本课按输入文件序号派生每张图使用的种子。
+- **返回值**：PyTorch 随机数生成器对象；通常直接调用即可。
+- **常见坑**：仅固定一次全局种子时，前面图片消耗随机数的数量可能影响后续图片；同一设备、库版本及调用顺序是复现条件的一部分。
+- **适用场景**：调试随机增强、生成可复现的实验结果。
+
+### ⑧ `os.path.exists(path)` — 检查路径是否已存在
+
+- **作用**：判断文件或目录路径当前是否存在。
+- **完整语法**：`os.path.exists(path)`。
+- **关键参数**：`path` 是要检查的文件或目录路径。
+- **返回值**：存在时返回 `True`，不存在时返回 `False`。
+- **常见坑**：它只告诉你路径存在与否，不区分文件和目录；若只允许普通文件应同时使用 `os.path.isfile`。
+- **适用场景**：为图片输出选择不覆盖既有文件的名称。
+
+### ⑨ `hashlib.sha256(data).hexdigest()` —— 生成文件指纹
+
+- **作用**：对文件字节计算 SHA-256 哈希；字节相同则哈希相同。
+- **完整语法**：`hashlib.sha256(文件字节).hexdigest()`。
+- **关键参数**：`data` 是字节串；较大文件应分块读取。
+- **返回值**：固定格式的十六进制字符串。
+- **常见坑**：哈希相同是强一致性证据，但哈希不同只能说明至少有一个字节不同，不直接解释原因。
+- **适用场景**：检查两次增强图片是否逐字节一致。
+
+## 【完整代码示例 + 逐行注释】
+
+```python
+import os  # 导入 os，用于路径、目录和文件处理
+import hashlib  # 导入 hashlib，用于比较生成图片的字节哈希
+import torch  # 导入 torch，用于控制每张图片的随机增强
+from torchvision import transforms as T  # 导入 TorchVision 的图像变换工具
+from PIL import Image  # 导入 PIL 图片读取工具
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # 函数①：定位当前脚本目录
+INPUT_DIR = os.path.join(BASE_DIR, 'input')  # 函数②：拼出输入目录
+OUTPUT_DIR = os.path.join(BASE_DIR, 'output')  # 函数②：拼出输出目录
+os.makedirs(OUTPUT_DIR, exist_ok=True)  # 函数③：创建输出目录，存在时不报错
+
+IMAGE_SUFFIXES = {'.jpg', '.jpeg', '.png', '.bmp', '.webp'}  # 设置允许处理的图片后缀
+BASE_SEED = 73  # 设置本课固定随机种子
+
+transform = T.Compose([  # 函数⑥：把增强变换按顺序组成流水线
+    T.Resize((160, 160)),  # 固定输出高160、宽160
+    T.RandomHorizontalFlip(p=0.5),  # 随机决定是否水平翻转
+    T.RandomRotation(degrees=20, fill=(0, 0, 0)),  # 随机旋转，空白区域填黑
+    T.ColorJitter(brightness=0.3),  # 随机改变亮度
+    T.GaussianBlur(kernel_size=3, sigma=0.5),  # 使用3×3核进行高斯模糊
+])  # 结束增强流程定义
+
+def get_image_files(input_dir):  # 定义函数：从一个目录筛选图片
+    image_paths = []  # 创建列表保存图片完整路径
+    for file_name in sorted(os.listdir(input_dir)):  # 函数④：读取名称并排序
+        file_path = os.path.join(input_dir, file_name)  # 函数②：拼接完整路径
+        suffix = os.path.splitext(file_name)[1].lower()  # 函数⑤：获取小写扩展名
+        if os.path.isfile(file_path) and suffix in IMAGE_SUFFIXES:  # 函数④⑤：只保留普通图片文件
+            image_paths.append(file_path)  # 把图片路径加入列表
+        else:  # 不符合条件的文件走这里
+            print('跳过非图片文件：', file_name)  # 显示被跳过的文件名
+    return image_paths  # 返回筛选后的图片路径列表
+
+def make_output_path(file_path, output_dir):  # 定义函数：创建不冲突的输出文件路径
+    base_name = os.path.splitext(os.path.basename(file_path))[0]  # 函数⑤：取输入图片的主文件名
+    output_name = base_name + '_aug.png'  # 给增强结果添加后缀
+    output_path = os.path.join(output_dir, output_name)  # 函数②：拼接输出路径
+    number = 1  # 设置冲突文件的起始编号
+    while os.path.exists(output_path):  # 函数⑨：检查目标文件是否已经存在
+        output_name = base_name + '_aug_' + str(number) + '.png'  # 生成带编号的新文件名
+        output_path = os.path.join(output_dir, output_name)  # 函数②：更新目标路径
+        number = number + 1  # 编号加一，继续检查下一个名称
+    return output_path  # 返回不会覆盖已有文件的路径
+
+def enhance_one_image(file_path, output_dir, image_index):  # 定义函数：增强并保存一张图片
+    torch.manual_seed(BASE_SEED + image_index)  # 函数⑦：给当前图片设置稳定且独立的随机种子
+    with Image.open(file_path) as source_image:  # 打开图片，离开代码块后自动关闭文件
+        image = source_image.convert('RGB')  # 将输入图片转成RGB
+    enhanced_image = transform(image)  # 函数⑥：运行组合增强
+    output_path = make_output_path(file_path, output_dir)  # 取得不覆盖旧文件的输出路径
+    enhanced_image.save(output_path)  # 保存增强图片
+    return output_path, enhanced_image.size, enhanced_image.mode  # 返回路径、尺寸和颜色模式
+
+image_paths = get_image_files(INPUT_DIR)  # 收集输入目录中的图片
+print('筛选后图片数量：', len(image_paths))  # 输出筛选数量
+
+for image_index in range(len(image_paths)):  # 按稳定顺序处理每一张图片
+    output_path, output_size, output_mode = enhance_one_image(  # 函数调用：增强一张图片
+        image_paths[image_index], OUTPUT_DIR, image_index  # 传入图片路径、输出目录和序号
+    )  # 结束当前图片的处理参数
+    print('已保存：', os.path.basename(output_path))  # 输出保存后的文件名
+    print('输出尺寸：', output_size)  # 输出图像实际尺寸
+    print('输出模式：', output_mode)  # 输出图像颜色模式
+    with open(output_path, 'rb') as image_file:  # 以二进制只读方式打开生成图片
+        image_hash = hashlib.sha256(image_file.read()).hexdigest()  # 函数⑨：计算图片SHA-256
+    print('SHA-256：', image_hash)  # 输出图片的字节指纹
+
+print('本次处理结束；如需复跑对比，请清空 output 后重新运行。')  # 提醒每次批次会避免覆盖旧输出
+```
+
+**真实运行结果**（BaiQing3.10AI 实测；连续两次清空 output 后运行，stdout 与图片哈希相同）：
+
+```text
+跳过非图片文件： 说明.txt
+筛选后图片数量： 1
+已保存： sample_aug.png
+输出尺寸： (160, 160)
+输出模式： RGB
+SHA-256： 516d24ffbf07f377a722a7ab434d9587480686eacbb63b518b8b669ad0786515
+本次处理结束；如需复跑对比，请清空 output 后重新运行。
+```
+
+额外覆盖保护实测：不清空目录再运行时，旧文件保留，新结果命名为 `sample_aug_1.png`；进程退出码为0，stderr为空。
+
+## 【课后练习】
+
+在本课目录提供的 `input/` 中完成批量图像增强脚本；要求使用函数封装单张图片处理，生成输出文件且不覆盖已有文件。
+
+1. 统计并打印有效图片数量、每张输出文件名、尺寸和模式。
+2. 确保非图片文件被跳过；再次运行时，已有结果不被覆盖，输出另一个不重名文件。
+3. 固定随机种子并按两次完整运行的标准输出及所有输出图片 SHA-256 核对可复现性。
+4. 在【我的练习解答】下解释 `os.listdir`、`os.path.isfile`、`os.path.splitext` 和 `torch.manual_seed`。
+
+**验收点**：
+
+- 输入目录里的图片得到增强输出，非图片被跳过。
+- 每张输出图为 RGB、尺寸符合目标；再次运行时旧文件不被覆盖。
+- 两次清洁输出目录后的运行 stdout 与文件哈希一致。
+- 输出路径由脚本目录定位，换工作目录启动仍可运行。
+- 概念解释以自己的话说明函数作用和一个常见坑。
+
+> ⚠️ 在 conda `BaiQing3.10AI` 环境运行练习；把代码和真实输出放入本页【我的练习解答】。当前讲义演示会自动生成 `input/sample.png` 和 `input/说明.txt`，练习需在独立副本或新建输入文件上完成，勿覆盖课堂演示产物。
+
+### 我的练习解答
+（在此粘贴你的代码和两次运行结果）
+
+### 我的疑问
+（记录没想通的点，会话里问我）
+
+## 【本节重点总结】
+
+1. 先筛选文件，再处理图像；路径由脚本目录构建，换工作目录仍能稳定运行。
+2. `Compose` 管图像变换顺序，自定义函数管单张图片的完整处理与保存。
+3. 固定随机状态、避免文件覆盖，并比较两次真实输出，才能证明批处理可复现。
