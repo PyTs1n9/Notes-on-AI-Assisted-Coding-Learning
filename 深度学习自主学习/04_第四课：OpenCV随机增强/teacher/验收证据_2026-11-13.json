@@ -1,0 +1,297 @@
+{
+  "original": {
+    "file": {
+      "path": "test.py",
+      "size": 2101,
+      "mtime": "2026-11-13T20:41:38.894000",
+      "sha256": "07f82c8fb704c3c4cde66439c3bfba285d6ff3cca6e8895309d390a29d0016f9"
+    },
+    "run": {
+      "returncode": 0,
+      "stdout": "(196, 318, 3) uint8\nrandom angle alpha number : 11.43257 1.180834 -17\n截断前最小，最大： -17.0 284.1127624511719\n截断后最小，最大： 0.0 255.0\n",
+      "stderr": ""
+    },
+    "pixel_report": {
+      "mode": "original",
+      "cv2": "5.0.0",
+      "numpy": "2.2.5",
+      "angle": 11.432569770359898,
+      "alpha": 1.180834360401237,
+      "beta": -17,
+      "x": 9,
+      "y": 70,
+      "raw_min": -17.0,
+      "raw_max": 284.1127624511719,
+      "below_zero": 42887,
+      "above_255": 28150,
+      "files": [
+        {
+          "file": "rotated.png",
+          "shape": [
+            196,
+            318,
+            3
+          ],
+          "dtype": "uint8",
+          "pixels_equal": false,
+          "min": 0,
+          "max": 255,
+          "sha256": "6057cd0b47c6068656284ccad2196ac718afb492fb0c4517bf2687a5b17bcb58"
+        },
+        {
+          "file": "brightness.png",
+          "shape": [
+            196,
+            318,
+            3
+          ],
+          "dtype": "uint8",
+          "pixels_equal": false,
+          "min": 0,
+          "max": 255,
+          "sha256": "cd4ccd5adcf8bd96fbced1efa16895cdd090ba71d978e9ff2b7247b959eabe1a"
+        },
+        {
+          "file": "crop.png",
+          "shape": [
+            120,
+            180,
+            3
+          ],
+          "dtype": "uint8",
+          "pixels_equal": false,
+          "min": 0,
+          "max": 255,
+          "sha256": "3883550ecfb3cf5d67b20d6f08f144bc43f0bb95c6ed6908d7c835e6278b910a"
+        },
+        {
+          "file": "resized.png",
+          "shape": [
+            96,
+            144,
+            3
+          ],
+          "dtype": "uint8",
+          "pixels_equal": false,
+          "min": 0,
+          "max": 255,
+          "sha256": "872a897354153cff1e7d2b5ec7480f8b384326ff015a24629400c2c2e43b54f2"
+        },
+        {
+          "file": "blurred.png",
+          "shape": [
+            96,
+            144,
+            3
+          ],
+          "dtype": "uint8",
+          "pixels_equal": false,
+          "min": 0,
+          "max": 255,
+          "sha256": "6c245c331f105ee6d12bc958742a6f1a8e575ec1fe5fdfaf078ab8bac2a105db"
+        }
+      ]
+    }
+  },
+  "final_runs": {
+    "clean1": {
+      "returncode": 0,
+      "stdout": "(196, 318, 3) uint8\nrandom angle alpha number : 11.43257 1.180834 -17\n截断前最小，最大： -17.0 284.1127624511719\n截断后最小，最大： 0.0 255.0\n裁剪左、上、宽、高： 9 70 180 120\n裁剪图 shape： (120, 180, 3)\n最终图 shape、dtype： (96, 144, 3) uint8\n读回： rotated.png (196, 318, 3) uint8 像素一致： True\n读回： brightness.png (196, 318, 3) uint8 像素一致： True\n读回： crop.png (120, 180, 3) uint8 像素一致： True\n读回： resized.png (96, 144, 3) uint8 像素一致： True\n读回： blurred.png (96, 144, 3) uint8 像素一致： True\nrandom angle alpha number : 11.43257 1.180834 -17\n截断前最小，最大： -17.0 284.1127624511719\n截断后最小，最大： 0.0 255.0\n裁剪左、上、宽、高： 9 70 180 120\n裁剪图 shape： (120, 180, 3)\n最终图 shape、dtype： (96, 144, 3) uint8\n同进程重建同种子，最终全图一致： True\n同进程重建同种子，全部阶段一致： True\n",
+      "stderr": ""
+    },
+    "clean2": {
+      "returncode": 0,
+      "stdout": "(196, 318, 3) uint8\nrandom angle alpha number : 11.43257 1.180834 -17\n截断前最小，最大： -17.0 284.1127624511719\n截断后最小，最大： 0.0 255.0\n裁剪左、上、宽、高： 9 70 180 120\n裁剪图 shape： (120, 180, 3)\n最终图 shape、dtype： (96, 144, 3) uint8\n读回： rotated.png (196, 318, 3) uint8 像素一致： True\n读回： brightness.png (196, 318, 3) uint8 像素一致： True\n读回： crop.png (120, 180, 3) uint8 像素一致： True\n读回： resized.png (96, 144, 3) uint8 像素一致： True\n读回： blurred.png (96, 144, 3) uint8 像素一致： True\nrandom angle alpha number : 11.43257 1.180834 -17\n截断前最小，最大： -17.0 284.1127624511719\n截断后最小，最大： 0.0 255.0\n裁剪左、上、宽、高： 9 70 180 120\n裁剪图 shape： (120, 180, 3)\n最终图 shape、dtype： (96, 144, 3) uint8\n同进程重建同种子，最终全图一致： True\n同进程重建同种子，全部阶段一致： True\n",
+      "stderr": ""
+    },
+    "real": {
+      "returncode": 0,
+      "stdout": "(196, 318, 3) uint8\nrandom angle alpha number : 11.43257 1.180834 -17\n截断前最小，最大： -17.0 284.1127624511719\n截断后最小，最大： 0.0 255.0\n裁剪左、上、宽、高： 9 70 180 120\n裁剪图 shape： (120, 180, 3)\n最终图 shape、dtype： (96, 144, 3) uint8\n读回： rotated.png (196, 318, 3) uint8 像素一致： True\n读回： brightness.png (196, 318, 3) uint8 像素一致： True\n读回： crop.png (120, 180, 3) uint8 像素一致： True\n读回： resized.png (96, 144, 3) uint8 像素一致： True\n读回： blurred.png (96, 144, 3) uint8 像素一致： True\nrandom angle alpha number : 11.43257 1.180834 -17\n截断前最小，最大： -17.0 284.1127624511719\n截断后最小，最大： 0.0 255.0\n裁剪左、上、宽、高： 9 70 180 120\n裁剪图 shape： (120, 180, 3)\n最终图 shape、dtype： (96, 144, 3) uint8\n同进程重建同种子，最终全图一致： True\n同进程重建同种子，全部阶段一致： True\n",
+      "stderr": ""
+    },
+    "cross_cwd": {
+      "returncode": 0,
+      "stdout": "(196, 318, 3) uint8\nrandom angle alpha number : 11.43257 1.180834 -17\n截断前最小，最大： -17.0 284.1127624511719\n截断后最小，最大： 0.0 255.0\n裁剪左、上、宽、高： 9 70 180 120\n裁剪图 shape： (120, 180, 3)\n最终图 shape、dtype： (96, 144, 3) uint8\n读回： rotated.png (196, 318, 3) uint8 像素一致： True\n读回： brightness.png (196, 318, 3) uint8 像素一致： True\n读回： crop.png (120, 180, 3) uint8 像素一致： True\n读回： resized.png (96, 144, 3) uint8 像素一致： True\n读回： blurred.png (96, 144, 3) uint8 像素一致： True\nrandom angle alpha number : 11.43257 1.180834 -17\n截断前最小，最大： -17.0 284.1127624511719\n截断后最小，最大： 0.0 255.0\n裁剪左、上、宽、高： 9 70 180 120\n裁剪图 shape： (120, 180, 3)\n最终图 shape、dtype： (96, 144, 3) uint8\n同进程重建同种子，最终全图一致： True\n同进程重建同种子，全部阶段一致： True\n",
+      "stderr": ""
+    },
+    "demo1": {
+      "returncode": 0,
+      "stdout": "原图 shape、dtype： (180, 300, 3) uint8\n随机角度、乘数、加数： 11.244704 1.102924 -2\n旋转矩阵：\n[[  0.98080331   0.19499966 -14.58256421]\n [ -0.19499966   0.98080331  30.87055243]]\n截断前最小、最大： -2.0 279.2454833984375\n截断后最小、最大： 0 255\n裁剪左、上、宽、高： 71 20 200 120\n裁剪图 shape： (120, 200, 3)\n最终图 shape、dtype： (96, 160, 3) uint8\n读回： rotated.png (180, 300, 3) uint8 像素一致： True\n读回： brightness.png (180, 300, 3) uint8 像素一致： True\n读回： crop.png (120, 200, 3) uint8 像素一致： True\n读回： resized.png (96, 160, 3) uint8 像素一致： True\n读回： blurred.png (96, 160, 3) uint8 像素一致： True\n",
+      "stderr": ""
+    },
+    "demo2": {
+      "returncode": 0,
+      "stdout": "原图 shape、dtype： (180, 300, 3) uint8\n随机角度、乘数、加数： 11.244704 1.102924 -2\n旋转矩阵：\n[[  0.98080331   0.19499966 -14.58256421]\n [ -0.19499966   0.98080331  30.87055243]]\n截断前最小、最大： -2.0 279.2454833984375\n截断后最小、最大： 0 255\n裁剪左、上、宽、高： 71 20 200 120\n裁剪图 shape： (120, 200, 3)\n最终图 shape、dtype： (96, 160, 3) uint8\n读回： rotated.png (180, 300, 3) uint8 像素一致： True\n读回： brightness.png (180, 300, 3) uint8 像素一致： True\n读回： crop.png (120, 200, 3) uint8 像素一致： True\n读回： resized.png (96, 160, 3) uint8 像素一致： True\n读回： blurred.png (96, 160, 3) uint8 像素一致： True\n",
+      "stderr": ""
+    }
+  },
+  "final_pixels": {
+    "mode": "practice",
+    "cv2": "5.0.0",
+    "numpy": "2.2.5",
+    "angle": 11.432569770359898,
+    "alpha": 1.180834360401237,
+    "beta": -17,
+    "x": 9,
+    "y": 70,
+    "raw_min": -17.0,
+    "raw_max": 284.1127624511719,
+    "below_zero": 42887,
+    "above_255": 28150,
+    "files": [
+      {
+        "file": "rotated.png",
+        "shape": [
+          196,
+          318,
+          3
+        ],
+        "dtype": "uint8",
+        "pixels_equal": true,
+        "min": 0,
+        "max": 255,
+        "sha256": "4a0e2f7ca7f6e45e6ff53d01be9350c4453c78e4d122e0b4c7085711157af1f4"
+      },
+      {
+        "file": "brightness.png",
+        "shape": [
+          196,
+          318,
+          3
+        ],
+        "dtype": "uint8",
+        "pixels_equal": true,
+        "min": 0,
+        "max": 255,
+        "sha256": "842a06468129a1e31f76ce21b0aa7abfdc83b463767e8189a6269d38f4925e87"
+      },
+      {
+        "file": "crop.png",
+        "shape": [
+          120,
+          180,
+          3
+        ],
+        "dtype": "uint8",
+        "pixels_equal": true,
+        "min": 0,
+        "max": 255,
+        "sha256": "6ba4aea75023c83d028237c6fee749458277148a3742d1ca04dd66e7a5e2a2a9"
+      },
+      {
+        "file": "resized.png",
+        "shape": [
+          96,
+          144,
+          3
+        ],
+        "dtype": "uint8",
+        "pixels_equal": true,
+        "min": 0,
+        "max": 255,
+        "sha256": "4d4ba1e80f1a61a812842402d387c6ec080ed8e618a3121bacd4b98faa035bc8"
+      },
+      {
+        "file": "blurred.png",
+        "shape": [
+          96,
+          144,
+          3
+        ],
+        "dtype": "uint8",
+        "pixels_equal": true,
+        "min": 0,
+        "max": 255,
+        "sha256": "daba83bc1f35493b2c712aab830d84d0cacb010691f2127cb583866ef6ee282b"
+      }
+    ]
+  },
+  "demo_pixels": {
+    "mode": "demo",
+    "cv2": "5.0.0",
+    "numpy": "2.2.5",
+    "angle": 11.244703552698837,
+    "alpha": 1.1029235147854841,
+    "beta": -2,
+    "x": 71,
+    "y": 20,
+    "raw_min": -2.0,
+    "raw_max": 279.2454833984375,
+    "below_zero": 100969,
+    "above_255": 59105,
+    "files": [
+      {
+        "file": "rotated.png",
+        "shape": [
+          180,
+          300,
+          3
+        ],
+        "dtype": "uint8",
+        "pixels_equal": true,
+        "min": 0,
+        "max": 255,
+        "sha256": "514be292c5b150290d2097b5d994f935cc4ffe01e1ca293cb055a5e4d600d7ba"
+      },
+      {
+        "file": "brightness.png",
+        "shape": [
+          180,
+          300,
+          3
+        ],
+        "dtype": "uint8",
+        "pixels_equal": true,
+        "min": 0,
+        "max": 255,
+        "sha256": "167331648175b75cc594e8a744426f10042973f99e85cbe1c80d75131a06d434"
+      },
+      {
+        "file": "crop.png",
+        "shape": [
+          120,
+          200,
+          3
+        ],
+        "dtype": "uint8",
+        "pixels_equal": true,
+        "min": 0,
+        "max": 255,
+        "sha256": "4f64dc6fffe32c52c997c6435005fab55a499ff8cc9b72f3688def0d25f29d24"
+      },
+      {
+        "file": "resized.png",
+        "shape": [
+          96,
+          160,
+          3
+        ],
+        "dtype": "uint8",
+        "pixels_equal": true,
+        "min": 0,
+        "max": 255,
+        "sha256": "0321a2ca46b6ca12aed3093361333e22ff34e71527023bafba1a8f9124acab01"
+      },
+      {
+        "file": "blurred.png",
+        "shape": [
+          96,
+          160,
+          3
+        ],
+        "dtype": "uint8",
+        "pixels_equal": true,
+        "min": 0,
+        "max": 255,
+        "sha256": "90ea07ff0a4b4ac61bdfe48d4b993045766c3c6487cc5529784f5e83cbc71a85"
+      }
+    ]
+  },
+  "reference_run": {
+    "returncode": 0,
+    "stdout": "(196, 318, 3) uint8\nrandom angle alpha number : 11.43257 1.180834 -17\n截断前最小，最大： -17.0 284.1127624511719\n截断后最小，最大： 0.0 255.0\n裁剪左、上、宽、高： 9 70 180 120\n裁剪图 shape： (120, 180, 3)\n最终图 shape、dtype： (96, 144, 3) uint8\n读回： rotated.png (196, 318, 3) uint8 像素一致： True\n读回： brightness.png (196, 318, 3) uint8 像素一致： True\n读回： crop.png (120, 180, 3) uint8 像素一致： True\n读回： resized.png (96, 144, 3) uint8 像素一致： True\n读回： blurred.png (96, 144, 3) uint8 像素一致： True\nrandom angle alpha number : 11.43257 1.180834 -17\n截断前最小，最大： -17.0 284.1127624511719\n截断后最小，最大： 0.0 255.0\n裁剪左、上、宽、高： 9 70 180 120\n裁剪图 shape： (120, 180, 3)\n最终图 shape、dtype： (96, 144, 3) uint8\n同进程重建同种子，最终全图一致： True\n同进程重建同种子，全部阶段一致： True\n",
+    "stderr": ""
+  },
+  "environment_limit": "course venv has no cv2; conda execution only; no environment changes",
+  "backup": "teacher/原提交_20261113_204654"
+}
