@@ -268,6 +268,7 @@ for index in range(len(file_names)):  # 用已经熟悉的循环逐张保存与�
 - 裁剪窗口宽 **180**、高 **120**；左边界在全部合法横坐标中均匀取整数，上边界在全部合法纵坐标中均匀取整数，均包含贴边位置。实跑左边界为 **9**、上边界为 **70**；`crop.png` 与亮度图对应局部的全部像素一致。
 - 缩放输出宽 **144**、高 **96**，插值为 `INTER_AREA`；模糊核为宽 **7**、高 **7**，横纵标准差均为 **1.4**，边界为 `BORDER_REFLECT_101`；模糊必须接缩放结果。保存文件的实际形状分别为：
 
+<!-- qing-table:w=220,236,166 -->
 | 文件 | 读回形状 | 读回类型 |
 | --- | --- | --- |
 | `rotated.png` | `(196, 318, 3)` | `uint8` |
@@ -285,11 +286,147 @@ for index in range(len(file_names)):  # 用已经熟悉的循环逐张保存与�
 
 ### 我的练习解答
 
-（在此粘贴你的代码与完整真实运行结果）
+> 2026-11-13 按本人授权同步为教师协助修正版，**不是学生独立完成记录**。原提交代码、原4行运行输出与原图片完整保存在 [teacher/原提交_20261113_204654](teacher/原提交_20261113_204654/manifest.json)。原提交先实跑，原始问题与逐项结论见 [教师批改](teacher/第四课_教师批改_2026-11-13.md)。
+
+```python
+import os, cv2
+import numpy as np
+
+BASE = os.path.dirname(os.path.abspath(__file__))
+INPUT_DIR = os.path.join(BASE, 'input')
+INPUT_PATH = os.path.join(INPUT_DIR, 'practice_aug.png')
+OUTPUT_DIR = os.path.join(BASE, 'output_practice')
+# 老师修改：原来创建相对目录却按脚本目录保存 → 创建实际保存目录，避免换工作目录后缺目录。
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+# 老师删除：EXTENSIONS 没有被使用；本题处理指定图片，删除无效变量。
+
+# 老师保留：fromfile 与 imdecode 是原提交已有的中文路径安全读取，本机中文绝对路径 imread 实测失败。
+img_decode = cv2.imdecode(np.fromfile(INPUT_PATH, dtype=np.uint8), cv2.IMREAD_COLOR)
+if img_decode is None:
+	raise FileNotFoundError('File is not found!')
+print(img_decode.shape, img_decode.dtype)
+
+# 老师新增：原来只跑一次 → 同进程完整处理两轮，每轮重建同种子生成器，打印来自真实计算。
+first_images = []  # 老师新增：在循环前初始化首轮副本容器，确保第二轮引用的变量已定义。
+for run_index in range(2):
+    rng = np.random.default_rng(37)
+    angle = float(rng.uniform(-28, 28))
+    alpha = float(rng.uniform(0.85, 1.35))
+    # 老师修改：原上界 35 不包含 35 → 改为 36，覆盖题目要求的两端。
+    beta = int(rng.integers(-35, 36))
+    print('random angle alpha number :', round(angle, 6), round(alpha, 6), beta)
+
+    h, w = img_decode.shape[:2]
+    # 老师修改：原中心偏离像素坐标中点 → 宽高先减一再除二，符合本题中心约定。
+    center = ((w - 1) / 2, (h - 1) / 2)
+    matrix = cv2.getRotationMatrix2D(center, angle, scale=1.0)
+    rotated = cv2.warpAffine(img_decode, matrix, (w, h), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT,
+                             borderValue=(0, 0, 0))
+
+    raw = rotated.astype(np.float32) * alpha + beta
+    print('截断前最小，最大：', float(raw.min()), float(raw.max()))
+    clipped = np.clip(raw, 0, 255)
+    bright = clipped.astype(np.uint8)
+    print('截断后最小，最大：', float(bright.min()), float(bright.max()))
+
+    crop_width = 180
+    crop_height = 120
+    x = int(rng.integers(0, w - crop_width + 1))
+    y = int(rng.integers(0, h - crop_height + 1))
+    crop = bright[y:y + crop_height, x:x + crop_width]
+    # 老师新增：原来漏打裁剪位置与形状 → 输出实际值，使裁剪合同可以验收。
+    print('裁剪左、上、宽、高：', x, y, crop_width, crop_height)
+    print('裁剪图 shape：', crop.shape)
+
+    resized = cv2.resize(crop, (144, 96), interpolation=cv2.INTER_AREA)
+    # 老师修改：原来照搬演示的 5×5、1.1 → 本题核为 7×7，横纵标准差均为 1.4。
+    blurred = cv2.GaussianBlur(resized, (7, 7), sigmaX=1.4, sigmaY=1.4, borderType=cv2.BORDER_REFLECT_101)
+    # 老师新增：补打最终实际形状与类型，不能只凭参数认定保存尺寸。
+    print('最终图 shape、dtype：', blurred.shape, blurred.dtype)
+
+    file_names = ['rotated.png', 'brightness.png', 'crop.png', 'resized.png', 'blurred.png']  # 按处理顺序列出要保存的文件名
+    images = [rotated, bright, crop, resized, blurred]  # 同一顺序列出各阶段数组
+
+    if run_index == 0:
+        for index in range(len(file_names)):
+            save_path = os.path.join(OUTPUT_DIR, file_names[index])
+            ok, buf = cv2.imencode('.png', images[index])
+            # 老师修改：原来编码失败静默跳过 → 明确报错，成功后仍使用原来的中文路径安全写法。
+            if not ok:
+                raise RuntimeError('编码失败：' + file_names[index])
+            buf.tofile(save_path)
+            # 老师新增：原来未读回 → 保留实际通道解码，并逐像素比较整图，不能只检查文件存在。
+            saved = cv2.imdecode(np.fromfile(save_path, dtype=np.uint8), cv2.IMREAD_UNCHANGED)
+            if saved is None:
+                raise RuntimeError('读回失败：' + file_names[index])
+            same = np.array_equal(saved, images[index])
+            if not same:
+                raise RuntimeError('像素不一致：' + file_names[index])
+            print('读回：', file_names[index], saved.shape, saved.dtype, '像素一致：', same)
+        # 老师新增：首轮保存所有阶段的独立副本，用于与第二轮真实重算结果比较。
+        first_images = []
+        for image in images:
+            first_images.append(image.copy())
+    else:
+        # 老师新增：原来没有同进程重放 → 与第二轮新生成的整图逐阶段比较，而不是把数组与自身比较。
+        same_stages = True
+        for index in range(len(images)):
+            if not np.array_equal(first_images[index], images[index]):
+                same_stages = False
+        same_final = np.array_equal(first_images[-1], blurred)
+        if not same_final or not same_stages:
+            raise RuntimeError('同种子重放像素不一致')
+        print('同进程重建同种子，最终全图一致：', same_final)
+        print('同进程重建同种子，全部阶段一致：', same_stages)
+
+# 老师新增：原提交未回答概念题 → 补充教师参考解释，不计作学生独立作答。
+# getRotationMatrix2D 只计算坐标变换矩阵；warpAffine 才把矩阵用于图像，生成新数组。
+# 先转 float32 保留负数和超范围值，再 clip 到 0～255，最后转 uint8，避免提前整数转换丢失信息。
+# 同一生成器连续抽样会推进状态；重建同种子生成器且保持抽样顺序，才从同一起点重放。
+```
+
+**老师实跑证据**（修正版，BaiQing3.10AI，退出码0，stderr为空）：
+
+```text
+(196, 318, 3) uint8
+random angle alpha number : 11.43257 1.180834 -17
+截断前最小，最大： -17.0 284.1127624511719
+截断后最小，最大： 0.0 255.0
+裁剪左、上、宽、高： 9 70 180 120
+裁剪图 shape： (120, 180, 3)
+最终图 shape、dtype： (96, 144, 3) uint8
+读回： rotated.png (196, 318, 3) uint8 像素一致： True
+读回： brightness.png (196, 318, 3) uint8 像素一致： True
+读回： crop.png (120, 180, 3) uint8 像素一致： True
+读回： resized.png (96, 144, 3) uint8 像素一致： True
+读回： blurred.png (96, 144, 3) uint8 像素一致： True
+random angle alpha number : 11.43257 1.180834 -17
+截断前最小，最大： -17.0 284.1127624511719
+截断后最小，最大： 0.0 255.0
+裁剪左、上、宽、高： 9 70 180 120
+裁剪图 shape： (120, 180, 3)
+最终图 shape、dtype： (96, 144, 3) uint8
+同进程重建同种子，最终全图一致： True
+同进程重建同种子，全部阶段一致： True
+```
+
+### 老师批改·第1轮（2026-11-13，批改对象：本课test.py）
+
+原提交可运行，学生原贴输出可复现；原版整数上界、旋转中心和模糊参数不符，另缺裁剪打印、保存读回、重复性比较和三项概念解释。教师已保存原件、直接修正并实跑全部验收点。两个无输出目录副本、课程真实工作目录和跨目录启动通过，全部5张图片逐像素等于指定流程，两个新进程stdout和文件哈希一致。
+
+详细原问题、正确写法、准确替换位置、完整逐行注释参考答案与真实输出见 [第四课教师批改](teacher/第四课_教师批改_2026-11-13.md)。
+
+✅ **教师协助修正后通过，本课作业关闭。** 教师补写的重放校验及概念解释未登记独立掌握。
 
 ### 我的疑问
 
-（记录暂时没想通的地方）
+（原占位保留：记录暂时没想通的地方）
+
+### 老师答疑
+
+本轮具体修正为：整数上界35→36，中心改为像素坐标中点，模糊参数改为练习规定的核与标准差；补齐实际目录创建、编码失败报错、全部阶段读回与全像素比较、同进程重建生成器重做流程和三项文字参考解释。每处代码改动均有“老师修改／老师新增／老师删除”原因注释。
+
+完整解释和真实证据见 [教师批改中的错误点参考答案与老师答疑](teacher/第四课_教师批改_2026-11-13.md)。第五课《TorchVision与OpenCV同款增强对比》仅告知内容，等本人决定开课；单元测试①待安排，本轮未开卷。
 
 ## 【本节重点总结】
 
