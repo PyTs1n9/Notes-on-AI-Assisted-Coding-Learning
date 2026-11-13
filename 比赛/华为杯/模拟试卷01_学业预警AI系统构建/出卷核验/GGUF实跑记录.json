@@ -1,0 +1,84 @@
+{
+  "purpose": "Only synthetic S-DEMO runtime feasibility, not exam reference answers",
+  "executable": "D:\\Conda_envs\\envs\\BaiQing3.10LLM\\python.exe",
+  "python": "3.10.19 | packaged by Anaconda, Inc. | (main, Oct 21 2025, 16:41:31) [MSC v.1929 64 bit (AMD64)]",
+  "llama_cpp_version": "0.3.36",
+  "llama_library": "D:\\Conda_envs\\envs\\BaiQing3.10LLM\\Library\\bin\\llama.dll",
+  "pythonpath_present": false,
+  "scratch": "C:\\Users\\Administrator\\AppData\\Local\\hermes\\cache\\scratch",
+  "attempt": "unicode_absolute",
+  "cwd": "D:\\Code\\HermesCache",
+  "parameters": {
+    "model_path": "D:/Code/Python/人工智能基础/比赛/华为杯/比赛相关/轻量量化模型/qwen2-0_5b-instruct-q4_k_m.gguf",
+    "n_ctx": 2048,
+    "n_gpu_layers": 0,
+    "n_threads": 4,
+    "n_threads_batch": 4,
+    "offload_kqv": false,
+    "seed": 42,
+    "verbose": false
+  },
+  "generation_parameters": {
+    "temperature": 0,
+    "max_tokens": 256,
+    "seed": 42,
+    "stream": false
+  },
+  "messages": [
+    {
+      "role": "system",
+      "content": "你是学业支持助手。仅根据用户提供的事实给出简短中文建议，不编造信息。"
+    },
+    {
+      "role": "user",
+      "content": "这是运行可行性测试。虚构学生 S-DEMO，风险概率=0.82，出勤率=0.68，作业均分=58。只使用这些证据，输出恰好三行中文，依次以“风险：”“依据：”“建议：”开头。风险仅指学业风险，不作医学诊断。不得虚构疾病、心理、家庭情况或其他成绩数据。建议应为可执行的学习支持措施，不保证效果。不得添加标题、编号、空行或解释。"
+    }
+  ],
+  "load_seconds": 0.4129216000001179,
+  "model_metadata": {
+    "general.name": "qwen2-0_5b-instruct",
+    "general.architecture": "qwen2",
+    "qwen2.context_length": "32768",
+    "general.file_type": "15",
+    "tokenizer.chat_template": "{% for message in messages %}{% if loop.first and messages[0]['role'] != 'system' %}{{ '<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n' }}{% endif %}{{'<|im_start|>' + message['role'] + '\n' + message['content'] + '<|im_end|>' + '\n'}}{% endfor %}{% if add_generation_prompt %}{{ '<|im_start|>assistant\n' }}{% endif %}"
+  },
+  "chat_format_selected": "chat_template.default",
+  "completion_seconds": 0.7653272000025027,
+  "completion": {
+    "id": "chatcmpl-c218a868-1004-4cb6-b6f2-53b27058fd5b",
+    "object": "chat.completion",
+    "created": 1794534500,
+    "model": "D:/Code/Python/人工智能基础/比赛/华为杯/比赛相关/轻量量化模型/qwen2-0_5b-instruct-q4_k_m.gguf",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "风险：作业均分低，风险概率低。依据：作业均分低，风险概率低。建议：增加作业难度，提高作业质量。"
+        },
+        "logprobs": null,
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 144,
+      "completion_tokens": 32,
+      "total_tokens": 176
+    }
+  },
+  "mechanical_output_checks": {
+    "nonempty_line_count": 1,
+    "exactly_three_nonempty_lines": false,
+    "raw_line_count": 1,
+    "has_blank_lines": false,
+    "ordered_required_prefixes": false,
+    "mentions_student": false,
+    "mentions_risk_0_82_or_82pct": false,
+    "mentions_attendance_0_68_or_68pct": false,
+    "mentions_score_58": false,
+    "finish_reason_is_stop": true,
+    "requires_human_semantic_review": true
+  },
+  "ok": true,
+  "total_seconds": 1.236849599998095
+}

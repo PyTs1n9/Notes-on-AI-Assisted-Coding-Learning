@@ -1,0 +1,40 @@
+{
+  "description": "资源字节完整性；不含考试答案",
+  "files": [
+    {
+      "path": "data/student_warning_exam.csv",
+      "bytes": 74405,
+      "sha256": "847d7039b8d8b5f9873ca98f17140e8575e37f4f19034d03fdb0cdd94992f492"
+    },
+    {
+      "path": "data/student-por_original.csv",
+      "bytes": 93220,
+      "sha256": "a7594a11d7771c0efe1a740824e0e833da9c4cad07c39a9766a874575563fb3f"
+    },
+    {
+      "path": "data/UCI_原始字段说明.txt",
+      "bytes": 3206,
+      "sha256": "f8d3e734e237071312790ca667330c66d75e706317f8d5e2125c479d70e962c1"
+    },
+    {
+      "path": "../比赛相关/样题.md",
+      "bytes": 1912,
+      "sha256": "39075b8438b0e83ac1aec0581865ce3c8b4e19be264975d80563f0deeafe4635"
+    },
+    {
+      "path": "../比赛相关/竞赛内容.md",
+      "bytes": 1158,
+      "sha256": "1fe509e9ab8c142326df6f5baf961f88be9680fb02fceaeb045fceb2ffd97283"
+    },
+    {
+      "path": "../比赛相关/竞赛软件.md",
+      "bytes": 420,
+      "sha256": "bb9a0895c41e7160e8ab7fef5872cb9daa8a769b71114d4aba7da4e719550255"
+    },
+    {
+      "path": "../比赛相关/轻量量化模型/qwen2-0_5b-instruct-q4_k_m.gguf",
+      "bytes": 397805248,
+      "sha256": "f0a42bb979ca62b5e61f3bf924ab4b6a40aa091825ee7dcb4039949980ab81a8"
+    }
+  ]
+}

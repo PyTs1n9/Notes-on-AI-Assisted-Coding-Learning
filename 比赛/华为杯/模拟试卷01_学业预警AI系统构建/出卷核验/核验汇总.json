@@ -1,0 +1,228 @@
+{
+  "date": "2026-11-13",
+  "purpose": "出卷可行性验证；不是学生答卷或标准答案",
+  "dual_interpreter_reference_equal": true,
+  "rubric_points": [
+    12,
+    16,
+    18,
+    20,
+    18,
+    16
+  ],
+  "total_points": 100,
+  "new_process_reload": {
+    "conda_portable": {
+      "lr": {
+        "new_process_max_difference": 0.0,
+        "rows": 129
+      },
+      "lgbm": {
+        "new_process_max_difference": 0.0,
+        "rows": 129
+      },
+      "optimized": {
+        "new_process_max_difference": 0.0,
+        "rows": 129
+      }
+    },
+    "teacher_portable": {
+      "lr": {
+        "new_process_max_difference": 0.0,
+        "rows": 129
+      },
+      "lgbm": {
+        "new_process_max_difference": 0.0,
+        "rows": 129
+      },
+      "optimized": {
+        "new_process_max_difference": 0.0,
+        "rows": 129
+      }
+    }
+  },
+  "products": {
+    "conda_products": {
+      "tables_readback": {
+        "missing_profile": {
+          "rows": 34,
+          "columns": 3
+        },
+        "grade_distribution": {
+          "rows": 3,
+          "columns": 2
+        },
+        "row_cleaning_log": {
+          "rows": 3,
+          "columns": 4
+        },
+        "absence_outliers": {
+          "rows": 4,
+          "columns": 2
+        },
+        "eligible_students": {
+          "rows": 645,
+          "columns": 35
+        },
+        "label_distribution": {
+          "rows": 2,
+          "columns": 3
+        },
+        "split_ids": {
+          "rows": 645,
+          "columns": 3
+        },
+        "train_features": {
+          "rows": 516,
+          "columns": 58
+        },
+        "test_features": {
+          "rows": 129,
+          "columns": 58
+        },
+        "baseline_metrics": {
+          "rows": 2,
+          "columns": 10
+        },
+        "optimized_metrics": {
+          "rows": 1,
+          "columns": 10
+        },
+        "cv_results": {
+          "rows": 6,
+          "columns": 15
+        },
+        "feature_importance": {
+          "rows": 116,
+          "columns": 4
+        },
+        "test_predictions": {
+          "rows": 129,
+          "columns": 6
+        },
+        "risk_top5": {
+          "rows": 5,
+          "columns": 8
+        }
+      },
+      "images_decoded": {
+        "confusion_lgbm.png": {
+          "width": 640,
+          "height": 480
+        },
+        "confusion_lr.png": {
+          "width": 640,
+          "height": 480
+        },
+        "grade_distribution.png": {
+          "width": 640,
+          "height": 480
+        },
+        "importance_lgbm.png": {
+          "width": 1000,
+          "height": 500
+        },
+        "importance_lr.png": {
+          "width": 1000,
+          "height": 500
+        }
+      },
+      "all_products_outside_exam_folder": true,
+      "train_test_alignment": true,
+      "risk_order_verified": true
+    },
+    "teacher_products": {
+      "tables_readback": {
+        "missing_profile": {
+          "rows": 34,
+          "columns": 3
+        },
+        "grade_distribution": {
+          "rows": 3,
+          "columns": 2
+        },
+        "row_cleaning_log": {
+          "rows": 3,
+          "columns": 4
+        },
+        "absence_outliers": {
+          "rows": 4,
+          "columns": 2
+        },
+        "eligible_students": {
+          "rows": 645,
+          "columns": 35
+        },
+        "label_distribution": {
+          "rows": 2,
+          "columns": 3
+        },
+        "split_ids": {
+          "rows": 645,
+          "columns": 3
+        },
+        "train_features": {
+          "rows": 516,
+          "columns": 58
+        },
+        "test_features": {
+          "rows": 129,
+          "columns": 58
+        },
+        "baseline_metrics": {
+          "rows": 2,
+          "columns": 10
+        },
+        "optimized_metrics": {
+          "rows": 1,
+          "columns": 10
+        },
+        "cv_results": {
+          "rows": 6,
+          "columns": 15
+        },
+        "feature_importance": {
+          "rows": 116,
+          "columns": 4
+        },
+        "test_predictions": {
+          "rows": 129,
+          "columns": 6
+        },
+        "risk_top5": {
+          "rows": 5,
+          "columns": 8
+        }
+      },
+      "images_decoded": {
+        "confusion_lgbm.png": {
+          "width": 640,
+          "height": 480
+        },
+        "confusion_lr.png": {
+          "width": 640,
+          "height": 480
+        },
+        "grade_distribution.png": {
+          "width": 640,
+          "height": 480
+        },
+        "importance_lgbm.png": {
+          "width": 1000,
+          "height": 500
+        },
+        "importance_lr.png": {
+          "width": 1000,
+          "height": 500
+        }
+      },
+      "all_products_outside_exam_folder": true,
+      "train_test_alignment": true,
+      "risk_order_verified": true
+    }
+  },
+  "gguf_single_smoke_test_runtime_success": true,
+  "gguf_report_quality_pass": false,
+  "gguf_batch_reports_tested": false,
+  "existing_environments_modified": false
+}

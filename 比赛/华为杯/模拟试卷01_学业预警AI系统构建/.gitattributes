@@ -1,0 +1,4 @@
+# Preserve supplied/source data bytes so resource hashes survive checkout.
+data/student-por_original.csv -text
+data/student_warning_exam.csv -text
+data/UCI_原始字段说明.txt -text whitespace=-blank-at-eol
