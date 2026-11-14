@@ -1,0 +1,219 @@
+{
+  "date": "2026-11-14T10:39:10.881261+08:00",
+  "original_manifest": {
+    "05_第五课：TorchVision与OpenCV同款增强对比.md": {
+      "sha256": "87e08916bef4e73e91e562b060de4ac1a3bb9eaac15ae0254c80c44ea2a85a51",
+      "size": 25922,
+      "mtime": "2026-11-14T10:36:52.463272+08:00"
+    },
+    "demo.py": {
+      "sha256": "4096fa9ec3930f72d40254ab3532e81339f83c62223f454bdca10108de721303",
+      "size": 7953,
+      "mtime": "2026-11-13T21:45:54.884000+08:00"
+    },
+    "demo_focus.py": {
+      "sha256": "991bface1c9903035e6afc4ae0ef71d160e568d562278b12098e4609ab05fae8",
+      "size": 2322,
+      "mtime": "2026-11-13T22:03:20.989836+08:00"
+    },
+    "test.py": {
+      "sha256": "455ee46b09ec0354cc81f6553752f87b0d4fd60cf2014f66188a482388b66303",
+      "size": 1952,
+      "mtime": "2026-11-14T10:36:23.734000+08:00"
+    },
+    "input\\compare_demo.png": {
+      "sha256": "ed01b176d7596a038bf688dac283e819c57d138908c5f37d710cc24be88bca0e",
+      "size": 3045,
+      "mtime": "2026-11-13T21:04:42.990586+08:00"
+    },
+    "input\\compare_practice.png": {
+      "sha256": "71d8e9ea36b1da06f97826ddf96fdc0a7bcb1ec19ce1c94436464b1e60100b56",
+      "size": 3981,
+      "mtime": "2026-11-13T21:04:42.996096+08:00"
+    },
+    "input\\素材说明.md": {
+      "sha256": "5d73b8d05aa61b5cead1d7bec243e94abfa5a967818b0d602c666d804c5ad5aa",
+      "size": 602,
+      "mtime": "2026-11-13T21:09:40.003788+08:00"
+    },
+    "output_demo\\flip_cv.png": {
+      "sha256": "3bbafb85c3bbb030dc3541e2ae2abc01d17ba1f13d6eb7bcc36bd934bc4fdc4f",
+      "size": 30430,
+      "mtime": "2026-11-13T21:13:53.300315+08:00"
+    },
+    "output_demo\\flip_tv.png": {
+      "sha256": "87e8130e925ea08f94c09798232e72525a7260e77aaa4eaf3ad5678180fdeb09",
+      "size": 3127,
+      "mtime": "2026-11-13T21:13:53.300315+08:00"
+    },
+    "output_demo\\resize_cv.png": {
+      "sha256": "7fade5f78f9f6b02d7eaeb48173de87ce8a4d91e12ef4deccbdd79108e68b472",
+      "size": 15147,
+      "mtime": "2026-11-13T21:13:53.303316+08:00"
+    },
+    "output_demo\\resize_tv.png": {
+      "sha256": "e1658842f77de79e0df957e386d13c70b50b2cb6acdba4cdb801af16f908cf26",
+      "size": 13503,
+      "mtime": "2026-11-13T21:13:53.303316+08:00"
+    },
+    "output_demo\\rotate_cv.png": {
+      "sha256": "695ea9a4c9a687282c645be02ef218b782da1182bec426da3085ab890b23499a",
+      "size": 50137,
+      "mtime": "2026-11-13T21:13:53.310335+08:00"
+    },
+    "output_demo\\rotate_tv.png": {
+      "sha256": "5ac69bca2bca83dd2e0710581ebf59d9abe4c239b00d4cef55a72ac66b1916a8",
+      "size": 30597,
+      "mtime": "2026-11-13T21:13:53.309335+08:00"
+    }
+  },
+  "source_sha256": "7c99db07ce3a78dbc3453ec665af41cd551dbe4a84cd82d460ec4e200c384316",
+  "original_runs": {
+    "test.py": {
+      "exit_code": 0,
+      "stdout": "A未统一颜色比较： False\nA统一颜色后比较： True\nB未统一颜色比较： False\nB统一颜色后比较： True\n",
+      "stderr": ""
+    },
+    "demo_focus.py": {
+      "exit_code": 0,
+      "stdout": "未统一颜色的翻转比较： False\n统一颜色后的翻转比较： True\n缩放全图相等、平均分量差： False 5.440295\n",
+      "stderr": ""
+    },
+    "demo.py": {
+      "exit_code": 0,
+      "stdout": "输入 PIL size、mode： (287, 173) RGB\n输入数组 shape、dtype： (173, 287, 3) uint8\n原始数组直接相等： False\n统一 RGB 后相等： True\n水平翻转 RGB 全图相等： True\n缩放两图 shape： (97, 151, 3) (97, 151, 3)\n缩放全图相等、最大分量差、平均分量差： False 113 5.440295\n共享角度： 7.310365\n旋转两图 shape： (173, 287, 3) (173, 287, 3)\n旋转全图相等、最大分量差、平均分量差： False 120 0.524917\n各自重置后角度复现： True True\n相同种子：TorchVision角度、NumPy角度： -2.209522 7.310365\n读回： flip_tv.png (173, 287, 3) uint8 像素一致： True\n读回： flip_cv.png (173, 287, 3) uint8 像素一致： True\n读回： resize_tv.png (97, 151, 3) uint8 像素一致： True\n读回： resize_cv.png (97, 151, 3) uint8 像素一致： True\n读回： rotate_tv.png (173, 287, 3) uint8 像素一致： True\n读回： rotate_cv.png (173, 287, 3) uint8 像素一致： True\n",
+      "stderr": ""
+    }
+  },
+  "final_runs": {
+    "clean1": {
+      "all_checks_passed": true,
+      "stdout": "TorchVision 角度、A/B全图相等、平均绝对分量差： 0 True 0.0\nOpenCV 角度、A/B全图相等、平均绝对分量差： 0 True 0.0\nTorchVision 角度、A/B全图相等、平均绝对分量差： 19 False 84.088477\nOpenCV 角度、A/B全图相等、平均绝对分量差： 19 False 84.029613\n",
+      "cases": [
+        {
+          "angle": 0,
+          "tv_equal": true,
+          "cv_equal": true,
+          "tv_mean": 0.0,
+          "cv_mean": 0.0,
+          "shape": [
+            211,
+            337,
+            3
+          ],
+          "dtype": "uint8",
+          "reference_all_pixels_match": true,
+          "array_hashes": [
+            "e506741effd77dc9d30c9148e6d33b4b5e97082f4ca071fb39a0838402a152f3",
+            "e506741effd77dc9d30c9148e6d33b4b5e97082f4ca071fb39a0838402a152f3",
+            "ab915162d9dc566ad266219c2dcdc8c0e1602f199c5e1c03f0bc783bbc62d661",
+            "ab915162d9dc566ad266219c2dcdc8c0e1602f199c5e1c03f0bc783bbc62d661"
+          ]
+        },
+        {
+          "angle": 19,
+          "tv_equal": false,
+          "cv_equal": false,
+          "tv_mean": 84.08847699007599,
+          "cv_mean": 84.0296126494813,
+          "shape": [
+            211,
+            337,
+            3
+          ],
+          "dtype": "uint8",
+          "reference_all_pixels_match": true,
+          "array_hashes": [
+            "fb168cac2efa4389ef93e3340d002a40e0e49c3a70a22da5fe064068c0f06f4f",
+            "17056236f222b722b12950d4a2be011e634e5331cee244b1a085ffe714e964d2",
+            "aa8eccc0ff9ef7650e1d96390ef53ca431f21207c7a10f53f164b9a5c8833325",
+            "843636cf25ca4580bf5608e364ad03dc987531c75e36bb4567531a78b8e09905"
+          ]
+        }
+      ],
+      "cv2": "5.0.0"
+    },
+    "clean2": {
+      "all_checks_passed": true,
+      "stdout": "TorchVision 角度、A/B全图相等、平均绝对分量差： 0 True 0.0\nOpenCV 角度、A/B全图相等、平均绝对分量差： 0 True 0.0\nTorchVision 角度、A/B全图相等、平均绝对分量差： 19 False 84.088477\nOpenCV 角度、A/B全图相等、平均绝对分量差： 19 False 84.029613\n",
+      "cases": [
+        {
+          "angle": 0,
+          "tv_equal": true,
+          "cv_equal": true,
+          "tv_mean": 0.0,
+          "cv_mean": 0.0,
+          "shape": [
+            211,
+            337,
+            3
+          ],
+          "dtype": "uint8",
+          "reference_all_pixels_match": true,
+          "array_hashes": [
+            "e506741effd77dc9d30c9148e6d33b4b5e97082f4ca071fb39a0838402a152f3",
+            "e506741effd77dc9d30c9148e6d33b4b5e97082f4ca071fb39a0838402a152f3",
+            "ab915162d9dc566ad266219c2dcdc8c0e1602f199c5e1c03f0bc783bbc62d661",
+            "ab915162d9dc566ad266219c2dcdc8c0e1602f199c5e1c03f0bc783bbc62d661"
+          ]
+        },
+        {
+          "angle": 19,
+          "tv_equal": false,
+          "cv_equal": false,
+          "tv_mean": 84.08847699007599,
+          "cv_mean": 84.0296126494813,
+          "shape": [
+            211,
+            337,
+            3
+          ],
+          "dtype": "uint8",
+          "reference_all_pixels_match": true,
+          "array_hashes": [
+            "fb168cac2efa4389ef93e3340d002a40e0e49c3a70a22da5fe064068c0f06f4f",
+            "17056236f222b722b12950d4a2be011e634e5331cee244b1a085ffe714e964d2",
+            "aa8eccc0ff9ef7650e1d96390ef53ca431f21207c7a10f53f164b9a5c8833325",
+            "843636cf25ca4580bf5608e364ad03dc987531c75e36bb4567531a78b8e09905"
+          ]
+        }
+      ],
+      "cv2": "5.0.0"
+    },
+    "real_lesson": {
+      "exit_code": 0,
+      "stdout": "TorchVision 角度、A/B全图相等、平均绝对分量差： 0 True 0.0\nOpenCV 角度、A/B全图相等、平均绝对分量差： 0 True 0.0\nTorchVision 角度、A/B全图相等、平均绝对分量差： 19 False 84.088477\nOpenCV 角度、A/B全图相等、平均绝对分量差： 19 False 84.029613\n",
+      "stderr": ""
+    },
+    "cross_cwd": {
+      "exit_code": 0,
+      "stdout": "TorchVision 角度、A/B全图相等、平均绝对分量差： 0 True 0.0\nOpenCV 角度、A/B全图相等、平均绝对分量差： 0 True 0.0\nTorchVision 角度、A/B全图相等、平均绝对分量差： 19 False 84.088477\nOpenCV 角度、A/B全图相等、平均绝对分量差： 19 False 84.029613\n",
+      "stderr": ""
+    },
+    "venv_probe": {
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\nModuleNotFoundError: No module named 'cv2'\n"
+    }
+  },
+  "document_audits": {
+    "demo": {
+      "exit_code": 0,
+      "stdout": "fence parity: ok (8 fence lines)\noutput match: ok (3 lines, run == pasted)\n",
+      "stderr": ""
+    },
+    "exercise_doc": {
+      "exit_code": 0,
+      "stdout": "fence parity: ok (8 fence lines)\noutput match: ok (4 lines, run == pasted)\n",
+      "stderr": ""
+    },
+    "reference": {
+      "exit_code": 0,
+      "stdout": "fence parity: ok (6 fence lines)\noutput match: ok (4 lines, run == pasted)\n",
+      "stderr": ""
+    }
+  },
+  "reference_ast_identical": true,
+  "scope": "教师协助修正后通过；本题无图片保存要求，不增设落盘门槛",
+  "fence_count": 8
+}
