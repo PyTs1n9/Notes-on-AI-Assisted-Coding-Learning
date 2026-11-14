@@ -1,6 +1,6 @@
 # 第八课：PyTorch基础一：Tensor与设备
 
-> 2026-11-14开课。第五课已教师协助修正后通过并完成双远程归档；按既定安排05后直接接08，06、07编号留空且不记通过。当前课件与演示已验证，课后练习待提交，不登记独立掌握。
+> 2026-11-14开课。第五课已教师协助修正后通过并完成双远程归档；按既定安排05后直接接08，06、07编号留空且不记通过。第八课原提交已完成批改，教师修正并实跑通过后关闭本课；修正版功能通过不等于本人独立掌握。
 > 学生继续使用 `D:/Conda_envs/envs/BaiQing3.10AI/python.exe`。本机学生环境 PyTorch 为 `2.11.0+cu128`；教师 `.venv` 缺少 `torch`，所以本文件不能标成“双环境验证通过”。下方真实输出来自学生解释器运行本文件确切代码；未安装或改动任何环境。
 
 ## 【本节核心知识点】
@@ -240,7 +240,7 @@ print('原设备/目标设备/往返相等：', bchw.device, on_device.device, t
 - 所有像素都满足原行列坐标对应、各颜色分量减去同色偏移的要求；不截断、不取绝对值、不把RGB倒置、不引入归一化。打印必要证据即可，无固定措辞或print数量要求。
 - 本题未提供私有参考代码或正确像素答案；验收看真实计算与解释，不要求复刻演示的实现顺序。
 
-> ⚠️ 固定使用你的 conda **BaiQing3.10AI**，解释器为 `D:/Conda_envs/envs/BaiQing3.10AI/python.exe`；提交完整代码、预测、真实输出和运行后的解释。练习代码不要求逐行注释。代码写入本课 `test.py`；当前练习待提交，课件和教师实跑不等于本人独立掌握。
+> ⚠️ 固定使用你的 conda **BaiQing3.10AI**，解释器为 `D:/Conda_envs/envs/BaiQing3.10AI/python.exe`；提交完整代码、预测、真实输出和运行后的解释。练习代码不要求逐行注释。代码写入本课 `test.py`。**本课已教师协助修正后通过并关闭**：下方“我的练习解答”保留原提交，后续教师修正版、实跑输出与参考解释用于对照；教师协助不等于本人独立掌握。
 
 ### 我的练习解答
 ```python
@@ -265,14 +265,124 @@ if torch.cuda.is_available():
 on_device = pixels_b_chw.to(device=device)  # 函数⑩：接住设备转换结果，不改变原变量。
 back_on_cpu = on_device.to(device='cpu')  # 函数⑩：回CPU后用一致设备核对数值。
 ```
-```
+```text
 torch.Size([2, 3, 3]) torch.uint8
 torch.Size([3]) torch.uint8
 
 torch.Size([1, 3, 2, 3]) torch.float32
 ```
+
+#### 老师批改·第1轮（2026-11-14，批改对象：`test.py` 原提交）
+
+- 原提交备份：`teacher/原提交_20261114_153432/`；`test.py` SHA-256 为 `b10a1402fcfb16739f9923abfb60c4858f591bcdf19d505d1e43e3777415aec2`。
+- 学生原提交在当前 CUDA 可用环境下退出码为 0，文档所贴三行输出与原文件实跑一致；这只证明已有三行能复现，不能代替题目要求的完整验收证据。
+- 原提交的输入 shape/dtype 与批次 shape/dtype 通过；其余“负值保留、CHW 通道对齐、全量比较、设备往返、CPU 回退、运行后解释”未完成或有错误。
+
+| 验收点 | 原提交结论 | 教师修正与证据 |
+|---|---|---|
+| 原像素与偏移输入 | ✅ 通过：`(2, 3, 3)`、`(3,)`，均为 `torch.uint8`，输入内容未改 | 保留原写法，并补充统一的输入输出打印。 |
+| BCHW 结果 | ✅ 通过：原提交打印 `torch.Size([1, 3, 2, 3]) torch.float32` | 修正版继续从正确的 CHW 结果补批次轴，并打印最终结果。 |
+| 类型转换先后 | ❌ 待修正：原提交写“应该先相减再改浮点”，且只计算 `pixels_j = hwc_pixels - hwc_offsets`，没有显示负值或浮点对照 | 修正版同时把两个操作数转为 `float32`；真实输出显示先 `uint8` 计算得到 `[251., 248., 246.]`，先转浮点再计算得到 `[-5., -8., -10.]`。 |
+| CHW 通道偏移 | ❌ 未完成：原提交没有对 `pixels_chw` 做偏移，也没有证明一维偏移实际广播到哪根轴 | 修正版同时保留错误广播和 `(3, 1, 1)` 正确通道对齐；同一像素输出不同，整体比较为 `False`。 |
+| 全量对应关系 | ❌ 未完成：原提交没有 `torch.equal` 或同等的完整比较 | 修正版比较正确 HWC 与正确 CHW 换回 HWC 的全部元素，结果为 `True`。 |
+| 设备与 CPU 回退 | ❌ 待修正：`device` 只在 CUDA 分支内定义；强制 CPU 的临时副本实跑报 `NameError: name 'device' is not defined` | 修正版先设 CPU 默认值，再按检测结果切换；CUDA 与强制 CPU 两条路径均退出码 0。 |
+| 运行后解释 | ❌ 未完成：只有一行预测注释，没有根据实跑结果解释 dtype 下溢、广播轴和 shape 陷阱 | 教师在下方提供完整参考解释；归属教师参考，不冒充学生原作答。 |
+
+**验收结论：教师协助修正后通过，本课作业关闭。** 修正版在 `BaiQing3.10AI` 下 CUDA 路径与强制 CPU 路径均实跑通过；原提交的问题已在源码旁逐处批注。该结论证明修正版功能和证据完整，不把教师修正登记为本人独立掌握。
+
+### 错误点参考答案
+
+覆盖索引：类型转换先后→①；广播通道对齐与全量比较→②；CPU 默认设备与返回值→③；预测和运行后解释→④。以下代码是教师修正后的完整可运行版本，插入/替换范围为 `test.py` 全文件；学生原文件已保存在上述备份目录，没有被覆盖。
+
+#### 完整修正版
+
+```python
+import torch  # 导入本题使用的PyTorch。
+
+pixels = [[[3, 22, 60], [9, 45, 80], [18, 65, 95]], [[25, 15, 120], [40, 35, 140], [55, 75, 160]]]  # 保留题目给定的HWC、RGB像素。
+offsets = [8, 30, 70]  # 保留题目给定的RGB通道偏移。
+
+hwc_pixels = torch.tensor(pixels, dtype=torch.uint8, device='cpu')  # 函数①：按原始像素类型创建HWC张量。
+hwc_offsets = torch.tensor(offsets, dtype=torch.uint8, device='cpu')  # 函数①：按原始整数类型创建偏移张量。
+print('输入shape/dtype：', hwc_pixels.shape, hwc_pixels.dtype, hwc_offsets.shape, hwc_offsets.dtype)  # 函数②：核对两个原始输入。
+
+# 老师修改：原来只把像素转成float32，偏移仍是uint8；现把两个减法操作数一起转成float32，避免负数下溢。
+pixels_float = hwc_pixels.to(dtype=torch.float32)  # 函数⑩：先把像素转为能保存负数的类型。
+offsets_float = hwc_offsets.to(dtype=torch.float32)  # 函数⑩：先把偏移转为相同的计算类型。
+# 老师修改：原提交预测“先相减再改浮点”是错误方向；改为先让两个操作数都能表示负数，再相减。
+
+# 老师新增：保留“先用uint8计算、再转float”的对照，只用于证明错误结果无法靠事后转换补救。
+integer_result = hwc_pixels - hwc_offsets  # 两个操作数都是uint8，负数会在无符号整数范围内回绕。
+late_float = integer_result.to(dtype=torch.float32)  # 函数⑩：事后转float只转换已经算出的错误数字。
+correct_hwc = pixels_float - offsets_float  # 两个float32操作数相减，正确保留负值。
+print('先uint8计算再转float的首像素：', late_float[0, 0, :])  # 函数②：显示错误路径的首个RGB像素。
+print('先转float再计算的首像素：', correct_hwc[0, 0, :])  # 函数②：显示正确路径保留的负值。
+
+pixels_chw = torch.permute(pixels_float, (2, 0, 1))  # 函数⑤：把HWC换成通道、行、列。
+
+# 老师新增：保留一维偏移的错误对齐结果；它能运行且shape相同，但广播会从最右侧对齐到宽度轴。
+wrong_chw = pixels_chw - offsets_float  # 错误示范：长度3的偏移实际对齐到CHW的最后一根宽度轴。
+
+# 老师新增：原来没有把RGB偏移明确对齐到CHW通道轴；补成(3,1,1)后，偏移才按颜色通道作用。
+channel_offsets = torch.reshape(offsets_float, (3, 1, 1))  # 函数④：为RGB通道补两根长度为1的轴。
+correct_chw = pixels_chw - channel_offsets  # 按CHW的第0根轴逐通道相减。
+correct_from_chw = torch.permute(correct_chw, (1, 2, 0))  # 函数⑤：换回HWC以便和正确HWC结果比较。
+print('正确HWC/CHW全像素一致：', torch.equal(correct_hwc, correct_from_chw))  # 函数⑦：比较全部像素，不只比较shape。
+print('同一像素正确RGB/错误对齐结果：', correct_chw[:, 0, 1], wrong_chw[:, 0, 1])  # 函数②：检查一个行列位置的颜色对应。
+print('错误对齐后shape仍相同/全量相等：', wrong_chw.shape, torch.equal(wrong_chw, correct_chw))  # 函数⑦：证明能运行且shape相同仍可能算错。
+
+pixels_b_chw = torch.unsqueeze(correct_chw, 0)  # 函数⑥：给正确CHW结果补上单张图像的批次轴。
+
+# 老师修改：原来device只在CUDA分支里创建；先设CPU默认值，才能在无CUDA机器上继续运行。
+device = torch.device('cpu')  # 函数⑨：设置所有环境都可用的默认设备。
+if torch.cuda.is_available():  # 函数⑧：只有检测到CUDA可用时才切换设备。
+    device = torch.device('cuda:0')  # 函数⑨：描述当前可用的第一块CUDA设备。
+on_device = pixels_b_chw.to(device=device)  # 函数⑩：接住设备转换结果，不改变原变量。
+back_on_cpu = on_device.to(device='cpu')  # 函数⑩：把结果搬回CPU后再比较。
+print('结果shape/dtype：', pixels_b_chw.shape, pixels_b_chw.dtype)  # 函数②：核对最终批次结果。
+print('设备/往返一致：', pixels_b_chw.device, on_device.device, torch.equal(back_on_cpu, pixels_b_chw))  # 函数⑦：核对设备和全部数值保持。
+```
+
+#### 教师修正版真实运行输出
+
+以下两段均由上面修正版在学生指定解释器 `D:/Conda_envs/envs/BaiQing3.10AI/python.exe` 执行；第二段是在临时副本中强制关闭 CUDA 分支，未修改学生环境。
+
+```text
+输入shape/dtype： torch.Size([2, 3, 3]) torch.uint8 torch.Size([3]) torch.uint8
+先uint8计算再转float的首像素： tensor([251., 248., 246.])
+先转float再计算的首像素： tensor([ -5.,  -8., -10.])
+正确HWC/CHW全像素一致： True
+同一像素正确RGB/错误对齐结果： tensor([ 1., 15., 10.]) tensor([-21.,  15.,  50.])
+错误对齐后shape仍相同/全量相等： torch.Size([3, 2, 3]) False
+结果shape/dtype： torch.Size([1, 3, 2, 3]) torch.float32
+设备/往返一致： cpu cuda:0 True
+```
+
+```text
+输入shape/dtype： torch.Size([2, 3, 3]) torch.uint8 torch.Size([3]) torch.uint8
+先uint8计算再转float的首像素： tensor([251., 248., 246.])
+先转float再计算的首像素： tensor([ -5.,  -8., -10.])
+正确HWC/CHW全像素一致： True
+同一像素正确RGB/错误对齐结果： tensor([ 1., 15., 10.]) tensor([-21.,  15.,  50.])
+错误对齐后shape仍相同/全量相等： torch.Size([3, 2, 3]) False
+结果shape/dtype： torch.Size([1, 3, 2, 3]) torch.float32
+设备/往返一致： cpu cpu True
+```
+
+#### 文字示范
+
+原预测应修正为：**不能先用 `uint8` 相减再转浮点；必须先把两个操作数都转换为能表示负数的类型，再计算。** 原像素首个 RGB 为 `[3, 22, 60]`，偏移为 `[8, 30, 70]`，正确结果含负值；如果先在 `uint8` 中计算，负数已经发生无符号回绕，事后转换只会把回绕后的数字变成浮点数，不能恢复原本的负值。
+
+换成 CHW 后，一维 `offsets_float` 会从最右侧轴对齐，因此它实际对齐的是宽度轴，不是通道轴。它可能正常运行，shape 也可能相同，但语义已经错位；把偏移显式变成 `(3, 1, 1)`，才能让三个 RGB 偏移分别作用于 CHW 的三个通道。最终应使用全量比较和具体像素证据，不能只看 shape 或“代码没有报错”。
+
+设备处理应先设置 CPU 默认值，再在 `torch.cuda.is_available()` 为真时选择 CUDA；`.to()` 的返回值要接住，搬回 CPU 后用完整张量比较确认数值没有改变。
+
 ### 我的疑问
 
+
+#### 老师答疑（2026-11-14）
+
+本轮原提交的问题不是“少打印几行”，而是三个语义层级没有闭合：计算 dtype 决定负数能否保存，广播方向决定偏移作用于哪根轴，全量比较决定转换后的像素含义是否真的保持。教师修正版已把三层证据补齐，并通过 CUDA 与强制 CPU 两条路径；这次通过属于教师协助完成，后续用改变数据或设备条件的迁移题再验证独立掌握。
 
 ## 【本节重点总结】
 
