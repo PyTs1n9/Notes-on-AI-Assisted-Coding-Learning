@@ -1,0 +1,44 @@
+{
+  "original_cuda": {
+    "returncode": 0,
+    "stdout": "torch.Size([2, 3, 3]) torch.uint8\ntorch.Size([3]) torch.uint8\ntorch.Size([1, 3, 2, 3]) torch.float32\n",
+    "stderr": ""
+  },
+  "original_forced_cpu": {
+    "returncode": 1,
+    "stdout": "torch.Size([2, 3, 3]) torch.uint8\ntorch.Size([3]) torch.uint8\ntorch.Size([1, 3, 2, 3]) torch.float32\n",
+    "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 21, in <module>\nNameError: name 'device' is not defined\n"
+  },
+  "corrected_actual": {
+    "returncode": 0,
+    "stdout": "输入shape/dtype： torch.Size([2, 3, 3]) torch.uint8 torch.Size([3]) torch.uint8\n先uint8计算再转float的首像素： tensor([251., 248., 246.])\n先转float再计算的首像素： tensor([ -5.,  -8., -10.])\n正确HWC/CHW全像素一致： True\n同一像素正确RGB/错误对齐结果： tensor([ 1., 15., 10.]) tensor([-21.,  15.,  50.])\n错误对齐后shape仍相同/全量相等： torch.Size([3, 2, 3]) False\n结果shape/dtype： torch.Size([1, 3, 2, 3]) torch.float32\n设备/往返一致： cpu cuda:0 True\n",
+    "stderr": ""
+  },
+  "corrected_clean": {
+    "returncode": 0,
+    "stdout": "输入shape/dtype： torch.Size([2, 3, 3]) torch.uint8 torch.Size([3]) torch.uint8\n先uint8计算再转float的首像素： tensor([251., 248., 246.])\n先转float再计算的首像素： tensor([ -5.,  -8., -10.])\n正确HWC/CHW全像素一致： True\n同一像素正确RGB/错误对齐结果： tensor([ 1., 15., 10.]) tensor([-21.,  15.,  50.])\n错误对齐后shape仍相同/全量相等： torch.Size([3, 2, 3]) False\n结果shape/dtype： torch.Size([1, 3, 2, 3]) torch.float32\n设备/往返一致： cpu cuda:0 True\n",
+    "stderr": ""
+  },
+  "corrected_forced_cpu": {
+    "returncode": 0,
+    "stdout": "输入shape/dtype： torch.Size([2, 3, 3]) torch.uint8 torch.Size([3]) torch.uint8\n先uint8计算再转float的首像素： tensor([251., 248., 246.])\n先转float再计算的首像素： tensor([ -5.,  -8., -10.])\n正确HWC/CHW全像素一致： True\n同一像素正确RGB/错误对齐结果： tensor([ 1., 15., 10.]) tensor([-21.,  15.,  50.])\n错误对齐后shape仍相同/全量相等： torch.Size([3, 2, 3]) False\n结果shape/dtype： torch.Size([1, 3, 2, 3]) torch.float32\n设备/往返一致： cpu cpu True\n",
+    "stderr": ""
+  },
+  "teacher_venv": {
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\nModuleNotFoundError: No module named 'torch'\n"
+  },
+  "semantic_cuda": {
+    "returncode": 0,
+    "stdout": "输入shape/dtype： torch.Size([2, 3, 3]) torch.uint8 torch.Size([3]) torch.uint8\n先uint8计算再转float的首像素： tensor([251., 248., 246.])\n先转float再计算的首像素： tensor([ -5.,  -8., -10.])\n正确HWC/CHW全像素一致： True\n同一像素正确RGB/错误对齐结果： tensor([ 1., 15., 10.]) tensor([-21.,  15.,  50.])\n错误对齐后shape仍相同/全量相等： torch.Size([3, 2, 3]) False\n结果shape/dtype： torch.Size([1, 3, 2, 3]) torch.float32\n设备/往返一致： cpu cuda:0 True\nALL_SEMANTIC_CHECKS_PASSED\n",
+    "stderr": ""
+  },
+  "semantic_cpu": {
+    "returncode": 0,
+    "stdout": "输入shape/dtype： torch.Size([2, 3, 3]) torch.uint8 torch.Size([3]) torch.uint8\n先uint8计算再转float的首像素： tensor([251., 248., 246.])\n先转float再计算的首像素： tensor([ -5.,  -8., -10.])\n正确HWC/CHW全像素一致： True\n同一像素正确RGB/错误对齐结果： tensor([ 1., 15., 10.]) tensor([-21.,  15.,  50.])\n错误对齐后shape仍相同/全量相等： torch.Size([3, 2, 3]) False\n结果shape/dtype： torch.Size([1, 3, 2, 3]) torch.float32\n设备/往返一致： cpu cpu True\nALL_SEMANTIC_CHECKS_PASSED\n",
+    "stderr": ""
+  },
+  "source_sha256": "6faebd783e7e8f3bf211da3f4de1a255edef67eeb619356c4afd8e4d9d7a4f37",
+  "original_sha256": "b10a1402fcfb16739f9923abfb60c4858f591bcdf19d505d1e43e3777415aec2"
+}
