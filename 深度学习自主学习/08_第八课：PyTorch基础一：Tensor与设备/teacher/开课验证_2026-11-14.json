@@ -1,0 +1,26 @@
+{
+  "status": "lesson_opened_exercise_pending",
+  "student_interpreter": "D:/Conda_envs/envs/BaiQing3.10AI/python.exe",
+  "teacher_interpreter": "blocked_missing_torch_no_environment_change",
+  "demonstration": {
+    "document_gate": {
+      "exit_code": 0,
+      "stdout": "fence parity: ok (4 fence lines)\noutput match: ok (6 lines, run == pasted)\n",
+      "stderr": ""
+    },
+    "actual_output": "创建/改类型： torch.uint8 torch.float32 True\n重组/换轴shape： torch.Size([3, 2, 2]) torch.Size([3, 2, 2])\n重组/换轴全量相等： False\n原像素/重组后/换轴后： tensor([12., 22., 32.]) tensor([21., 32., 14.]) tensor([12., 22., 32.])\n批次shape/首张相等： torch.Size([1, 3, 2, 2]) True\n原设备/目标设备/往返相等： cpu cuda:0 True\n",
+    "cpu_fallback_output": "创建/改类型： torch.uint8 torch.float32 True\n重组/换轴shape： torch.Size([3, 2, 2]) torch.Size([3, 2, 2])\n重组/换轴全量相等： False\n原像素/重组后/换轴后： tensor([12., 22., 32.]) tensor([21., 32., 14.]) tensor([12., 22., 32.])\n批次shape/首张相等： torch.Size([1, 3, 2, 2]) True\n原设备/目标设备/往返相等： cpu cpu True\n"
+  },
+  "private_exercise_validation": {
+    "cpu_pass": true,
+    "cuda_pass": true,
+    "all_coordinates_checked": true,
+    "assertions_each": 14,
+    "full_cpu_cuda_values_match": true,
+    "private_answers_not_published": true
+  },
+  "sha256": {
+    "08_第八课：PyTorch基础一：Tensor与设备.md": "a29932738e60338310b51b73d558cbfb48b0852b3d5271c5ecc36e73c84fffd2",
+    "demo.py": "67b13c083ab666a13a96c62fbdac5c672e58faf9fe3c0c287cea4e4da4c53969"
+  }
+}
