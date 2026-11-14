@@ -1,0 +1,67 @@
+{
+  "05_第五课：TorchVision与OpenCV同款增强对比.md": {
+    "sha256": "87e08916bef4e73e91e562b060de4ac1a3bb9eaac15ae0254c80c44ea2a85a51",
+    "size": 25922,
+    "mtime": "2026-11-14T10:36:52.463272+08:00"
+  },
+  "demo.py": {
+    "sha256": "4096fa9ec3930f72d40254ab3532e81339f83c62223f454bdca10108de721303",
+    "size": 7953,
+    "mtime": "2026-11-13T21:45:54.884000+08:00"
+  },
+  "demo_focus.py": {
+    "sha256": "991bface1c9903035e6afc4ae0ef71d160e568d562278b12098e4609ab05fae8",
+    "size": 2322,
+    "mtime": "2026-11-13T22:03:20.989836+08:00"
+  },
+  "test.py": {
+    "sha256": "455ee46b09ec0354cc81f6553752f87b0d4fd60cf2014f66188a482388b66303",
+    "size": 1952,
+    "mtime": "2026-11-14T10:36:23.734000+08:00"
+  },
+  "input\\compare_demo.png": {
+    "sha256": "ed01b176d7596a038bf688dac283e819c57d138908c5f37d710cc24be88bca0e",
+    "size": 3045,
+    "mtime": "2026-11-13T21:04:42.990586+08:00"
+  },
+  "input\\compare_practice.png": {
+    "sha256": "71d8e9ea36b1da06f97826ddf96fdc0a7bcb1ec19ce1c94436464b1e60100b56",
+    "size": 3981,
+    "mtime": "2026-11-13T21:04:42.996096+08:00"
+  },
+  "input\\素材说明.md": {
+    "sha256": "5d73b8d05aa61b5cead1d7bec243e94abfa5a967818b0d602c666d804c5ad5aa",
+    "size": 602,
+    "mtime": "2026-11-13T21:09:40.003788+08:00"
+  },
+  "output_demo\\flip_cv.png": {
+    "sha256": "3bbafb85c3bbb030dc3541e2ae2abc01d17ba1f13d6eb7bcc36bd934bc4fdc4f",
+    "size": 30430,
+    "mtime": "2026-11-13T21:13:53.300315+08:00"
+  },
+  "output_demo\\flip_tv.png": {
+    "sha256": "87e8130e925ea08f94c09798232e72525a7260e77aaa4eaf3ad5678180fdeb09",
+    "size": 3127,
+    "mtime": "2026-11-13T21:13:53.300315+08:00"
+  },
+  "output_demo\\resize_cv.png": {
+    "sha256": "7fade5f78f9f6b02d7eaeb48173de87ce8a4d91e12ef4deccbdd79108e68b472",
+    "size": 15147,
+    "mtime": "2026-11-13T21:13:53.303316+08:00"
+  },
+  "output_demo\\resize_tv.png": {
+    "sha256": "e1658842f77de79e0df957e386d13c70b50b2cb6acdba4cdb801af16f908cf26",
+    "size": 13503,
+    "mtime": "2026-11-13T21:13:53.303316+08:00"
+  },
+  "output_demo\\rotate_cv.png": {
+    "sha256": "695ea9a4c9a687282c645be02ef218b782da1182bec426da3085ab890b23499a",
+    "size": 50137,
+    "mtime": "2026-11-13T21:13:53.310335+08:00"
+  },
+  "output_demo\\rotate_tv.png": {
+    "sha256": "5ac69bca2bca83dd2e0710581ebf59d9abe4c239b00d4cef55a72ac66b1916a8",
+    "size": 30597,
+    "mtime": "2026-11-13T21:13:53.309335+08:00"
+  }
+}

@@ -10,10 +10,12 @@ from torchvision.transforms import InterpolationMode  # 导入 TorchVision 的�
 input_path = os.path.join('input', 'compare_demo.png')  # 本例使用本课自带的英文相对路径
 output_dir = 'output_demo'  # 演示产物与课后练习分开
 os.makedirs(output_dir, exist_ok=True)  # 首次运行也能创建输出目录
+
 pil_image = Image.open(input_path).convert('RGB')  # 函数①：打开图片并明确为 RGB
 bgr = cv2.imread(input_path, cv2.IMREAD_COLOR)  # 函数②：同一文件在 OpenCV 中按 BGR 读取
 if bgr is None:  # 读取失败时不继续处理
     raise FileNotFoundError(input_path)  # 报出本次失败的输入路径
+
 rgb = np.array(pil_image)  # 函数③：把 PIL 图片变为 HWC 的 RGB 数组，没有转成张量
 cv_rgb = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)  # 函数④：OpenCV 数组先转换通道顺序再比较
 print('输入 PIL size、mode：', pil_image.size, pil_image.mode)  # PIL size 的顺序为宽、高
