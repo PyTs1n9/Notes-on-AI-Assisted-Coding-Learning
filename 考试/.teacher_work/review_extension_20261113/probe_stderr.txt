@@ -1,0 +1,1 @@
+[ WARN:0@0.053] global loadsave.cpp:278 cv::findDecoder imread_('D:\Code\Python\人工智能基础\考试\.teacher_work\review_extension_20261113\submitted_snapshot\input\input.png'): can't open/read file: check file path/integrity

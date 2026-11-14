@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "D:\Code\Python\人工智能基础\考试\.teacher_work\next08_draft\private_reference.py", line 3, in <module>
+    import torch  # 本课张量库；不下载数据或权重。
+    ^^^^^^^^^^^^
+ModuleNotFoundError: No module named 'torch'

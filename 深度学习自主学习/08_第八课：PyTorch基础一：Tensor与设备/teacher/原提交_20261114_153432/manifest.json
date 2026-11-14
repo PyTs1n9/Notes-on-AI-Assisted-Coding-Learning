@@ -1,0 +1,17 @@
+{
+  "captured_at": "2026-11-14T15:34:32+08:00",
+  "source_files": {
+    "test.py": {
+      "sha256": "b10a1402fcfb16739f9923abfb60c4858f591bcdf19d505d1e43e3777415aec2",
+      "size": 1037,
+      "mtime_ns": 1794641112778000000
+    },
+    "08_第八课：PyTorch基础一：Tensor与设备.md": {
+      "sha256": "aa5458d0b76e4f58f5994ff92e057d2d8291f2186ae1d407a401ca558547cb5f",
+      "size": 24068,
+      "mtime_ns": 1794641123005711100
+    }
+  },
+  "student_interpreter": "D:\\Conda_envs\\envs\\BaiQing3.10AI\\python.exe",
+  "note": "原始提交备份；教师修正版不得覆盖此目录。"
+}

@@ -1,0 +1,2 @@
+fence parity: ok (4 fence lines)
+output match: ok (6 lines, run == pasted)

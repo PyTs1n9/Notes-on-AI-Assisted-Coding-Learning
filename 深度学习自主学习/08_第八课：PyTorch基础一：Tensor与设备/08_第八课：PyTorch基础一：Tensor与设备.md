@@ -33,7 +33,6 @@ axis（轴）是“沿哪个方向取数”，dimension（维度）在本课指�
 
 `data` 本身只是 Python 的嵌套列表，主要负责把数字装起来；它没有 PyTorch Tensor 的 `dtype`、`device`、`shape` 属性，也不能直接使用本课的 `permute`、`reshape`、`.to` 等张量操作。`torch.tensor(data, dtype=torch.uint8, device='cpu')` 会根据这份嵌套关系创建一个 Tensor：实跑得到 `torch.Size([2, 2, 3])`、`torch.uint8`、`cpu`。这一步没有改变 HWC 顺序、没有把 RGB 改成 BGR，也没有把像素缩放到 0～1；它只是把普通数字容器变成 PyTorch 能够进行张量计算、换轴、设备搬运并作为模型输入的对象。
 
-
 ### 2. 图像的轴名与索引
 
 H（高度）对应行，W（宽度）对应列，C（通道）对应颜色分量；RGB（红绿蓝）是通道内部的颜色顺序。B（批次）表示同一次送入的一组样本，BCHW也常写作NCHW，N同样表示样本数量。HWC、CHW、BCHW写的是轴顺序；RGB与BGR写的是颜色顺序，两个问题要分开。换轴不会自动做BGR→RGB。
@@ -244,8 +243,34 @@ print('原设备/目标设备/往返相等：', bchw.device, on_device.device, t
 > ⚠️ 固定使用你的 conda **BaiQing3.10AI**，解释器为 `D:/Conda_envs/envs/BaiQing3.10AI/python.exe`；提交完整代码、预测、真实输出和运行后的解释。练习代码不要求逐行注释。代码写入本课 `test.py`；当前练习待提交，课件和教师实跑不等于本人独立掌握。
 
 ### 我的练习解答
+```python
+import torch
 
+pixels = [[[3, 22, 60], [9, 45, 80], [18, 65, 95]], [[25, 15, 120], [40, 35, 140], [55, 75, 160]]]
+offsets = [8, 30, 70]
 
+hwc_pixels = torch.tensor(pixels, dtype=torch.uint8, device='cpu')
+floating = hwc_pixels.to(dtype=torch.float32)  # 函数⑩：只改数值类型，不自动缩放像素。
+hwc_offsets = torch.tensor(offsets, dtype=torch.uint8, device='cpu')
+# 预测：不认同，应该先相减再改浮点，偏移后位置就不对了，相减是对应的位置。
+print(hwc_pixels.shape, hwc_pixels.dtype)
+print(hwc_offsets.shape, hwc_offsets.dtype)
+
+pixels_j = hwc_pixels - hwc_offsets
+pixels_chw = torch.permute(floating, (2, 0, 1))
+pixels_b_chw = torch.unsqueeze(pixels_chw, 0)
+print(pixels_b_chw.shape, pixels_b_chw.dtype)
+if torch.cuda.is_available():
+	device = torch.device('cuda')
+on_device = pixels_b_chw.to(device=device)  # 函数⑩：接住设备转换结果，不改变原变量。
+back_on_cpu = on_device.to(device='cpu')  # 函数⑩：回CPU后用一致设备核对数值。
+```
+```
+torch.Size([2, 3, 3]) torch.uint8
+torch.Size([3]) torch.uint8
+
+torch.Size([1, 3, 2, 3]) torch.float32
+```
 ### 我的疑问
 
 

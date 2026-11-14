@@ -113,7 +113,7 @@ output_dir = 'output_demo'  # 指定演示专用输出目录，与练习分开
 os.makedirs(output_dir, exist_ok=True)  # 创建输出目录，已存在时继续使用
 image_bgr = cv2.imread(input_path, cv2.IMREAD_COLOR)  # 函数①：读取三通道 BGR 图片
 if image_bgr is None:  # 先检查读取结果，避免对 None 查看形状
-    raise FileNotFoundError('无法读取 input/sample.png，请检查本课工作目录和输入文件')  # 说明失败原因
+	raise FileNotFoundError('无法读取 input/sample.png，请检查本课工作目录和输入文件')  # 说明失败原因
 print('原图 shape：', image_bgr.shape)  # 打印原图的高、宽、通道
 print('原图 dtype：', image_bgr.dtype)  # 打印每个颜色分量的数据类型
 print('原图左上角 BGR：', image_bgr[0, 0].tolist())  # 把左上角像素转成列表再打印
@@ -148,7 +148,7 @@ print('保存垂直翻转图：', cv2.imwrite(vertical_path, image_vertical))  #
 
 saved_gray = cv2.imread(gray_path, cv2.IMREAD_UNCHANGED)  # 函数①：保留文件原有通道方式，读回灰度图
 if saved_gray is None:  # 核对文件确实可以重新解码
-    raise RuntimeError('灰度文件读回失败')  # 保存状态与可读取状态分别检查
+	raise RuntimeError('灰度文件读回失败')  # 保存状态与可读取状态分别检查
 print('读回灰度 shape：', saved_gray.shape)  # 若用彩色读取模式，灰度文件也会被读成三通道
 print('读回灰度 dtype：', saved_gray.dtype)  # 打印保存后重新读取的真实类型
 ```

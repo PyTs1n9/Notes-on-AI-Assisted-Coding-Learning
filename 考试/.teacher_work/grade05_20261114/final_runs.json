@@ -1,0 +1,111 @@
+{
+  "clean1": {
+    "all_checks_passed": true,
+    "stdout": "TorchVision 角度、A/B全图相等、平均绝对分量差： 0 True 0.0\nOpenCV 角度、A/B全图相等、平均绝对分量差： 0 True 0.0\nTorchVision 角度、A/B全图相等、平均绝对分量差： 19 False 84.088477\nOpenCV 角度、A/B全图相等、平均绝对分量差： 19 False 84.029613\n",
+    "cases": [
+      {
+        "angle": 0,
+        "tv_equal": true,
+        "cv_equal": true,
+        "tv_mean": 0.0,
+        "cv_mean": 0.0,
+        "shape": [
+          211,
+          337,
+          3
+        ],
+        "dtype": "uint8",
+        "reference_all_pixels_match": true,
+        "array_hashes": [
+          "e506741effd77dc9d30c9148e6d33b4b5e97082f4ca071fb39a0838402a152f3",
+          "e506741effd77dc9d30c9148e6d33b4b5e97082f4ca071fb39a0838402a152f3",
+          "ab915162d9dc566ad266219c2dcdc8c0e1602f199c5e1c03f0bc783bbc62d661",
+          "ab915162d9dc566ad266219c2dcdc8c0e1602f199c5e1c03f0bc783bbc62d661"
+        ]
+      },
+      {
+        "angle": 19,
+        "tv_equal": false,
+        "cv_equal": false,
+        "tv_mean": 84.08847699007599,
+        "cv_mean": 84.0296126494813,
+        "shape": [
+          211,
+          337,
+          3
+        ],
+        "dtype": "uint8",
+        "reference_all_pixels_match": true,
+        "array_hashes": [
+          "fb168cac2efa4389ef93e3340d002a40e0e49c3a70a22da5fe064068c0f06f4f",
+          "17056236f222b722b12950d4a2be011e634e5331cee244b1a085ffe714e964d2",
+          "aa8eccc0ff9ef7650e1d96390ef53ca431f21207c7a10f53f164b9a5c8833325",
+          "843636cf25ca4580bf5608e364ad03dc987531c75e36bb4567531a78b8e09905"
+        ]
+      }
+    ],
+    "cv2": "5.0.0"
+  },
+  "clean2": {
+    "all_checks_passed": true,
+    "stdout": "TorchVision 角度、A/B全图相等、平均绝对分量差： 0 True 0.0\nOpenCV 角度、A/B全图相等、平均绝对分量差： 0 True 0.0\nTorchVision 角度、A/B全图相等、平均绝对分量差： 19 False 84.088477\nOpenCV 角度、A/B全图相等、平均绝对分量差： 19 False 84.029613\n",
+    "cases": [
+      {
+        "angle": 0,
+        "tv_equal": true,
+        "cv_equal": true,
+        "tv_mean": 0.0,
+        "cv_mean": 0.0,
+        "shape": [
+          211,
+          337,
+          3
+        ],
+        "dtype": "uint8",
+        "reference_all_pixels_match": true,
+        "array_hashes": [
+          "e506741effd77dc9d30c9148e6d33b4b5e97082f4ca071fb39a0838402a152f3",
+          "e506741effd77dc9d30c9148e6d33b4b5e97082f4ca071fb39a0838402a152f3",
+          "ab915162d9dc566ad266219c2dcdc8c0e1602f199c5e1c03f0bc783bbc62d661",
+          "ab915162d9dc566ad266219c2dcdc8c0e1602f199c5e1c03f0bc783bbc62d661"
+        ]
+      },
+      {
+        "angle": 19,
+        "tv_equal": false,
+        "cv_equal": false,
+        "tv_mean": 84.08847699007599,
+        "cv_mean": 84.0296126494813,
+        "shape": [
+          211,
+          337,
+          3
+        ],
+        "dtype": "uint8",
+        "reference_all_pixels_match": true,
+        "array_hashes": [
+          "fb168cac2efa4389ef93e3340d002a40e0e49c3a70a22da5fe064068c0f06f4f",
+          "17056236f222b722b12950d4a2be011e634e5331cee244b1a085ffe714e964d2",
+          "aa8eccc0ff9ef7650e1d96390ef53ca431f21207c7a10f53f164b9a5c8833325",
+          "843636cf25ca4580bf5608e364ad03dc987531c75e36bb4567531a78b8e09905"
+        ]
+      }
+    ],
+    "cv2": "5.0.0"
+  },
+  "real_lesson": {
+    "exit_code": 0,
+    "stdout": "TorchVision 角度、A/B全图相等、平均绝对分量差： 0 True 0.0\nOpenCV 角度、A/B全图相等、平均绝对分量差： 0 True 0.0\nTorchVision 角度、A/B全图相等、平均绝对分量差： 19 False 84.088477\nOpenCV 角度、A/B全图相等、平均绝对分量差： 19 False 84.029613\n",
+    "stderr": ""
+  },
+  "cross_cwd": {
+    "exit_code": 0,
+    "stdout": "TorchVision 角度、A/B全图相等、平均绝对分量差： 0 True 0.0\nOpenCV 角度、A/B全图相等、平均绝对分量差： 0 True 0.0\nTorchVision 角度、A/B全图相等、平均绝对分量差： 19 False 84.088477\nOpenCV 角度、A/B全图相等、平均绝对分量差： 19 False 84.029613\n",
+    "stderr": ""
+  },
+  "venv_probe": {
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\nModuleNotFoundError: No module named 'cv2'\n"
+  }
+}

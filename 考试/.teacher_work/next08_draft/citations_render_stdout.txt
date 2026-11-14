@@ -1,0 +1,11 @@
+Sources:
+[1] https://docs.pytorch.org/docs/2.11/generated/torch.tensor.html
+[2] https://docs.pytorch.org/docs/2.11/generated/torch.reshape.html
+[3] https://docs.pytorch.org/docs/2.11/generated/torch.permute.html
+[4] https://docs.pytorch.org/docs/2.11/generated/torch.unsqueeze.html
+[5] https://docs.pytorch.org/docs/2.11/generated/torch.Tensor.to.html
+[6] https://docs.pytorch.org/docs/2.11/generated/torch.equal.html
+[7] https://docs.pytorch.org/docs/2.11/generated/torch.cuda.is_available.html
+[8] https://docs.pytorch.org/docs/2.11/tensor_attributes.html
+[9] https://docs.pytorch.org/docs/2.11/notes/broadcasting.html
+[10] https://docs.pytorch.org/tutorials/beginner/basics/tensorqs_tutorial.html

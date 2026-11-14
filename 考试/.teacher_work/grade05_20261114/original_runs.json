@@ -1,0 +1,17 @@
+{
+  "test.py": {
+    "exit_code": 0,
+    "stdout": "A未统一颜色比较： False\nA统一颜色后比较： True\nB未统一颜色比较： False\nB统一颜色后比较： True\n",
+    "stderr": ""
+  },
+  "demo_focus.py": {
+    "exit_code": 0,
+    "stdout": "未统一颜色的翻转比较： False\n统一颜色后的翻转比较： True\n缩放全图相等、平均分量差： False 5.440295\n",
+    "stderr": ""
+  },
+  "demo.py": {
+    "exit_code": 0,
+    "stdout": "输入 PIL size、mode： (287, 173) RGB\n输入数组 shape、dtype： (173, 287, 3) uint8\n原始数组直接相等： False\n统一 RGB 后相等： True\n水平翻转 RGB 全图相等： True\n缩放两图 shape： (97, 151, 3) (97, 151, 3)\n缩放全图相等、最大分量差、平均分量差： False 113 5.440295\n共享角度： 7.310365\n旋转两图 shape： (173, 287, 3) (173, 287, 3)\n旋转全图相等、最大分量差、平均分量差： False 120 0.524917\n各自重置后角度复现： True True\n相同种子：TorchVision角度、NumPy角度： -2.209522 7.310365\n读回： flip_tv.png (173, 287, 3) uint8 像素一致： True\n读回： flip_cv.png (173, 287, 3) uint8 像素一致： True\n读回： resize_tv.png (97, 151, 3) uint8 像素一致： True\n读回： resize_cv.png (97, 151, 3) uint8 像素一致： True\n读回： rotate_tv.png (173, 287, 3) uint8 像素一致： True\n读回： rotate_cv.png (173, 287, 3) uint8 像素一致： True\n",
+    "stderr": ""
+  }
+}

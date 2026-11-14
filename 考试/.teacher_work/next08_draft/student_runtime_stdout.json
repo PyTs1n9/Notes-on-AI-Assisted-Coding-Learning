@@ -1,0 +1,73 @@
+{
+  "python": "D:\\Conda_envs\\envs\\BaiQing3.10AI\\python.exe",
+  "python_version": "3.10.19 | packaged by Anaconda, Inc. | (main, Oct 21 2025, 16:41:31) [MSC v.1929 64 bit (AMD64)]",
+  "torch_version": "2.11.0+cu128",
+  "cuda_available": true,
+  "apis": {
+    "torch.tensor": {
+      "text_signature": null,
+      "inspect_signature_unavailable": "no signature found for builtin <built-in method tensor of type object at 0x00007FFBB53FDDC0>",
+      "docstring_head": "tensor(data, *, dtype=None, device=None, requires_grad=False, pin_memory=False) -> Tensor\n\nConstructs a tensor with no autograd history (also known as a \"leaf tensor\", see :doc:`/notes/autograd`) by copying :attr:`data`.\n\n.. warning::\n\n    When working with tensors prefer using :func:`torch.Tensor.clone`,\n    :func:`torch.Tensor.detach`, and :func:`torch.Tensor.requires_grad_` for\n    readability. Letting `t` be a tensor, ``torch.tensor(t)`` is equivalent to\n    ``t.detach().clone()``, and ``torch.tensor(t, requires_grad=True)``\n    is equivalent to ``t.detach().clone().requires_grad_(True)``.\n\n.. seealso::\n\n    :func:`torch.as_tensor` preserves autograd history and avoids copies where possible.\n    :func:`torch.from_numpy` creates a tensor that shares storage with a NumPy array.\n\nArgs:\n    data (array_like): Initial data for the tensor. Can be a list, tuple,\n        NumPy ``ndarray``, scalar, and other types.\n\nKeyword args:"
+    },
+    "torch.reshape": {
+      "text_signature": null,
+      "inspect_signature_unavailable": "no signature found for builtin <built-in method reshape of type object at 0x00007FFBB53FDDC0>",
+      "docstring_head": "reshape(input, shape) -> Tensor\n\nReturns a tensor with the same data and number of elements as :attr:`input`,\nbut with the specified shape. When possible, the returned tensor will be a view\nof :attr:`input`. Otherwise, it will be a copy. Contiguous inputs and inputs\nwith compatible strides can be reshaped without copying, but you should not\ndepend on the copying vs. viewing behavior.\n\nSee :meth:`torch.Tensor.view` on when it is possible to return a view.\n\nA single dimension may be -1, in which case it's inferred from the remaining\ndimensions and the number of elements in :attr:`input`.\n\nArgs:\n    input (Tensor): the tensor to be reshaped\n    shape (tuple of int): the new shape\n\nExample::\n\n    >>> a = torch.arange(4.)\n    >>> torch.reshape(a, (2, 2))\n    tensor([[ 0.,  1.],"
+    },
+    "torch.permute": {
+      "text_signature": null,
+      "inspect_signature_unavailable": "no signature found for builtin <built-in method permute of type object at 0x00007FFBB53FDDC0>",
+      "docstring_head": "permute(input, dims) -> Tensor\n\nReturns a view of the original tensor :attr:`input` with its dimensions permuted.\n\nArgs:\n    input (Tensor): the input tensor.\n    dims (torch.Size, tuple of int or list of int): the desired ordering of dimensions.\n\nExample:\n    >>> x = torch.randn(2, 3, 5)\n    >>> x.size()\n    torch.Size([2, 3, 5])\n    >>> torch.permute(x, (2, 0, 1)).size()\n    torch.Size([5, 2, 3])"
+    },
+    "torch.unsqueeze": {
+      "text_signature": null,
+      "inspect_signature_unavailable": "no signature found for builtin <built-in method unsqueeze of type object at 0x00007FFBB53FDDC0>",
+      "docstring_head": "unsqueeze(input, dim) -> Tensor\n\nReturns a new tensor with a dimension of size one inserted at the\nspecified position.\n\nThe returned tensor shares the same underlying data with this tensor.\n\nA :attr:`dim` value within the range ``[-input.dim() - 1, input.dim() + 1)``\ncan be used. Negative :attr:`dim` will correspond to :meth:`unsqueeze`\napplied at :attr:`dim` = ``dim + input.dim() + 1``.\n\nArgs:\n    input (Tensor): the input tensor.\n    dim (int): the index at which to insert the singleton dimension\n\nExample::\n\n    >>> x = torch.tensor([1, 2, 3, 4])\n    >>> torch.unsqueeze(x, 0)\n    tensor([[ 1,  2,  3,  4]])\n    >>> torch.unsqueeze(x, 1)\n    tensor([[ 1],"
+    },
+    "torch.equal": {
+      "text_signature": null,
+      "inspect_signature_unavailable": "no signature found for builtin <built-in method equal of type object at 0x00007FFBB53FDDC0>",
+      "docstring_head": "equal(input, other) -> bool\n\n``True`` if two tensors have the same size and elements, ``False`` otherwise.\n\n.. note::\n\n    Tensors containing NaNs are never equal to each other. Additionally, this function does not\n    differentiate between the data types of the tensors during comparison. For more thorough tensor checks,\n    use :meth:`torch.testing.assert_close`.\n\nExample::\n\n    >>> torch.equal(torch.tensor([1, 2]), torch.tensor([1, 2]))\n    True\n    >>> torch.equal(torch.tensor([3, torch.nan]), torch.tensor([3, torch.nan]))\n    False\n    >>> torch.equal(torch.tensor([1, 2, 3], dtype=torch.int32), torch.tensor([1, 2, 3], dtype=torch.float32))\n    True"
+    },
+    "torch.device": {
+      "text_signature": null,
+      "inspect_signature_unavailable": "no signature found for builtin type <class 'torch.device'>",
+      "docstring_head": ""
+    },
+    "torch.Tensor.to": {
+      "text_signature": null,
+      "inspect_signature_unavailable": "no signature found for builtin <method 'to' of 'torch._C.TensorBase' objects>",
+      "docstring_head": "to(*args, **kwargs) -> Tensor\n\nPerforms Tensor dtype and/or device conversion. A :class:`torch.dtype` and :class:`torch.device` are\ninferred from the arguments of ``self.to(*args, **kwargs)``.\n\n.. note::\n\n    If the ``self`` Tensor already\n    has the correct :class:`torch.dtype` and :class:`torch.device`, then ``self`` is returned.\n    Otherwise, the returned tensor is a copy of ``self`` with the desired\n    :class:`torch.dtype` and :class:`torch.device`.\n\n.. note::\n\n    If ``self`` requires gradients (``requires_grad=True``) but the target\n    ``dtype`` specified is an integer type, the returned tensor will implicitly\n    set ``requires_grad=False``. This is because only tensors with\n    floating-point or complex dtypes can require gradients.\n\nHere are the ways to call ``to``:\n\n.. method:: to(dtype, non_blocking=False, copy=False, memory_format=torch.preserve_format) -> Tensor"
+    },
+    "torch.Tensor.__getitem__": {
+      "text_signature": "($self, key, /)",
+      "inspect_signature": "(self, key, /)",
+      "docstring_head": "Return self[key]."
+    },
+    "torch.cuda.is_available": {
+      "text_signature": null,
+      "inspect_signature": "() -> bool",
+      "docstring_head": "Return a bool indicating if CUDA is currently available.\n\n.. note:: This function will NOT poison fork if the environment variable\n    ``PYTORCH_NVML_BASED_CUDA_CHECK=1`` is set. For more details, see\n    :ref:`multiprocessing-poison-fork-note`."
+    }
+  },
+  "behavior_checks": {
+    "tensor_does_not_normalize": true,
+    "dtype_checked_separately": true,
+    "permute_coordinate_identity": true,
+    "unsqueeze_preserves_data": true,
+    "reshape_is_not_permute": true,
+    "to_same_device_dtype_returns_self": true,
+    "scalar_integer_index_shape": [],
+    "slice_keeps_axis_shape": [
+      1,
+      2,
+      3
+    ],
+    "uint8_subtract_wraps": true,
+    "broadcast_right_alignment": [
+      1,
+      2,
+      3
+    ]
+  }
+}

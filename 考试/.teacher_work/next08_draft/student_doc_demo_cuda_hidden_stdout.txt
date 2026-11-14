@@ -1,0 +1,6 @@
+创建/改类型： torch.uint8 torch.float32 True
+重组/换轴shape： torch.Size([3, 2, 2]) torch.Size([3, 2, 2])
+重组/换轴全量相等： False
+原像素/重组后/换轴后： tensor([12., 22., 32.]) tensor([21., 32., 14.]) tensor([12., 22., 32.])
+批次shape/首张相等： torch.Size([1, 3, 2, 2]) True
+原设备/目标设备/往返相等： cpu cpu True

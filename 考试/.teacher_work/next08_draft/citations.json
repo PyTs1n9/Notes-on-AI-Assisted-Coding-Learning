@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": 1,
+      "url": "https://docs.pytorch.org/docs/2.11/generated/torch.tensor.html",
+      "title": "",
+      "accessed": "2026-11-14"
+    },
+    {
+      "id": 2,
+      "url": "https://docs.pytorch.org/docs/2.11/generated/torch.reshape.html",
+      "title": "",
+      "accessed": "2026-11-14"
+    },
+    {
+      "id": 3,
+      "url": "https://docs.pytorch.org/docs/2.11/generated/torch.permute.html",
+      "title": "",
+      "accessed": "2026-11-14"
+    },
+    {
+      "id": 4,
+      "url": "https://docs.pytorch.org/docs/2.11/generated/torch.unsqueeze.html",
+      "title": "",
+      "accessed": "2026-11-14"
+    },
+    {
+      "id": 5,
+      "url": "https://docs.pytorch.org/docs/2.11/generated/torch.Tensor.to.html",
+      "title": "",
+      "accessed": "2026-11-14"
+    },
+    {
+      "id": 6,
+      "url": "https://docs.pytorch.org/docs/2.11/generated/torch.equal.html",
+      "title": "",
+      "accessed": "2026-11-14"
+    },
+    {
+      "id": 7,
+      "url": "https://docs.pytorch.org/docs/2.11/generated/torch.cuda.is_available.html",
+      "title": "",
+      "accessed": "2026-11-14"
+    },
+    {
+      "id": 8,
+      "url": "https://docs.pytorch.org/docs/2.11/tensor_attributes.html",
+      "title": "",
+      "accessed": "2026-11-14"
+    },
+    {
+      "id": 9,
+      "url": "https://docs.pytorch.org/docs/2.11/notes/broadcasting.html",
+      "title": "",
+      "accessed": "2026-11-14"
+    },
+    {
+      "id": 10,
+      "url": "https://docs.pytorch.org/tutorials/beginner/basics/tensorqs_tutorial.html",
+      "title": "",
+      "accessed": "2026-11-14"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "origin": {
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "remote: This repository moved. Please use the new location:        \nremote:   git@github.com:PyTs1n9/Notes-on-AI-Assisted-Coding-Learning.git        \nTo ssh://ssh.github.com:443/PyTs1n9/Notes-on-AI-Assisted-Machine-Learning.git\n   24a4c6f..08cc3e2  publish-lesson05-20261114 -> main\n",
+    "verified_remote_main": "08cc3e26e9b65a436a0b58f932c9c7df971271c9"
+  },
+  "gitee": {
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "remote: Powered by \u001b[01;33mGITEE.COM \u001b[0m[1.1.23]        \nremote: Set trace flag 3b43bb97        \nTo https://gitee.com/PyTs1N9/Notes-on-AI-Assisted-Machine-Learning.git\n   24a4c6f..08cc3e2  publish-lesson05-20261114 -> main\n",
+    "verified_remote_main": "08cc3e26e9b65a436a0b58f932c9c7df971271c9"
+  }
+}

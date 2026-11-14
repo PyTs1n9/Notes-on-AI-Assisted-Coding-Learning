@@ -1,0 +1,32 @@
+{
+  "formal_doc": {
+    "exit_code": 0,
+    "stdout": "fence parity: ok (4 fence lines)\noutput match: ok (6 lines, run == pasted)\n",
+    "stderr": ""
+  },
+  "formal_demo": {
+    "exit_code": 0,
+    "stdout": "创建/改类型： torch.uint8 torch.float32 True\n重组/换轴shape： torch.Size([3, 2, 2]) torch.Size([3, 2, 2])\n重组/换轴全量相等： False\n原像素/重组后/换轴后： tensor([12., 22., 32.]) tensor([21., 32., 14.]) tensor([12., 22., 32.])\n批次shape/首张相等： torch.Size([1, 3, 2, 2]) True\n原设备/目标设备/往返相等： cpu cuda:0 True\n",
+    "stderr": ""
+  },
+  "cpu_fallback": {
+    "exit_code": 0,
+    "stdout": "创建/改类型： torch.uint8 torch.float32 True\n重组/换轴shape： torch.Size([3, 2, 2]) torch.Size([3, 2, 2])\n重组/换轴全量相等： False\n原像素/重组后/换轴后： tensor([12., 22., 32.]) tensor([21., 32., 14.]) tensor([12., 22., 32.])\n批次shape/首张相等： torch.Size([1, 3, 2, 2]) True\n原设备/目标设备/往返相等： cpu cpu True\n",
+    "stderr": ""
+  },
+  "exercise_cpu": {
+    "exit_code": 0,
+    "stdout": "{\n  \"mode\": \"cpu\",\n  \"torch_version\": \"2.11.0+cu128\",\n  \"cuda_available\": true,\n  \"input_shape\": [\n    2,\n    3,\n    3\n  ],\n  \"output_shape\": [\n    1,\n    3,\n    2,\n    3\n  ],\n  \"output_dtype\": \"torch.float32\",\n  \"output_device\": \"cpu\",\n  \"input_pixel\": [\n    3,\n    22,\n    60\n  ],\n  \"late_cast_pixel\": [\n    251.0,\n    248.0,\n    246.0\n  ],\n  \"early_cast_pixel\": [\n    -5.0,\n    -8.0,\n    -10.0\n  ],\n  \"wrong_alignment_pixel\": [\n    -5.0,\n    14.0,\n    52.0\n  ],\n  \"correct_pixel\": [\n    -5.0,\n    -8.0,\n    -10.0\n  ],\n  \"full_output_cpu\": [\n    [\n      [\n        [\n          -5.0,\n          1.0,\n          10.0\n        ],\n        [\n          17.0,\n          32.0,\n          47.0\n        ]\n      ],\n      [\n        [\n          -8.0,\n          15.0,\n          35.0\n        ],\n        [\n          -15.0,\n          5.0,\n          45.0\n        ]\n      ],\n      [\n        [\n          -10.0,\n          10.0,\n          25.0\n        ],\n        [\n          50.0,\n          70.0,\n          90.0\n        ]\n      ]\n    ]\n  ],\n  \"checks\": {\n    \"input_preserved\": true,\n    \"input_uint8\": true,\n    \"late_cast_does_not_repair\": true,\n    \"negative_values_retained\": true,\n    \"wrong_alignment_runs_with_same_shape\": true,\n    \"wrong_alignment_not_equivalent\": true,\n    \"two_correct_orders_agree\": true,\n    \"output_bchw_shape\": true,\n    \"output_float32\": true,\n    \"batch_data_preserved\": true,\n    \"move_device_correct\": true,\n    \"roundtrip_values_preserved\": true,\n    \"plain_vector_was_aligned_to_width\": true,\n    \"every_pixel_coordinate_and_channel_matches\": true\n  },\n  \"assertions_passed\": 14\n}\n",
+    "stderr": ""
+  },
+  "exercise_auto": {
+    "exit_code": 0,
+    "stdout": "{\n  \"mode\": \"auto\",\n  \"torch_version\": \"2.11.0+cu128\",\n  \"cuda_available\": true,\n  \"input_shape\": [\n    2,\n    3,\n    3\n  ],\n  \"output_shape\": [\n    1,\n    3,\n    2,\n    3\n  ],\n  \"output_dtype\": \"torch.float32\",\n  \"output_device\": \"cuda:0\",\n  \"input_pixel\": [\n    3,\n    22,\n    60\n  ],\n  \"late_cast_pixel\": [\n    251.0,\n    248.0,\n    246.0\n  ],\n  \"early_cast_pixel\": [\n    -5.0,\n    -8.0,\n    -10.0\n  ],\n  \"wrong_alignment_pixel\": [\n    -5.0,\n    14.0,\n    52.0\n  ],\n  \"correct_pixel\": [\n    -5.0,\n    -8.0,\n    -10.0\n  ],\n  \"full_output_cpu\": [\n    [\n      [\n        [\n          -5.0,\n          1.0,\n          10.0\n        ],\n        [\n          17.0,\n          32.0,\n          47.0\n        ]\n      ],\n      [\n        [\n          -8.0,\n          15.0,\n          35.0\n        ],\n        [\n          -15.0,\n          5.0,\n          45.0\n        ]\n      ],\n      [\n        [\n          -10.0,\n          10.0,\n          25.0\n        ],\n        [\n          50.0,\n          70.0,\n          90.0\n        ]\n      ]\n    ]\n  ],\n  \"checks\": {\n    \"input_preserved\": true,\n    \"input_uint8\": true,\n    \"late_cast_does_not_repair\": true,\n    \"negative_values_retained\": true,\n    \"wrong_alignment_runs_with_same_shape\": true,\n    \"wrong_alignment_not_equivalent\": true,\n    \"two_correct_orders_agree\": true,\n    \"output_bchw_shape\": true,\n    \"output_float32\": true,\n    \"batch_data_preserved\": true,\n    \"move_device_correct\": true,\n    \"roundtrip_values_preserved\": true,\n    \"plain_vector_was_aligned_to_width\": true,\n    \"every_pixel_coordinate_and_channel_matches\": true\n  },\n  \"assertions_passed\": 14\n}\n",
+    "stderr": ""
+  },
+  "teacher_limit": {
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "Traceback (most recent call last):\n  File \"D:\\Code\\Python\\人工智能基础\\深度学习自主学习\\08_第八课：PyTorch基础一：Tensor与设备\\demo.py\", line 1, in <module>\n    import torch  # 导入本课使用的张量计算库。\n    ^^^^^^^^^^^^\nModuleNotFoundError: No module named 'torch'\n"
+  }
+}

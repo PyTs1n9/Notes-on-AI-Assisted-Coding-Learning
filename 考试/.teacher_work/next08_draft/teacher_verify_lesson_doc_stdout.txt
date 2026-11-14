@@ -1,0 +1,8 @@
+fence parity: ok (4 fence lines)
+RUN FAILED (exit 1):
+Traceback (most recent call last):
+  File "D:\Code\Python\人工智能基础\考试\.teacher_work\next08_draft\tmph8hoqjll.py", line 1, in <module>
+    import torch  # 导入本课使用的张量计算库。
+    ^^^^^^^^^^^^
+ModuleNotFoundError: No module named 'torch'
+

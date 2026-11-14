@@ -5,10 +5,13 @@ from torchvision import transforms as T  # 导入 TorchVision 的图像变换工
 from PIL import Image  # 导入 PIL 图片读取工具
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+TEST = os.path.abspath(__file__)
+print(TEST)
+print(BASE_DIR)
 INPUT_DIR = os.path.join(BASE_DIR, 'input')
 OUTPUT_DIR = os.path.join(BASE_DIR, 'output')
 os.makedirs(OUTPUT_DIR, exist_ok=True)
-
+#
 IMAGE_SUFFIXES = {'.jpg', '.jpeg', '.png', '.webp'}
 BASE_SEED = 73
 

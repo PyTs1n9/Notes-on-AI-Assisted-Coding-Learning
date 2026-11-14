@@ -1,0 +1,176 @@
+{
+  "scope": "D:\\Code\\Python\\人工智能基础\\考试\\.teacher_work\\next08_draft",
+  "status": "draft_only_not_opened",
+  "environment_changed": false,
+  "teacher_limitation": "torch missing; no installation permitted",
+  "child_environment": {
+    "PYTHONPATH": "removed_case_insensitively",
+    "MPLBACKEND": "Agg",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "temporary_files": "D:\\Code\\Python\\人工智能基础\\考试\\.teacher_work\\next08_draft"
+  },
+  "runs": [
+    {
+      "label": "student_doc_demo",
+      "command": [
+        "D:/Conda_envs/envs/BaiQing3.10AI/python.exe",
+        "-B",
+        "-c",
+        "import sys; exec(compile(sys.stdin.read(), \"document_first_fence\", \"exec\"))"
+      ],
+      "returncode": 0,
+      "stdout_file": "student_doc_demo_stdout.txt",
+      "stderr_file": "student_doc_demo_stderr.txt"
+    },
+    {
+      "label": "student_doc_demo_cuda_hidden",
+      "command": [
+        "D:/Conda_envs/envs/BaiQing3.10AI/python.exe",
+        "-B",
+        "-c",
+        "import sys; exec(compile(sys.stdin.read(), \"document_first_fence\", \"exec\"))"
+      ],
+      "returncode": 0,
+      "stdout_file": "student_doc_demo_cuda_hidden_stdout.txt",
+      "stderr_file": "student_doc_demo_cuda_hidden_stderr.txt"
+    },
+    {
+      "label": "teacher_doc_demo",
+      "command": [
+        "D:/Code/Python/人工智能基础/.venv/Scripts/python.exe",
+        "-B",
+        "-c",
+        "import sys; exec(compile(sys.stdin.read(), \"document_first_fence\", \"exec\"))"
+      ],
+      "returncode": 1,
+      "stdout_file": "teacher_doc_demo_stdout.txt",
+      "stderr_file": "teacher_doc_demo_stderr.txt"
+    },
+    {
+      "label": "student_reference_cpu",
+      "command": [
+        "D:/Conda_envs/envs/BaiQing3.10AI/python.exe",
+        "-B",
+        "D:\\Code\\Python\\人工智能基础\\考试\\.teacher_work\\next08_draft\\private_reference.py"
+      ],
+      "returncode": 0,
+      "stdout_file": "student_reference_cpu_stdout.txt",
+      "stderr_file": "student_reference_cpu_stderr.txt"
+    },
+    {
+      "label": "student_reference_auto",
+      "command": [
+        "D:/Conda_envs/envs/BaiQing3.10AI/python.exe",
+        "-B",
+        "D:\\Code\\Python\\人工智能基础\\考试\\.teacher_work\\next08_draft\\private_reference.py",
+        "--auto"
+      ],
+      "returncode": 0,
+      "stdout_file": "student_reference_auto_stdout.txt",
+      "stderr_file": "student_reference_auto_stderr.txt"
+    },
+    {
+      "label": "teacher_reference",
+      "command": [
+        "D:/Code/Python/人工智能基础/.venv/Scripts/python.exe",
+        "-B",
+        "D:\\Code\\Python\\人工智能基础\\考试\\.teacher_work\\next08_draft\\private_reference.py"
+      ],
+      "returncode": 1,
+      "stdout_file": "teacher_reference_stdout.txt",
+      "stderr_file": "teacher_reference_stderr.txt"
+    },
+    {
+      "label": "citations_render",
+      "command": [
+        "C:\\Users\\Administrator\\AppData\\Local\\hermes\\installs\\bd3acbc64406c95b\\environments\\57a2c4a4f4d84b7c9aee0231f092969f\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:/Users/Administrator/AppData/Local/hermes/skills/research/grounded-citations/scripts/sources.py",
+        "--ledger",
+        "D:\\Code\\Python\\人工智能基础\\考试\\.teacher_work\\next08_draft\\citations.json",
+        "render",
+        "--style",
+        "plain"
+      ],
+      "returncode": 0,
+      "stdout_file": "citations_render_stdout.txt",
+      "stderr_file": "citations_render_stderr.txt"
+    },
+    {
+      "label": "student_verify_lesson_doc",
+      "command": [
+        "C:\\Users\\Administrator\\AppData\\Local\\hermes\\installs\\bd3acbc64406c95b\\environments\\57a2c4a4f4d84b7c9aee0231f092969f\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:/Users/Administrator/AppData/Local/hermes/skills/productivity/personal-tutor/scripts/verify_lesson_doc.py",
+        "D:\\Code\\Python\\人工智能基础\\考试\\.teacher_work\\next08_draft\\08_第八课：PyTorch基础一：Tensor与设备_草案.md",
+        "--python",
+        "D:/Conda_envs/envs/BaiQing3.10AI/python.exe"
+      ],
+      "returncode": 0,
+      "stdout_file": "student_verify_lesson_doc_stdout.txt",
+      "stderr_file": "student_verify_lesson_doc_stderr.txt"
+    },
+    {
+      "label": "teacher_verify_lesson_doc",
+      "command": [
+        "C:\\Users\\Administrator\\AppData\\Local\\hermes\\installs\\bd3acbc64406c95b\\environments\\57a2c4a4f4d84b7c9aee0231f092969f\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:/Users/Administrator/AppData/Local/hermes/skills/productivity/personal-tutor/scripts/verify_lesson_doc.py",
+        "D:\\Code\\Python\\人工智能基础\\考试\\.teacher_work\\next08_draft\\08_第八课：PyTorch基础一：Tensor与设备_草案.md",
+        "--python",
+        "D:/Code/Python/人工智能基础/.venv/Scripts/python.exe"
+      ],
+      "returncode": 1,
+      "stdout_file": "teacher_verify_lesson_doc_stdout.txt",
+      "stderr_file": "teacher_verify_lesson_doc_stderr.txt"
+    },
+    {
+      "label": "citations_verify",
+      "command": [
+        "C:\\Users\\Administrator\\AppData\\Local\\hermes\\installs\\bd3acbc64406c95b\\environments\\57a2c4a4f4d84b7c9aee0231f092969f\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:/Users/Administrator/AppData/Local/hermes/skills/research/grounded-citations/scripts/sources.py",
+        "--ledger",
+        "D:\\Code\\Python\\人工智能基础\\考试\\.teacher_work\\next08_draft\\citations.json",
+        "verify",
+        "D:\\Code\\Python\\人工智能基础\\考试\\.teacher_work\\next08_draft\\08_第八课：PyTorch基础一：Tensor与设备_草案.md"
+      ],
+      "returncode": 0,
+      "stdout_file": "citations_verify_stdout.txt",
+      "stderr_file": "citations_verify_stderr.txt"
+    }
+  ],
+  "checks": {
+    "six_sections": true,
+    "one_python_fence": true,
+    "all_demo_lines_commented": true,
+    "code_matches_demo_py": true,
+    "output_injected_from_exact_doc_code": true,
+    "no_exercise_call_syntax": true,
+    "sizes_only_in_acceptance": true,
+    "exercise_changed_decisions": [
+      "uint8 arithmetic versus cast order",
+      "broadcast alignment after axis permutation"
+    ],
+    "cards": {
+      "作用": 10,
+      "完整语法": 10,
+      "关键参数": 10,
+      "返回值": 10,
+      "常见坑": 10,
+      "适用场景": 10
+    },
+    "exercise_cpu_assertions": 14,
+    "exercise_auto_assertions": 14,
+    "cpu_auto_values_equal": true,
+    "student_doc_gate": "passed",
+    "teacher_doc_gate": "blocked_missing_torch",
+    "dual_environment_compatibility": "not_established",
+    "cuda_unavailable_branch": "passed_exact_doc_code_in_child_with_CUDA_VISIBLE_DEVICES_minus_1_no_global_change",
+    "formal_files_git_archive_and_environments": "untouched_by_this_task"
+  },
+  "artifact_sha256": {
+    "08_第八课：PyTorch基础一：Tensor与设备_草案.md": "bbb357210f437aaa84a489a470ccfd61aa7f4eb98c360524d755062b1fd63d89",
+    "demo.py": "67b13c083ab666a13a96c62fbdac5c672e58faf9fe3c0c287cea4e4da4c53969"
+  }
+}
