@@ -1,0 +1,103 @@
+{
+  "original": {
+    "10_第十课：PyTorch训练循环与自动求导.md": {
+      "sha256": "d4398c6554d9e1fe629b3bd587fe6888e702a19577522ae6cd6ae692e83c4ce6",
+      "mtime_ns": 1794727523954257100
+    },
+    "test.py": {
+      "sha256": "800f1d16671b3395fc9e284f0e614815838272f8fb6ab46928703bbdf514f646",
+      "mtime_ns": 1794740485533000000
+    },
+    "demo.py": {
+      "sha256": "df7c28931f08e0e5283d1d0c9ec470cac7a21f16d98db79a16a457b2f1c73e00",
+      "mtime_ns": 1794734746217000000
+    }
+  },
+  "original_runs": {
+    "test.py": {
+      "exit": 0,
+      "stdout": "epoch: 0 loss 0.7927\nepoch: 1 loss 0.7314\nepoch: 2 loss 0.6941\nepoch: 3 loss 0.6628\nepoch: 4 loss 0.6319\n\nepoch: 0 loss 0.5989\nepoch: 1 loss 0.5989\nepoch: 2 loss 0.5989\nepoch: 3 loss 0.5989\nepoch: 4 loss 0.5989\n",
+      "stderr": ""
+    },
+    "demo.py": {
+      "exit": 0,
+      "stdout": "epoch 1 loss 0.7927\nepoch 2 loss 0.7314\nepoch 3 loss 0.6941\nepoch 4 loss 0.6628\nepoch 5 loss 0.6319\nlogits shape torch.Size([4, 2])\npredictions [0, 0, 1, 1]\ntargets [0, 0, 1, 1]\nrequires_grad True\n",
+      "stderr": ""
+    }
+  },
+  "fixed_runs": [
+    {
+      "source_sha256": "211e4b58cae26a61612e6373a42e4149f70a7613a5e4f1fb068fa56a32bf47dd",
+      "torch": "2.11.0+cu128",
+      "device": "cpu",
+      "checks": {
+        "input_dtype_shape": true,
+        "target_dtype_shape": true,
+        "five_losses_each": true,
+        "same_full_initial_logits": true,
+        "full_logit_shapes": true,
+        "normal_logits_changed": true,
+        "candidate_logits_unchanged": true,
+        "candidate_losses_constant": true,
+        "normal_loss_decreased_observed": true,
+        "independent_models": true,
+        "normal_optimizer_owns_normal": true,
+        "candidate_optimizer_owns_candidate": true,
+        "candidate_parameters_unchanged": true,
+        "normal_parameters_changed": true,
+        "candidate_gradients_cleared": true
+      },
+      "stdout": "教师补充预测：候选顺序会清掉刚算出的梯度，模型分数应保持不变。\nepoch: 0 loss 0.7927\nepoch: 1 loss 0.7314\nepoch: 2 loss 0.6941\nepoch: 3 loss 0.6628\nepoch: 4 loss 0.6319\n\nepoch: 0 loss 0.7927\nepoch: 1 loss 0.7927\nepoch: 2 loss 0.7927\nepoch: 3 loss 0.7927\nepoch: 4 loss 0.7927\n正常路径损失记录 [0.7926842570304871, 0.7313798069953918, 0.6941261291503906, 0.6627773642539978, 0.631864070892334]\n候选路径损失记录 [0.7926842570304871, 0.7926842570304871, 0.7926842570304871, 0.7926842570304871, 0.7926842570304871]\n正常起点分数 [[0.18225562572479248, -0.13458912074565887], [0.20034897327423096, -0.11778397858142853], [0.09266847372055054, -0.5087285041809082], [0.09247565269470215, -0.5090088844299316]]\n正常终点分数 [[-0.035032033920288086, -0.08190803974866867], [-0.03382912278175354, -0.042557839304208755], [-0.4839707016944885, -0.09806707501411438], [-0.4841856360435486, -0.09709707647562027]]\n候选起点分数 [[0.18225562572479248, -0.13458912074565887], [0.20034897327423096, -0.11778397858142853], [0.09266847372055054, -0.5087285041809082], [0.09247565269470215, -0.5090088844299316]]\n候选终点分数 [[0.18225562572479248, -0.13458912074565887], [0.20034897327423096, -0.11778397858142853], [0.09266847372055054, -0.5087285041809082], [0.09247565269470215, -0.5090088844299316]]\n起点是否相同 True\n正常起止形状 torch.Size([4, 2]) torch.Size([4, 2])\n候选起止形状 torch.Size([4, 2]) torch.Size([4, 2])\n正常起止分数整体相同 False\n候选起止分数整体相同 True\n教师补充解释：backward计算梯度，step使用梯度更新参数；中间清梯度会丢掉本轮更新依据。\n教师补充解释：zero_grad可提前到前向之前，只要本次backward前清旧梯度，step前保留新梯度。\n",
+      "run": "clean_1"
+    },
+    {
+      "source_sha256": "211e4b58cae26a61612e6373a42e4149f70a7613a5e4f1fb068fa56a32bf47dd",
+      "torch": "2.11.0+cu128",
+      "device": "cpu",
+      "checks": {
+        "input_dtype_shape": true,
+        "target_dtype_shape": true,
+        "five_losses_each": true,
+        "same_full_initial_logits": true,
+        "full_logit_shapes": true,
+        "normal_logits_changed": true,
+        "candidate_logits_unchanged": true,
+        "candidate_losses_constant": true,
+        "normal_loss_decreased_observed": true,
+        "independent_models": true,
+        "normal_optimizer_owns_normal": true,
+        "candidate_optimizer_owns_candidate": true,
+        "candidate_parameters_unchanged": true,
+        "normal_parameters_changed": true,
+        "candidate_gradients_cleared": true
+      },
+      "stdout": "教师补充预测：候选顺序会清掉刚算出的梯度，模型分数应保持不变。\nepoch: 0 loss 0.7927\nepoch: 1 loss 0.7314\nepoch: 2 loss 0.6941\nepoch: 3 loss 0.6628\nepoch: 4 loss 0.6319\n\nepoch: 0 loss 0.7927\nepoch: 1 loss 0.7927\nepoch: 2 loss 0.7927\nepoch: 3 loss 0.7927\nepoch: 4 loss 0.7927\n正常路径损失记录 [0.7926842570304871, 0.7313798069953918, 0.6941261291503906, 0.6627773642539978, 0.631864070892334]\n候选路径损失记录 [0.7926842570304871, 0.7926842570304871, 0.7926842570304871, 0.7926842570304871, 0.7926842570304871]\n正常起点分数 [[0.18225562572479248, -0.13458912074565887], [0.20034897327423096, -0.11778397858142853], [0.09266847372055054, -0.5087285041809082], [0.09247565269470215, -0.5090088844299316]]\n正常终点分数 [[-0.035032033920288086, -0.08190803974866867], [-0.03382912278175354, -0.042557839304208755], [-0.4839707016944885, -0.09806707501411438], [-0.4841856360435486, -0.09709707647562027]]\n候选起点分数 [[0.18225562572479248, -0.13458912074565887], [0.20034897327423096, -0.11778397858142853], [0.09266847372055054, -0.5087285041809082], [0.09247565269470215, -0.5090088844299316]]\n候选终点分数 [[0.18225562572479248, -0.13458912074565887], [0.20034897327423096, -0.11778397858142853], [0.09266847372055054, -0.5087285041809082], [0.09247565269470215, -0.5090088844299316]]\n起点是否相同 True\n正常起止形状 torch.Size([4, 2]) torch.Size([4, 2])\n候选起止形状 torch.Size([4, 2]) torch.Size([4, 2])\n正常起止分数整体相同 False\n候选起止分数整体相同 True\n教师补充解释：backward计算梯度，step使用梯度更新参数；中间清梯度会丢掉本轮更新依据。\n教师补充解释：zero_grad可提前到前向之前，只要本次backward前清旧梯度，step前保留新梯度。\n",
+      "run": "clean_2"
+    },
+    {
+      "source_sha256": "211e4b58cae26a61612e6373a42e4149f70a7613a5e4f1fb068fa56a32bf47dd",
+      "torch": "2.11.0+cu128",
+      "device": "cpu",
+      "checks": {
+        "input_dtype_shape": true,
+        "target_dtype_shape": true,
+        "five_losses_each": true,
+        "same_full_initial_logits": true,
+        "full_logit_shapes": true,
+        "normal_logits_changed": true,
+        "candidate_logits_unchanged": true,
+        "candidate_losses_constant": true,
+        "normal_loss_decreased_observed": true,
+        "independent_models": true,
+        "normal_optimizer_owns_normal": true,
+        "candidate_optimizer_owns_candidate": true,
+        "candidate_parameters_unchanged": true,
+        "normal_parameters_changed": true,
+        "candidate_gradients_cleared": true
+      },
+      "stdout": "教师补充预测：候选顺序会清掉刚算出的梯度，模型分数应保持不变。\nepoch: 0 loss 0.7927\nepoch: 1 loss 0.7314\nepoch: 2 loss 0.6941\nepoch: 3 loss 0.6628\nepoch: 4 loss 0.6319\n\nepoch: 0 loss 0.7927\nepoch: 1 loss 0.7927\nepoch: 2 loss 0.7927\nepoch: 3 loss 0.7927\nepoch: 4 loss 0.7927\n正常路径损失记录 [0.7926842570304871, 0.7313798069953918, 0.6941261291503906, 0.6627773642539978, 0.631864070892334]\n候选路径损失记录 [0.7926842570304871, 0.7926842570304871, 0.7926842570304871, 0.7926842570304871, 0.7926842570304871]\n正常起点分数 [[0.18225562572479248, -0.13458912074565887], [0.20034897327423096, -0.11778397858142853], [0.09266847372055054, -0.5087285041809082], [0.09247565269470215, -0.5090088844299316]]\n正常终点分数 [[-0.035032033920288086, -0.08190803974866867], [-0.03382912278175354, -0.042557839304208755], [-0.4839707016944885, -0.09806707501411438], [-0.4841856360435486, -0.09709707647562027]]\n候选起点分数 [[0.18225562572479248, -0.13458912074565887], [0.20034897327423096, -0.11778397858142853], [0.09266847372055054, -0.5087285041809082], [0.09247565269470215, -0.5090088844299316]]\n候选终点分数 [[0.18225562572479248, -0.13458912074565887], [0.20034897327423096, -0.11778397858142853], [0.09266847372055054, -0.5087285041809082], [0.09247565269470215, -0.5090088844299316]]\n起点是否相同 True\n正常起止形状 torch.Size([4, 2]) torch.Size([4, 2])\n候选起止形状 torch.Size([4, 2]) torch.Size([4, 2])\n正常起止分数整体相同 False\n候选起止分数整体相同 True\n教师补充解释：backward计算梯度，step使用梯度更新参数；中间清梯度会丢掉本轮更新依据。\n教师补充解释：zero_grad可提前到前向之前，只要本次backward前清旧梯度，step前保留新梯度。\n",
+      "run": "actual"
+    }
+  ],
+  "venv_torch": "ModuleNotFoundError: No module named torch; 未改环境"
+}
