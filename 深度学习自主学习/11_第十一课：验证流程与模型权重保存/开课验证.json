@@ -1,0 +1,123 @@
+{
+  "status": "pass",
+  "parent_review": {"document_blocks_rerun_and_matched": true, "clean_room_checkpoint_parameter_and_logit_readback": true, "fixture_weighted_mean_and_selection_reversal": true, "prose_correction": "不等批次的两种平均也可能偶然相同，等批次是保证一致的充分条件。"},
+  "lesson_directory": "D:\\Code\\Python\\人工智能基础\\深度学习自主学习\\11_第十一课：验证流程与模型权重保存",
+  "interpreter": "D:/Conda_envs/envs/BaiQing3.10AI/python.exe",
+  "torch": "2.11.0+cu128",
+  "device": "cpu",
+  "environment": {
+    "PYTHONPATH_removed": true,
+    "PYTHONIOENCODING": "utf-8",
+    "MPLBACKEND": "Agg",
+    "temp_directory": "C:\\Users\\Administrator\\AppData\\Local\\hermes\\cache\\scratch",
+    "installed_or_modified_environments": false,
+    "course_venv": "torch unavailable; not claimed as verified"
+  },
+  "document_verification": [
+    {
+      "command": [
+        "D:/Conda_envs/envs/BaiQing3.10AI/python.exe",
+        "C:/Users/Administrator/AppData/Local/hermes/skills/productivity/personal-tutor/scripts/verify_lesson_doc.py",
+        "D:\\Code\\Python\\人工智能基础\\深度学习自主学习\\11_第十一课：验证流程与模型权重保存\\11_第十一课：验证流程与模型权重保存.md",
+        "--python",
+        "D:/Conda_envs/envs/BaiQing3.10AI/python.exe",
+        "--code-index",
+        "0",
+        "--output-index",
+        "0"
+      ],
+      "exit_code": 0,
+      "stdout": "fence parity: ok (8 fence lines)\noutput match: ok (13 lines, run == pasted)\n"
+    },
+    {
+      "command": [
+        "D:/Conda_envs/envs/BaiQing3.10AI/python.exe",
+        "C:/Users/Administrator/AppData/Local/hermes/skills/productivity/personal-tutor/scripts/verify_lesson_doc.py",
+        "D:\\Code\\Python\\人工智能基础\\深度学习自主学习\\11_第十一课：验证流程与模型权重保存\\11_第十一课：验证流程与模型权重保存.md",
+        "--python",
+        "D:/Conda_envs/envs/BaiQing3.10AI/python.exe",
+        "--code-index",
+        "1",
+        "--output-index",
+        "1"
+      ],
+      "exit_code": 0,
+      "stdout": "fence parity: ok (8 fence lines)\noutput match: ok (6 lines, run == pasted)\n"
+    }
+  ],
+  "demo_stdout": [
+    "epoch 1 train_loss 0.792684 val_loss 0.705659 val_accuracy 0.6\nepoch 2 train_loss 0.73138 val_loss 0.683947 val_accuracy 0.6\nepoch 3 train_loss 0.694126 val_loss 0.663782 val_accuracy 1.0\nepoch 4 train_loss 0.662777 val_loss 0.641417 val_accuracy 0.8\nepoch 5 train_loss 0.631864 val_loss 0.617442 val_accuracy 0.8\nepoch 6 train_loss 0.598922 val_loss 0.588295 val_accuracy 0.8\nepoch 7 train_loss 0.562684 val_loss 0.550161 val_accuracy 1.0\nepoch 8 train_loss 0.521984 val_loss 0.509966 val_accuracy 1.0\nbest_epoch 8 best_val_loss 0.509966\nstrict_load <All keys matched successfully>\nreloaded_logits_match True\ntest_predictions [0, 1]\ntest_loss 0.471734 test_accuracy 1.0\n",
+    "eval_linear_requires_grad True\nno_grad_keeps_training True\nno_grad_output_requires_grad False\ntrain_dropout_preserves_input False\neval_dropout_preserves_input True\ninference_output_requires_grad False\n"
+  ],
+  "checks": {
+    "exact_saved_doc_blocks_captured": true,
+    "standalone_scripts_equal_doc_blocks": true,
+    "standalone_stdout_matches_doc": true,
+    "all_demo_lines_commented": true,
+    "clean_room_without_existing_checkpoint": true,
+    "checkpoint_readback_keys_shapes_valid": true,
+    "exercise_private_reference_actual_run": true,
+    "exercise_private_reference_clean_room": true
+  },
+  "exercise_acceptance_checks": {
+    "fixture_shapes_dtypes_and_nonoverlap": true,
+    "strict_candidate_keys_shapes": true,
+    "weighted_loss_matches_full_batch": true,
+    "validation_does_not_change_parameters": true,
+    "all_candidates_accuracy_tied": true,
+    "wrong_mean_changes_selection": true,
+    "stable_first_on_complete_tie": true,
+    "saved_parameters_equal_selected_candidate": true,
+    "new_model_full_logits_match": true,
+    "test_evaluated_only_after_selection": true,
+    "test_prediction_count_loss_accuracy_valid": true
+  },
+  "exercise_shapes": {
+    "val_features": [
+      5,
+      2
+    ],
+    "val_targets": [
+      5
+    ],
+    "test_features": [
+      4,
+      2
+    ],
+    "test_targets": [
+      4
+    ]
+  },
+  "exercise_batch_sizes": [
+    4,
+    1
+  ],
+  "exercise_winner_and_metrics": "withheld until student submission",
+  "files_sha256": {
+    "11_第十一课：验证流程与模型权重保存.md": "1360099730ff166a5de5c87d595df9568ba58d4560d96de0897165b7c0976682",
+    "demo.py": "a040ab4e9783367f6721ee56ad14b2911a49c9369c8fc68bde4fd48b327668a3",
+    "demo_modes.py": "29c76c5bdff1f5c9c2f68e5a3ed9481e4887d12460ea8896580fa0f8dc09df0a",
+    "practice_fixture.pt": "57fbe6b1f7758aba48b4a2a9649da335d8f8acd90e9895058e144f8e1b8d0e62"
+  },
+  "scope": "Only lesson 11 artifacts written; no shared archive/roadmap/.hermes.md/knowledge-base or git changes",
+  "runtime_products": "demo_best.pt is created by demo.py on execution, removed after teacher verification",
+  "limitations": [
+    "Only the accepted Conda interpreter was verified; course .venv lacks torch.",
+    "CPU validation only; cross-device/version exact equality not claimed.",
+    "Opening validation does not demonstrate learner independent mastery."
+  ],
+  "document_verification_after_prose_edit": [
+    {
+      "index": 0,
+      "exit_code": 0,
+      "stdout": "fence parity: ok (8 fence lines)\noutput match: ok (13 lines, run == pasted)\n",
+      "stderr": ""
+    },
+    {
+      "index": 1,
+      "exit_code": 0,
+      "stdout": "fence parity: ok (8 fence lines)\noutput match: ok (6 lines, run == pasted)\n",
+      "stderr": ""
+    }
+  ]
+}
