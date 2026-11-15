@@ -1,0 +1,12 @@
+{
+  "test.py": {
+    "exit": 0,
+    "stdout": "epoch: 0 loss 0.7927\nepoch: 1 loss 0.7314\nepoch: 2 loss 0.6941\nepoch: 3 loss 0.6628\nepoch: 4 loss 0.6319\n\nepoch: 0 loss 0.5989\nepoch: 1 loss 0.5989\nepoch: 2 loss 0.5989\nepoch: 3 loss 0.5989\nepoch: 4 loss 0.5989\n",
+    "stderr": ""
+  },
+  "demo.py": {
+    "exit": 0,
+    "stdout": "epoch 1 loss 0.7927\nepoch 2 loss 0.7314\nepoch 3 loss 0.6941\nepoch 4 loss 0.6628\nepoch 5 loss 0.6319\nlogits shape torch.Size([4, 2])\npredictions [0, 0, 1, 1]\ntargets [0, 0, 1, 1]\nrequires_grad True\n",
+    "stderr": ""
+  }
+}
