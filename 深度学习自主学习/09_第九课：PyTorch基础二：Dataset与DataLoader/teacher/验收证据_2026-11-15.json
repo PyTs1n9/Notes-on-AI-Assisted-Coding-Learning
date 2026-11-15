@@ -1,0 +1,10 @@
+{
+  "original_exit": 0,
+  "original_sha256": "b0a3a9be0bc348ef3fdcf423efcaabf1d64651561b285ee881226ccad7c6d162",
+  "original_mtime": "2026-11-15T15:12:51.681000",
+  "fixed_sha256": "6bd2324c555fe9bae167130237a5102f404fb6b269dad34628df0f8ddeb2694b",
+  "clean_runs_equal": true,
+  "actual_run_equal": true,
+  "verification_stdout": "PASS: 全图像/标签、互斥索引、训练统计量、单样本、加载器参数、全部批次与身份追踪\n实际采样身份 [(7, [5, 3, 0], [2]), (21, [2, 5, 0], [3])]\n",
+  "interpreter": "D:/Conda_envs/envs/BaiQing3.10AI/python.exe"
+}

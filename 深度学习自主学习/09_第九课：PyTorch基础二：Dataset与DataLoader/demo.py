@@ -36,11 +36,15 @@ class SmallImageDataset(Dataset):  # 函数⑤：定义自己的图像数据集�
             image = (image - self.mean) / self.std  # 使用训练集统计量处理当前图像。
         return image, label  # 返回Dataset的一条样本记录。
 
+
 raw_dataset = SmallImageDataset(images, labels, train_mean, train_std, normalize=False)  # 函数⑤：保留一个不归一化的数据集作对照。
+
 train_dataset = SmallImageDataset(train_images, train_labels, train_mean, train_std, normalize=True)  # 函数⑤：建立训练数据集。
 val_dataset = SmallImageDataset(val_images, val_labels, train_mean, train_std, normalize=True)  # 函数⑤：验证集复用训练统计量。
+
 train_loader = DataLoader(train_dataset, batch_size=2, shuffle=True, drop_last=False, num_workers=0)  # 函数⑧：把训练样本组成批次并打乱顺序。
 val_loader = DataLoader(val_dataset, batch_size=1, shuffle=False, drop_last=False, num_workers=0)  # 函数⑧：验证集按固定顺序逐样本读取。
+
 
 raw_image, raw_label = raw_dataset[0]  # 函数⑦：直接读取一个未归一化样本。
 normalized_image, normalized_label = train_dataset[0]  # 函数⑦：直接读取一个归一化样本。
