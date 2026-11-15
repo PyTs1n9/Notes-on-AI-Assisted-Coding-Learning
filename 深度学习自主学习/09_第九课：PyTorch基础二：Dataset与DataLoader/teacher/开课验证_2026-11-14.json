@@ -1,0 +1,14 @@
+{
+  "status": "lesson_opened_exercise_pending",
+  "lesson": "09_第九课：PyTorch基础二：Dataset与DataLoader",
+  "student_interpreter": "D:/Conda_envs/envs/BaiQing3.10AI/python.exe",
+  "teacher_interpreter": "blocked_missing_torch_no_environment_change",
+  "demo_sha256": "91de302abe260fedca4b3b153e510f372782c549f2e6f7ecb3d4915df997e205",
+  "demo_run": {
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": "单样本： torch.Size([1, 2, 2]) torch.float32 tensor(0) tensor(0)\n归一化首样本首像素： tensor(0.) tensor(-1.6270)\nDataset长度： 4 1\n训练批次： torch.Size([2, 1, 2, 2]) torch.float32 [1, 0]\n验证批次： torch.Size([1, 1, 2, 2]) [0]\nLoader批次数： 2 1\n"
+  },
+  "exercise": "pending_student_submission",
+  "private_answers_published": false
+}

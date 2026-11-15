@@ -1,0 +1,8 @@
+单样本： tensor(1)
+归一化首样本首像素： tensor(-1.6058)
+Dataset长度： 6 6
+训练批次： torch.Size([2, 1, 2, 2]) torch.float32 [0, 1]
+验证批次： torch.Size([2, 1, 2, 2]) [0, 1]
+Loader批次数： 3 3
+
+STDERR
