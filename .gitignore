@@ -23,3 +23,7 @@ __pycache__/
 Thumbs.db
 .DS_Store
 desktop.ini
+
+# 本地量化模型，仅保留本机文件
+/比赛/华为杯/比赛相关/轻量量化模型/qwen2-0_5b-instruct-q4_k_m.gguf
+/考试/第二次考试/qwen2-0_5b-instruct-q4_k_m.gguf
