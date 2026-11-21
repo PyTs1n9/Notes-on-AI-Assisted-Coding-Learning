@@ -1,0 +1,14 @@
+[
+  {
+    "id": "P101",
+    "risk_probability": 0.82,
+    "absences": 13,
+    "study_hours": 2.5
+  },
+  {
+    "id": "P205",
+    "risk_probability": 0.67,
+    "absences": 9,
+    "study_hours": 4.0
+  }
+]
