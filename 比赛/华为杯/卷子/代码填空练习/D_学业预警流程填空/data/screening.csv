@@ -1,0 +1,11 @@
+﻿id,school,support,absences,study_hours
+N01,west,no,24,1.0
+N02,east,yes,1,11.5
+N03,north,no,22,2.4
+N04,south,no,21,0.8
+N05,north,yes,7,5.0
+N06,east,no,19,2.2
+N07,west,no,18,2.0
+N08,east,no,16,5.0
+N09,south,yes,25,3.0
+N10,south,no,0,10.0
